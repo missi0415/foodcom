@@ -1,7 +1,7 @@
 <template>
   <v-avatar
-    color="black"
-    size="34"
+    color="blue"
+    size="38"
     class="my-app-log"
   >
     <span class="white--text text-subtitle-2">
