@@ -15,19 +15,19 @@
         :password.sync="params.user.password"
       />
     </v-form>
-      <v-btn
-        :disabled="!isValid || loading"
-        :loading="loading"
-        block
-        color="myblue"
-        class="white--text"
-        @click="signup"
-      >
-        登録する
-      </v-btn>
-      <v-card-text>
-        {{ params }}
-      </v-card-text>
+    <v-btn
+      :disabled="!isValid || loading"
+      :loading="loading"
+      block
+      color="myblue"
+      class="white--text"
+      @click="signup"
+    >
+      登録する
+    </v-btn>
+    <v-card-text>
+      {{ params }}
+    </v-card-text>
   </bef-login-form-card>
 </template>
 
