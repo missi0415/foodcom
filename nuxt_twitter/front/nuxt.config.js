@@ -1,4 +1,13 @@
 export default {
+  env: {
+    apiKey: process.env.API_KEY,
+    authDomain: process.env.AUTH_DOMAIN,
+    projectId: process.env.PROJECT_ID,
+    storageBucket: process.env.STORAGE_BUCKET,
+    messagingSenderId: process.env.MESSAGE_SENDER_ID,
+    appId: process.env.APP_ID,
+    measurementId: process.env.MEASUREMENT_ID
+  },
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
 
@@ -87,7 +96,8 @@ export default {
     }
   },
   publicRuntimeConfig: {
-    appName: process.env.APP_NAME // フロント側で$config.appNameで呼び出せる
+    appName: process.env.APP_NAME, // フロント側で$config.appNameで呼び出せる
+    apiKey: process.env.API_KEY
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

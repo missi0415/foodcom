@@ -55,6 +55,7 @@
 </template>
 
 <script>
+import firebase from '~/plugins/firebase'
 import welAbout from '~/components/welcome/welAbout'
 import welProducts from '~/components/welcome/welProducts'
 import welPrice from '~/components/welcome/welPrice'
@@ -76,6 +77,7 @@ export default {
   data () {
     return {
       imgHeight: 500,
+      message: '',
       menus: [
         { title: 'about', subtitle: 'このサイトはブログ"独学プログラマ"で公開されているチュートリアルのデモアプリケーションです' },
         { title: 'products', subtitle: '他にはない優れた機能の数々' },
@@ -84,6 +86,9 @@ export default {
         { title: 'company', subtitle: '私たちの会社' }
       ]
     }
+  },
+  mounted () {
+    console.log(firebase.auth())
   }
 }
 </script>
