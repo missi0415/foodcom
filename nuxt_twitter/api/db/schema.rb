@@ -18,8 +18,10 @@ ActiveRecord::Schema.define(version: 2021_08_20_080750) do
   create_table "users", force: :cascade do |t|
     t.string "name", null: false
     t.string "email", null: false
-    t.string "password_digest", null: false
-    t.boolean "activated", default: false, null: false
+    t.string "uid", null: false
+    t.string "avatar"
+    t.string "introduction", default: "よろしくお願いします。", null: false
+    t.boolean "is_active", default: true, null: false
     t.boolean "admin", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

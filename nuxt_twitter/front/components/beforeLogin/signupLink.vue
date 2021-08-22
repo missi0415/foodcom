@@ -4,7 +4,7 @@
     dark
     color="myblue"
     class="ml-2 font-weight-bold"
-    to="/signup"
+    to="/auth/signup"
   >
     {{ $t('pages.signup') }}
   </v-btn>

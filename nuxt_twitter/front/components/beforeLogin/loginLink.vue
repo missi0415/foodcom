@@ -3,7 +3,7 @@
     text
     class="ml-2 font-weight-bold"
     color="black"
-    to="/login"
+    to="/auth/login"
   >
     {{ $t('pages.login') }}
   </v-btn>

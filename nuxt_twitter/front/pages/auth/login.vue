@@ -33,12 +33,16 @@
       >
         ログインする
       </v-btn>
+      <v-card-text>
+        {{ params }}
+      </v-card-text>
     </v-card-text>
   </bef-login-form-card>
 </template>
 
 <script>
-import befLoginFormCard from '../components/beforeLogin/befLoginFormCard.vue'
+import befLoginFormCard from '../../components/beforeLogin/befLoginFormCard.vue'
+import firebase from '~/plugins/firebase'
 export default {
   components: { befLoginFormCard },
   layout: 'beforeLogin',
@@ -51,6 +55,15 @@ export default {
   },
   methods: {
     login () {
+      firebase.auth().signInWithEmailAndPassword(this.params.auth.email, this.params.auth.password)
+        .then(() => {
+          this.$store.dispatch('login')
+          this.$router.push('/')
+        })
+        .catch(() => {
+          this.params.auth.email = 'メールアドレスまたはパスワードが正しくありません'
+          this.alert = true
+        })
       this.loading = true
       setTimeout(() => {
         this.$store.dispatch('login')
