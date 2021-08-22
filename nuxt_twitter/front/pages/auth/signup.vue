@@ -65,7 +65,7 @@ export default {
           // eslint-disable-next-line no-console
           console.log('サインアップ成功', res)
           const user = {
-            neme: this.user.name,
+            name: this.user.name,
             email: res.user.email,
             uid: res.user.uid
           }

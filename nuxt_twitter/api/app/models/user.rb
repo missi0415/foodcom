@@ -3,29 +3,23 @@ class User < ApplicationRecord
   # emailを検証時は小文字にする
   before_validation :downcase_email
 
-  # gem bcrypt
-  has_secure_password
+  # # gem bcrypt
+  # has_secure_password
   # validates
   validates :name, presence: true,
                    length: { maximum: 30, allow_blank: true }
   VALID_PASSWORD_REGEX = /\A[\w\-]+\z/
-  validates :password, presence: true,
-                       length: { minimum: 8 },
-                       format: {
-                        with: VALID_PASSWORD_REGEX,
-                        message: :invalid_password 
-                       },
-                       allow_nil: true
   # email
   validates :email, presence: true,
                     email: { allow_blank: true }
+  validates :uid,  presence: true
 
   ## methods
   # class method  ###########################
   class << self
     # emailからアクティブなユーザーを返す
     def find_activated(email)
-      find_by(email: email, activated: true)
+      find_by(email: email, is_active: true)
     end
   end
   # class method end #########################
