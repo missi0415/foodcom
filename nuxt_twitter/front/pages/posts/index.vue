@@ -1,7 +1,10 @@
 <template>
   <layout-main #layout-main><!--eslint-disable-line-->
     <v-card
+      v-for="post in posts"
+      :key="post.id"
       class="mt-3 pl-1"
+      @click="toShow(post.id)"
     >
       <v-row>
         <v-col class="d-flex">
@@ -13,8 +16,7 @@
             style="border-radius: 50%"
           />
           <v-card-text>
-            post.user.name
-            <!-- {{ post.user.name }} -->
+            {{ post.user.name }}
           </v-card-text>
           <v-card-text
             class="text-right"
@@ -22,8 +24,7 @@
             <v-icon size="16">
               mdi-update
             </v-icon>
-            コメント日時
-            <!-- {{ $my.format(post.created_at) }} -->
+            {{ $my.format(post.created_at) }}
           </v-card-text>
         </v-col>
       </v-row>
@@ -31,13 +32,13 @@
         <v-card-title
           class="card-content"
         >
-          <!-- {{ post.content }} -->
-          投稿内容
+          {{ post.content }}
         </v-card-title>
       </div>
-        <v-card-actions>
+      <v-card-actions>
         <v-btn
           text
+          :color="btnColor"
         >
           いいね
           <v-icon>
@@ -57,6 +58,7 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
 import layoutMain from '~/components/layout/loggedIn/layoutMain.vue'
 
 export default {
@@ -65,6 +67,45 @@ export default {
     return {
       src: 'https://picsum.photos/200/200',
       isIndex: true
+    }
+  },
+  computed: {
+    ...mapGetters({
+      posts: 'post/posts',
+      btnColor: 'btn/color'
+    })
+  },
+  mounted () {
+    this.fetchContents()
+  },
+  methods: {
+    ...mapActions({
+      flashMessage: 'flash/flashMessage',
+      setPosts: 'post/setPosts',
+      setPost: 'post/setPost'
+    }),
+    async fetchContents () {
+      const url = '/api/v1/posts'
+      await this.$axios.get(url)
+        .then((res) => {
+          this.setPosts(res.data)
+        })
+        .catch((err) => {
+          // eslint-disable-next-line no-console
+          console.error(err)
+        })
+    },
+    async toShow (id) {
+      const url = `/api/v1/posts/${id}`
+      await this.$axios.get(url)
+        .then((res) => {
+          this.setPost(res.data)
+          this.$router.push(`posts/${res.data.id}`)
+        })
+        .catch((err) => {
+          // eslint-disable-next-line no-console
+          console.error(err)
+        })
     }
   }
 }

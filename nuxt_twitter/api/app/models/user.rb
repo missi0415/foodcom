@@ -1,5 +1,7 @@
 require "validator/email_validator"
 class User < ApplicationRecord
+  has_many :posts   , dependent: :destroy
+  has_many :comments, dependent: :destroy
   # emailを検証時は小文字にする
   before_validation :downcase_email
 

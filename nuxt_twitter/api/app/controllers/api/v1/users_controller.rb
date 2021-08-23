@@ -12,7 +12,7 @@ class Api::V1::UsersController < ApplicationController
       render json: { error_message: 'Not Found' }
     end
   end
-  
+
   def create
     puts params
     @user = User.new(user_params)
@@ -23,6 +23,8 @@ class Api::V1::UsersController < ApplicationController
       render json: @user.errors, status: :unprocessable_entity
     end
   end
+
+  #finde loginuser をつかう auteからのメソッド確認して
 
   private
 
