@@ -1,11 +1,7 @@
 <template>
   <v-app>
-    <wel-app-bar
-      :menus="menus"
-      :img-height="imgHeight"
-    />
+    <wel-app-bar />
     <v-img
-      id="scroll-top"
       dark
       src="https://picsum.photos/id/20/1920/1080?blur=5"
       gradient="to top right, rgba(19,84,122,.6), rgba(128,208,199,.9)"
@@ -21,74 +17,54 @@
           class="text-center"
         >
           <h1 class="display-1 mb-4">
-            未来を作ろう。ワクワクしよう。
+            Bookers
           </h1>
           <h4
             class="subheading"
             :style="{ letterSpacing: '5px' }"
           >
-            中小企業に特化した事業計画策定ツール
+            {{ status }}
           </h4>
+          <v-btn
+            @click="console"
+          >
+            ボタン
+          </v-btn>
         </v-col>
       </v-row>
     </v-img>
-    <v-sheet>
-      <v-container
-        fluid
-        :style="{ maxWidth: '1280px' }"
-      >
-        <v-row
-          v-for="(menu, i) in menus"
-          :key="`menu-${i}`"
-        >
-          <v-col
-            :id="menu.title"
-            cols="12"
-          >
-            <div :is="`wel-${menu.title}`" />
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-sheet>
     <bef-login-footer />
   </v-app>
 </template>
 
 <script>
-import firebase from '~/plugins/firebase'
-import welAbout from '~/components/welcome/welAbout'
-import welProducts from '~/components/welcome/welProducts'
-import welPrice from '~/components/welcome/welPrice'
-import welContact from '~/components/welcome/welContact'
-import welCompany from '~/components/welcome/welCompany'
-import befLoginFooter from '~/components/beforeLogin/befLoginFooter'
-import WelAppBar from '~/components/welcome/welAppBar'
-
+import { mapGetters } from 'vuex'
+import welAppBar from '../components/welcome/welAppBar.vue'
+import befLoginFooter from '~/components/beforeLogin/befLoginFooter.vue'
 export default {
   components: {
-    welAbout,
-    welProducts,
-    welPrice,
-    welContact,
-    welCompany,
-    befLoginFooter,
-    WelAppBar
+    welAppBar,
+    befLoginFooter
   },
   data () {
     return {
-      imgHeight: 500,
-      message: '',
-      menus: [
-        { title: 'about', subtitle: 'このサイトはブログ"独学プログラマ"で公開されているチュートリアルのデモアプリケーションです' },
-        { title: 'products', subtitle: '他にはない優れた機能の数々' },
-        { title: 'price', subtitle: '会社の成長に合わせた3つのプラン' },
-        { title: 'contact', subtitle: 'お気軽にご連絡を' },
-        { title: 'company', subtitle: '私たちの会社' }
-      ]
+      imgHeight: 500
     }
   },
-  mounted () {
-    console.log(firebase.auth())
+  computed: {
+    ...mapGetters({
+      loggedIn: 'auth/isAuthenticated'
+    }),
+    status () {
+      return {
+        status: this.loggedIn
+      }
+    }
+  },
+  methods: {
+    console () {
+      // console.log(this.$store.getters.isAuthenticated)
+    }
   }
 }
 </script>

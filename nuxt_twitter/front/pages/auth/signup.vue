@@ -33,13 +33,13 @@
 
 <script>
 import { mapActions } from 'vuex'
-import BefLoginFormCard from '../../components/beforeLogin/befLoginFormCard.vue'
 import userFormEmail from '../../components/user/userFormEmail.vue'
 import userFormName from '../../components/user/userFormName.vue'
 import userFormPassword from '../../components/user/userFormPassword.vue'
+import befLoginFormCard from '~/components/layout/befLogin/befLoginFormCard.vue'
 import firebase from '~/plugins/firebase'
 export default {
-  components: { userFormName, userFormEmail, userFormPassword, BefLoginFormCard },
+  components: { userFormName, userFormEmail, userFormPassword, befLoginFormCard },
   layout: 'beforeLogin',
   data () {
     return {

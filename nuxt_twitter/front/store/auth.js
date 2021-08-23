@@ -10,6 +10,7 @@ export const getters = {
     return state.user
   },
   isAuthenticated (state) {
+    // Userがログインできたらtrueを返す
     return !!state.user && !!state.user.uid
   },
   data (state) {
@@ -35,7 +36,6 @@ export const actions = {
 
   async logout ({ commit }) {
     await firebase.auth().signOut()
-    console.log(firebase.auth())
 
     commit('setUser', null)
     commit('setData', null)

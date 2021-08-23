@@ -6,11 +6,11 @@
       v-model="isValid"
     >
       <user-form-email
-        :email.sync="params.auth.email"
+        :email.sync="user.email"
         no-validation
       />
       <user-form-password
-        :password.sync="params.auth.password"
+        :password.sync="user.password"
         no-validation
       />
     </v-form>
@@ -29,47 +29,59 @@
         block
         color="myblue"
         class="white--text"
-        @click="login"
+        @click="loginUser"
       >
         ログインする
       </v-btn>
       <v-card-text>
-        {{ params }}
+        {{ user }}
       </v-card-text>
     </v-card-text>
   </bef-login-form-card>
 </template>
 
 <script>
-import befLoginFormCard from '../../components/beforeLogin/befLoginFormCard.vue'
+import { mapActions, mapGetters } from 'vuex'
+import UserFormEmail from '../../components/user/userFormEmail.vue'
+import UserFormPassword from '../../components/user/userFormPassword.vue'
+import befLoginFormCard from '~/components/layout/befLogin/befLoginFormCard.vue'
 import firebase from '~/plugins/firebase'
 export default {
-  components: { befLoginFormCard },
+  components: { befLoginFormCard, UserFormEmail, UserFormPassword },
   layout: 'beforeLogin',
   data () {
     return {
       isValid: false,
       loading: false,
-      params: { auth: { email: '', password: '' } }
+      user: { email: '', password: '' }
     }
   },
+  computed: {
+    ...mapGetters({
+      currentUser: 'auth/user'
+    })
+  },
   methods: {
-    login () {
-      firebase.auth().signInWithEmailAndPassword(this.params.auth.email, this.params.auth.password)
-        .then(() => {
-          this.$store.dispatch('login')
-          this.$router.push('/')
-        })
-        .catch(() => {
-          this.params.auth.email = 'メールアドレスまたはパスワードが正しくありません'
-          this.alert = true
-        })
+    ...mapActions({
+      login: 'auth/login',
+      flashMessage: 'flash/flashMessage'
+    }),
+    loginUser () {
       this.loading = true
-      setTimeout(() => {
-        this.$store.dispatch('login')
-        this.$router.push('/')
-        this.loading = false
-      }, 1500)
+      firebase.auth().signInWithEmailAndPassword(this.user.email, this.user.password)
+        .then((res) => {
+          this.login(res.user)
+          this.flashMessage({ message: 'ログインしました', type: 'success', status: true })
+          this.$router.push('/posts/')
+          this.loading = false
+          console.log(this.currentUser.email)
+        })
+        .catch((err) => {
+          this.loading = false
+          // eslint-disable-next-line no-console
+          console.log(err)
+          this.flashMessage({ message: 'メールアドレスまたはパスワードが正しくありません', type: 'error', status: true })
+        })
     }
   }
 }

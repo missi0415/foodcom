@@ -11,8 +11,10 @@
 <script>
 import befLoginAppBar from '../components/beforeLogin/befLoginAppBar.vue'
 import befLoginFooter from '../components/beforeLogin/befLoginFooter.vue'
-
 export default {
-  components: { befLoginAppBar, befLoginFooter }
+  components: {
+    befLoginAppBar,
+    befLoginFooter
+  }
 }
 </script>
