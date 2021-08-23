@@ -5,6 +5,7 @@
     "price": "価格",
     "contact": "お問合せ",
     "company": "会社情報",
+    "users": "ユーザー一覧",
     "payments": {
       "month": "月払い",
       "year": "年払い"
