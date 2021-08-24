@@ -1,12 +1,14 @@
 <template>
   <v-app>
-    <template v-if="isAuthenticated">
+    <template v-if="!isAuthenticated">
       <wel-app-bar />
     </template>
     <template v-else>
       <logged-in-app-bar />
     </template>
     <v-main>
+      {{ isAuthenticated }}
+      {{ currentUser }}
       <flash />
       <nuxt />
     </v-main>
@@ -29,7 +31,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      isAuthenticated: 'auth/isAuthenticated'
+      isAuthenticated: 'auth/isAuthenticated',
+      currentUser: 'auth/data'
     })
   }
 }

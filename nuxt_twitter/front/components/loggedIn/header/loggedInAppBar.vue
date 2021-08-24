@@ -14,7 +14,7 @@
       class="hidden-mobile-and-down"
     />
     <v-spacer />
-    <!-- <new-post /> -->
+    <new-post />
     <v-toolbar-items>
       <v-btn
         v-for="(menu, i) in menus"
@@ -32,15 +32,17 @@
 </template>
 
 <script>
+import NewPost from '../../post/newPost.vue'
 import appLogo from '../../ui/appLogo.vue'
-// import newPost from '../../post/newPost.vue'
+import newPost from '../../post/newPost.vue'
 import appTitle from '../../ui/appTitle.vue'
 // import accountLink from './accountLink.vue'
 export default {
   components: {
     appLogo,
-    appTitle
-    // newPost,
+    appTitle,
+    NewPost,
+    newPost
     // accountLink,
   },
   data () {

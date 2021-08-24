@@ -11,7 +11,7 @@ export const getters = {
   },
   isAuthenticated (state) {
     // Userがログインできたらtrueを返す
-    return !!state.user && !!state.user.uid
+    return !!state.user && !!state.data
   },
   data (state) {
     return state.data
@@ -47,7 +47,7 @@ export const actions = {
 
   async loadData ({ commit }, payload) {
     try {
-      const data = await this.$axios.$get(`/api/v1/users?uid=${payload}`)
+      const data = await this.$axios.$get(`/api/v1/find_login_user/${payload}`)
       commit('setData', data)
     } catch (err) {
       // eslint-disable-next-line no-console

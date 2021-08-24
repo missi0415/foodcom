@@ -74,7 +74,6 @@ export default {
           this.flashMessage({ message: 'ログインしました', type: 'success', status: true })
           this.$router.push('/posts/')
           this.loading = false
-          console.log(this.currentUser.email)
         })
         .catch((err) => {
           this.loading = false

@@ -38,7 +38,8 @@ export default {
   plugins: [
     'plugins/axios',
     // ここに登録したファイルはNuxt.jsが初期化される前位に読み込まれる
-    'plugins/myInject'
+    'plugins/myInject',
+    { src: '~plugins/persistedstate.js', ssr: false }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
