@@ -49,7 +49,9 @@
         <!-- <btn-new-comment
         /> -->
         <v-spacer />
-        <!-- <btn-edit-post /> -->
+        <btn-edit-post-in-index
+          :post="post"
+        />
         <v-spacer />
         <!-- <btn-delete-post /> -->
       </v-card-actions>
@@ -59,10 +61,11 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import btnEditPostInIndex from '../../components/btn/btnEditPostInIndex.vue'
 import layoutMain from '~/components/layout/loggedIn/layoutMain.vue'
 
 export default {
-  components: { layoutMain },
+  components: { layoutMain, btnEditPostInIndex },
   data () {
     return {
       src: 'https://picsum.photos/200/200',
@@ -72,7 +75,9 @@ export default {
   computed: {
     ...mapGetters({
       posts: 'post/posts',
-      btnColor: 'btn/color'
+      btnColor: 'btn/color',
+      currentUser: 'auth/data',
+      isAuthenticated: 'auth/isAuthenticated'
     })
   },
   mounted () {
