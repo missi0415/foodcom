@@ -42,9 +42,9 @@
         </v-btn>
         <!-- <template v-if="post.user_id === currentUser.id"> -->
           <v-spacer />
-          <!-- <btn-edit-post-in-id
+          <btn-edit-post-in-id
             :post="post"
-          /> -->
+          />
           <v-spacer />
           <!-- <btn-delete-post
             :post="post"
@@ -66,14 +66,15 @@ import { mapGetters } from 'vuex'
 import layoutMain from '../../components/layout/loggedIn/layoutMain.vue'
 // import postComment from '../../components/comment/postComment.vue'
 // import btnShowPostComment from '../../components/btn/btnNewPostComment.vue'
-// import btnEditPostInId from '../../components/btn/btnEditPostInId.vue'
+import btnEditPostInId from '../../components/btn/btnEditPostInId.vue'
 export default {
+  middleware: 'reload',
   components: {
     // btnDeletePost,
-    layoutMain
+    layoutMain,
     // postComment,
     // btnShowPostComment,
-    // btnEditPostInId
+    btnEditPostInId
   },
   data () {
     return {

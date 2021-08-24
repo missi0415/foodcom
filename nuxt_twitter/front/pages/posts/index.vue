@@ -53,7 +53,10 @@
           :post="post"
         />
         <v-spacer />
-        <!-- <btn-delete-post /> -->
+        <btn-delete-post
+          :post="post"
+          :is-index="isIndex"
+        />
       </v-card-actions>
     </v-card>
   </layout-main>
@@ -62,10 +65,11 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import btnEditPostInIndex from '../../components/btn/btnEditPostInIndex.vue'
+import btnDeletePost from '../../components/btn/btnDeletePost.vue'
 import layoutMain from '~/components/layout/loggedIn/layoutMain.vue'
 
 export default {
-  components: { layoutMain, btnEditPostInIndex },
+  components: { layoutMain, btnEditPostInIndex, btnDeletePost },
   data () {
     return {
       src: 'https://picsum.photos/200/200',
