@@ -6,7 +6,7 @@
       class="open-modal-btn mr-2"
       @click="dialog = true"
     >
-      新規投稿 {{ currentUser }}
+      新規投稿
     </v-btn>
     <v-dialog
       v-model="dialog"

@@ -15,24 +15,11 @@
     />
     <v-spacer />
     <new-post />
-    <v-toolbar-items>
-      <v-btn
-        v-for="(menu, i) in menus"
-        :key="`menu-btn-${i}`"
-        text
-        rounded
-        class="mr-2"
-        :to="`/${menu.title}`"
-      >
-        {{ $t(`menus.${menu.title}`) }}
-      </v-btn>
-    </v-toolbar-items>
     <!-- <account-link /> -->
   </v-app-bar>
 </template>
 
 <script>
-import NewPost from '../../post/newPost.vue'
 import appLogo from '../../ui/appLogo.vue'
 import newPost from '../../post/newPost.vue'
 import appTitle from '../../ui/appTitle.vue'
@@ -41,7 +28,6 @@ export default {
   components: {
     appLogo,
     appTitle,
-    NewPost,
     newPost
     // accountLink,
   },

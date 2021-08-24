@@ -7,8 +7,8 @@
       <logged-in-app-bar />
     </template>
     <v-main>
-      {{ isAuthenticated }}
-      {{ currentUser }}
+      ログインフラグ{{ isAuthenticated }}
+      ログインユーザー{{ currentUser }}
       <flash />
       <nuxt />
     </v-main>

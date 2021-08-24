@@ -30,6 +30,7 @@
           >
             キャンセル
           </v-btn>
+          <v-spacer />
           <v-btn
             rounded
             color="error"

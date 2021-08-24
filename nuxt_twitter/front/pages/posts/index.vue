@@ -3,7 +3,8 @@
     <v-card
       v-for="post in posts"
       :key="post.id"
-      class="mt-3 pl-1"
+      class="mb-4 pl-1"
+      outline
       @click="toShow(post.id)"
     >
       <v-row>
@@ -46,8 +47,9 @@
           </v-icon>
         </v-btn>
         <v-spacer />
-        <!-- <btn-new-comment
-        /> -->
+        <btn-new-comment
+          :post="post"
+        />
         <v-spacer />
         <btn-edit-post-in-index
           :post="post"
@@ -66,10 +68,11 @@
 import { mapGetters, mapActions } from 'vuex'
 import btnEditPostInIndex from '../../components/btn/btnEditPostInIndex.vue'
 import btnDeletePost from '../../components/btn/btnDeletePost.vue'
+import btnNewComment from '../../components/btn/btnNewcomment.vue'
 import layoutMain from '~/components/layout/loggedIn/layoutMain.vue'
 
 export default {
-  components: { layoutMain, btnEditPostInIndex, btnDeletePost },
+  components: { layoutMain, btnEditPostInIndex, btnDeletePost, btnNewComment },
   data () {
     return {
       src: 'https://picsum.photos/200/200',
