@@ -1,9 +1,12 @@
 <template>
   <div>
     <template
-      v-for="(comment, i) in post.comments"
+      v-for="(comment) in post.comments"
     >
-      <v-col
+    <!-- <template
+      v-for="(comment,i) in post.comments"
+    > -->
+      <v-card
         :key="comment.id"
         style="cursor: pointer;"
         @click="toShow(comment)"
@@ -17,19 +20,19 @@
             contain
             style="border-radius: 50%;"
           />
-          <v-card-subtitle>
+          <v-card-title>
             {{ comment.user.name }}
-          </v-card-subtitle>
+          </v-card-title>
         </v-col>
         <v-card-text>
           {{ comment.content }}
         </v-card-text>
         <v-card-actions>
           <v-spacer />
-          <btn-new-comment-comment
+          <!-- <btn-new-comment-comment
             :comment="comment"
             :comment-index="i"
-          />
+          /> -->
           <template v-if="comment.user_id !== currentUser.id">
             <v-spacer />
             <v-btn
@@ -59,7 +62,7 @@
           </template>
           <v-spacer />
         </v-card-actions>
-      </v-col>
+      </v-card>
     </template>
   </div>
 </template>

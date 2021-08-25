@@ -120,6 +120,7 @@ export default {
       this.newComment.user_id = this.currentUser.id
       await this.$axios.$post('/api/v1/comments', this.newComment)
         .then((res) => {
+          console.log(res)
           this.loading = false
           this.fetchPostContents(res.post_id)
           this.dialog = false
