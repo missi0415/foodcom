@@ -1,9 +1,6 @@
 <template>
   <layout-main #layout-main> <!--eslint-disable-line-->
-    <v-card
-      outlined
-      elevation="15"
-    >
+    <v-card>
       <v-row>
         <v-col class="d-flex">
           <v-img
@@ -12,24 +9,23 @@
             max-width="70"
             style="border-radius: 50%;"
             contain
-            class="ml-3 mt-3"
+            class="ml-3"
           />
           <v-card-title>
-            {{ post.user.name }}
+            {{ comment.user.name }}
           </v-card-title>
         </v-col>
       </v-row>
       <v-card-title>
-        {{ post.content }}
+        {{ comment.content }}
+        commnt.id:{{ comment.id }}
       </v-card-title>
-      <v-card-text>
-      </v-card-text>
       <v-card-actions>
         <v-spacer />
-        <btn-show-post-comment
-          :post="post"
-        />
-        <template v-if="post.user_id !== currentUser.id">
+        <!-- <btn-new-comment-comment-comment
+          :comment="comment"
+        /> -->
+        <template v-if="comment.user_id !== currentUser.id">
           <v-spacer />
           <v-btn
             :color="btnColor"
@@ -45,52 +41,49 @@
         >
           <v-icon v-text="'mdi-heart-outline'" />
         </v-btn>
-        <template v-if="post.user_id === currentUser.id">
+        <template v-if="comment.user_id === currentUser.id">
           <v-spacer />
-          <btn-edit-post-in-id
-            :post="post"
-          />
+          <!-- <btn-edit-comment-comment
+            :comment="comment"
+          /> -->
           <v-spacer />
-          <btn-delete-post
-            :post="post"
-            :is-index="isIndex"
-          />
+          <!-- <btn-delete-comment
+            :comment="comment"
+            :is-post-comment="isPostComment"
+          /> -->
         </template>
         <v-spacer />
       </v-card-actions>
-      <post-comment
-        :post="post"
-      />
+      <comment-comments />
     </v-card>
   </layout-main>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import btnDeletePost from '../../components/btn/btnDeletePost.vue'
+// import btnDeleteComment from '../../components/btn/btnDeleteComment.vue'
+// import btnEditCommentComment from '../../components/btn/btnEditCommentComment.vue'
+// import btnNewCommentCommentComment from '../../components/btn/btnNewCommentCommentComment.vue'
+// import commentComments from '../../components/comment/commentComments.vue'
 import layoutMain from '../../components/layout/loggedIn/layoutMain.vue'
-import postComment from '../../components/comment/postComment.vue'
-import btnShowPostComment from '../../components/btn/btnShowPostComment.vue'
-import btnEditPostInId from '../../components/btn/btnEditPostInId.vue'
 export default {
-  middleware: 'reload',
   components: {
-    btnDeletePost,
-    layoutMain,
-    postComment,
-    btnShowPostComment,
-    btnEditPostInId
+    layoutMain
+    // btnNewCommentCommentComment,
+    // btnEditCommentComment,
+    // commentComments,
+    // btnDeleteComment
   },
   data () {
     return {
-      src: 'https://picsum.photos/200/200',
-      isIndex: false
+      isPostComment: true,
+      src: 'https://picsum.photos/500/500'
     }
   },
   computed: {
     ...mapGetters({
-      post: 'post/post',
-      postUser: 'post/user',
+      comments: 'comment/comments',
+      comment: 'comment/comment',
       currentUser: 'auth/data',
       btnColor: 'btn/color'
     })

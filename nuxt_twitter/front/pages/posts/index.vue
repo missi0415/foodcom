@@ -35,6 +35,9 @@
         >
           {{ post.content }}
         </v-card-title>
+        <v-card-text>
+          post{{ post }}
+        </v-card-text>
       </div>
       <v-card-actions>
         <v-btn

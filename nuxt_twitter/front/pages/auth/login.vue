@@ -72,7 +72,7 @@ export default {
         .then((res) => {
           this.login(res.user)
           this.flashMessage({ message: 'ログインしました', type: 'success', status: true })
-          this.$router.push('/posts/')
+          this.$router.push('/posts')
           this.loading = false
         })
         .catch((err) => {

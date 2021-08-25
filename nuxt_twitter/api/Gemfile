@@ -30,6 +30,7 @@ group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   # デバッグbinding.pry Doc: https://github.com/deivid-rodriguez/pry-byebug
   gem 'pry-byebug', '~> 3.9'
+  gem 'pry-rails'
 end
 
 group :development do
