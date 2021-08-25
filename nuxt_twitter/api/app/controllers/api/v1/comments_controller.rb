@@ -50,12 +50,11 @@ class Api::V1::CommentsController < ApplicationController
     comments = Comment.where(comment_id: params[:id]).includes(:post, :user).order(created_at: :desc)
     render json: comments
   end
-
-  def comment_count(id,com_id) 
-    number = 0
-    comment  = Comment.find()
-
-  end
+  
+  # def comment_count(com_id) 
+  #   count =Comment.where(comment_id: com_id).count
+  #   render json: count
+  # end
 
   private
 

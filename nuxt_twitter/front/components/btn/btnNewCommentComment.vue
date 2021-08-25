@@ -17,6 +17,7 @@
       width="500"
     >
       <v-card class="pa-2">
+      <v-card-text>btnNewCommentCommentComment</v-card-text>
         <div class="d-flex">
           <v-spacer />
           <v-btn

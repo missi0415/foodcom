@@ -18,6 +18,8 @@
             style="border-radius: 50%;"
           />
           <v-card-title>
+            PostComment.vue
+            コメント数{{ commentsCount }}
             {{ comment.user.name }}
           </v-card-title>
         </v-col>
@@ -25,7 +27,7 @@
           {{ comment.content }}
         </v-card-text>
         <v-card-text>
-          comment{{ comment }}
+          {{ comments }}
         </v-card-text>
         <v-card-actions>
           <v-spacer />
@@ -87,7 +89,8 @@ export default {
   data () {
     return {
       isPostComment: true,
-      src: 'https://picsum.photos/500/500'
+      src: 'https://picsum.photos/500/500',
+      commentsCount: 0
     }
   },
   computed: {
@@ -112,6 +115,17 @@ export default {
       await this.$axios.get(url)
         .then((res) => {
           this.setComments(res.data)
+        })
+        .catch((err) => {
+          // eslint-disable-next-line no-console
+          console.error(err)
+        })
+    },
+    async searchCommentsCount (id) {
+      const url = `api/v1/search_comments/${id}`
+      await this.$axios.get(url)
+        .then((res) => {
+          this.commentsCount = res.data.length
         })
         .catch((err) => {
           // eslint-disable-next-line no-console
