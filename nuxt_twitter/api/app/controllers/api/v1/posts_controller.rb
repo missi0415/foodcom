@@ -1,13 +1,23 @@
 class Api::V1::PostsController < ApplicationController
   def index
     posts = Post.all.includes(:user).order(id: :desc)
-    render json: posts, each_serializer: PostSerializer
+    render json: posts, include: [
+      :user,
+      :like_posts,
+      { comments: [:user] },
+      { comments: [:like_comment] }
+    ]
   end
 
   def show
     post = Post.includes([:user]).find(params[:id])
     unless Post.nil?
-      render json: post, include: [:user, { comments: [:user] }]
+      render json: post, include: [
+        :user,
+        :like_posts,
+        { comments: [:user] },
+        { comments: [:like_comment] }
+      ]
     else
       render json: { error_message: 'Not Found' }
     end

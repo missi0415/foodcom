@@ -13,7 +13,7 @@
       width="500"
     >
       <v-card class="pa-2">
-      <v-card-text>btnNewCommentComment</v-card-text>
+        <v-card-text>btnNewCommentComment</v-card-text>
         <div class="d-flex">
           <v-spacer />
           <v-btn
@@ -155,7 +155,6 @@ export default {
       await this.$axios.get(url)
         .then((res) => {
           this.commentsCommentsCount = res.data.length
-          // console.log('component-btnNewCommentComment', this.commentsCommentsCount)
         })
         .catch((err) => {
           // eslint-disable-next-line no-console

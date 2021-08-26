@@ -95,7 +95,6 @@ export default {
       this.loading = true
       // newCommentというオブジェクトに.post_idとしてcomment.post_idを入れている
       // this.comment.post_id は親コンポーネントからきてる値
-      console.log('newComment', this.newComment)
       await this.$axios.$patch(`/api/v1/comments/${this.comment.id}`, this.newComment)
       // $axios.$patch(url,第2引数に送りたい値)
         .then((res) => {
@@ -119,7 +118,6 @@ export default {
         })
     },
     async fetchPostContents () {
-      console.log('btnEditComent', this.comment.post_id)
       const url = `/api/v1/posts/${this.comment.post_id}`
       await this.$axios.get(url)
         .then((res) => {

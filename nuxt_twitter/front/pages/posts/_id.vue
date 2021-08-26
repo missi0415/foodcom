@@ -30,13 +30,20 @@
       <v-divider />
         1リツイート0件のいいね
       <v-divider />
-      <v-card-actions>
-        <v-spacer />
+      <v-card-actions class="justify-space-around">
+        <v-btn
+          :color="btnColor"
+          text
+        >
         <btn-show-post-comment
           :post="post"
-        />{{ post.comments.length }}
+        />
+        {{ post.comments.length }}
+        </v-btn>
+        <like-post
+          :post="post"
+        />
         <template v-if="post.user_id !== currentUser.id">
-          <v-spacer />
           <v-btn
             :color="btnColor"
             text
@@ -44,7 +51,6 @@
             <v-icon v-text="'mdi-twitter-retweet'" />
           </v-btn>
         </template>
-        <v-spacer />
         <v-btn
           :color="btnColor"
           text
@@ -71,7 +77,7 @@
         v-for="(comment) in post.comments"
         :key="comment.content"
         :comment="comment"
-        :isPostComment="isPostComment"
+        :isPostComment="true"
       />
     </div>
   </layout-main>
@@ -81,25 +87,24 @@
 import { mapGetters } from 'vuex'
 import btnDeletePost from '../../components/btn/btnDeletePost.vue'
 import layoutMain from '../../components/layout/loggedIn/layoutMain.vue'
-// import postComment from '../../components/comment/postComment.vue'
 import btnShowPostComment from '../../components/btn/btnShowPostComment.vue'
 import btnEditPostInId from '../../components/btn/btnEditPostInId.vue'
-import PostCommentCard from '../../components/post/postCommentCard.vue'
+import postCommentCard from '../../components/post/postCommentCard.vue'
+import likePost from '../../components/btn/likePost.vue'
 export default {
   middleware: 'reload',
   components: {
     btnDeletePost,
     layoutMain,
-    // postComment,
     btnShowPostComment,
     btnEditPostInId,
-    PostCommentCard
+    postCommentCard,
+    likePost
   },
   data () {
     return {
       src: 'https://picsum.photos/200/200',
-      isIndex: false,
-      isPostComment: true
+      isIndex: false
     }
   },
   computed: {

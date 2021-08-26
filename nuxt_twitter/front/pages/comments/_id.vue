@@ -4,9 +4,9 @@
       outlined
       elevation="15"
     >
-    <v-card-text>
-      page comments/_id.vue
-    </v-card-text>
+      <v-card-text>
+        page comments/_id.vue
+      </v-card-text>
       <v-row>
         <v-col class="d-flex">
           <v-img
@@ -36,7 +36,7 @@
           :comment-index="0"
           @my-click="searchAndSetComments"
         />
-        {{ comments.length }}
+          {{ comments.length }}
         <v-btn
             :color="btnColor"
             text

@@ -21,6 +21,7 @@
           />
           <v-card-text>
             {{ post.user.name }}
+            {{ post.id }}
           </v-card-text>
           <v-card-text
             class="text-right"
@@ -40,28 +41,22 @@
           コメント件数{{ post.comments.length }}
         </v-card-title>
       </div>
-      <v-card-actions>
-        <v-spacer />
+      <v-card-actions class="justify-space-around">
         <btn-new-comment
           :post="post"
         />
-        <v-spacer />
-        <v-btn
-          text
-          :color="btnColor"
-        >
-          <v-icon>
-            mdi-heart-outline
-          </v-icon>
-        </v-btn>
-        <btn-edit-post-in-index
+        <like-post
           :post="post"
         />
-        <v-spacer />
-        <btn-delete-post
-          :post="post"
-          :is-index="isIndex"
-        />
+        <template v-if="post.user_id === currentUser.id">
+          <btn-edit-post-in-index
+            :post="post"
+          />
+          <btn-delete-post
+            :post="post"
+            :is-index="isIndex"
+          />
+        </template>
       </v-card-actions>
     </v-card>
   </layout-main>
@@ -72,10 +67,11 @@ import { mapGetters, mapActions } from 'vuex'
 import btnEditPostInIndex from '../../components/btn/btnEditPostInIndex.vue'
 import btnDeletePost from '../../components/btn/btnDeletePost.vue'
 import btnNewComment from '../../components/btn/btnNewcomment.vue'
+import likePost from '../../components/btn/likePost.vue'
 import layoutMain from '~/components/layout/loggedIn/layoutMain.vue'
 
 export default {
-  components: { layoutMain, btnEditPostInIndex, btnDeletePost, btnNewComment },
+  components: { layoutMain, btnEditPostInIndex, btnDeletePost, btnNewComment, likePost },
   data () {
     return {
       src: 'https://picsum.photos/200/200',
@@ -87,7 +83,8 @@ export default {
       posts: 'post/posts',
       btnColor: 'btn/color',
       currentUser: 'auth/data',
-      isAuthenticated: 'auth/isAuthenticated'
+      isAuthenticated: 'auth/isAuthenticated',
+      likePosts: 'like/likePosts'
     })
   },
   mounted () {
@@ -97,13 +94,30 @@ export default {
     ...mapActions({
       flashMessage: 'flash/flashMessage',
       setPosts: 'post/setPosts',
-      setPost: 'post/setPost'
+      setPost: 'post/setPost',
+      setLikePosts: 'like/setLikePosts',
+      setLikeComments: 'like/setLikeComments'
     }),
     async fetchContents () {
       const url = '/api/v1/posts'
       await this.$axios.get(url)
         .then((res) => {
           this.setPosts(res.data)
+          if (this.isAuthenticated) {
+            this.setCurrentUserData()
+          }
+        })
+        .catch((err) => {
+          // eslint-disable-next-line no-console
+          console.error(err)
+        })
+    },
+    async setCurrentUserData () {
+      const url = `/api/v1/users/${this.currentUser.id}`
+      await this.$axios.get(url)
+        .then((res) => {
+          this.setLikePosts(res.data.like_posts)
+          this.setLikeComments(res.data.like_comments)
         })
         .catch((err) => {
           // eslint-disable-next-line no-console
