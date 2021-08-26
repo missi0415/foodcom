@@ -14,6 +14,9 @@
       width="500"
     >
       <v-card>
+        <v-card-text>
+          btnDeleteComment{{ isPostComment }}
+        </v-card-text>
         <v-card-title>
           削除します。よろしいですか？
         </v-card-title>

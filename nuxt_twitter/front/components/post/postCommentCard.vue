@@ -27,6 +27,7 @@
         {{ comment.content }}
       </v-card-text>
       <v-card-actions>
+        <!-- コメントボタン -->
         <v-spacer />
         <btn-new-comment-comment
           :comment="comment"
@@ -35,19 +36,28 @@
         {{ commentCount }}
         <v-spacer />
         <v-btn
-            :color="btnColor"
-            text
+          :color="btnColor"
+          text
         >
-          <v-icon v-text="'mdi-twitter-retweet'" />
+          <v-icon v-text="'mdi-heart-outline'" />
         </v-btn>
         <v-spacer />
         <v-btn
-            :color="btnColor"
-            text
+          :color="btnColor"
+          text
         >
           <v-icon v-text="'mdi-twitter-retweet'" />
         </v-btn>
         <v-spacer />
+        <btn-edit-comment
+          :comment="comment"
+          :isPostComment="isPostComment"
+        />
+        <v-spacer />
+        <btn-delete-comment
+          :comment="comment"
+          :isPostComment="isPostComment"
+        />
       </v-card-actions>
     </v-card>
   </div>
@@ -55,24 +65,27 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import btnDeleteComment from '../btn/btnDeleteComment.vue'
+import btnEditComment from '../btn/btnEditComment.vue'
 import btnNewCommentComment from '../btn/btnNewCommentComment.vue'
 export default {
-  components: { btnNewCommentComment },
+  components: { btnNewCommentComment, btnEditComment, btnDeleteComment },
   props: {
     comment: {
       type: Object,
+      required: true
+    },
+    isPostComment: {
+      type: Boolean,
       required: true
     }
   },
   data () {
     return {
       src: 'https://picsum.photos/200/200',
-      commentCount: 0
+      commentCount: 0,
+      content: ''
     }
-  },
-  mounted () {
-    this.returnCommentscount(this.comment.id)
-    console.log('postcommentcard-mounted returnCommentscounts', this.comment.id)
   },
   computed: {
     ...mapGetters({
@@ -80,6 +93,9 @@ export default {
       currentUser: 'auth/data',
       btnColor: 'btn/color'
     })
+  },
+  mounted () {
+    this.returnCommentscount(this.comment.id)
   },
   methods: {
     ...mapActions({
@@ -92,7 +108,6 @@ export default {
         .then((res) => {
           this.setComment(res.data)
           this.searchAndSetComments(res.data.id)
-          console.log(res)
           this.$router.push(`/comments/${res.data.id}`)
         })
         .catch((err) => {
@@ -112,12 +127,10 @@ export default {
         })
     },
     async returnCommentscount (id) {
-      console.log('components-postCommentCard.vue run returnCommentscount', this.comments)
       const url = `api/v1/search_comments/${id}`
       await this.$axios.get(url)
         .then((res) => {
           this.commentCount = res.data.length
-          console.log(res.data.length)
         })
         .catch((err) => {
           // eslint-disable-next-line no-console

@@ -23,8 +23,8 @@
         </v-col>
       </v-row>
       <v-card-text>
-        コメント件数は{{ comments.commnt_id }}
-        commnt.id:{{ comment }}
+        コメント件数は{{ comments.length }}
+        commnt.id:{{ comment.id }}
       </v-card-text>
       <v-divider />
         2リツイート0件のいいね
@@ -61,15 +61,14 @@
         </v-btn>
         <template v-if="comment.user_id === currentUser.id">
           <v-spacer />
-          <btn-edit-comment
+          <!-- <btn-edit-comment-comment
             :comment="comment"
-            :isPostComment="false"
-          />
+          /> -->
           <v-spacer />
-          <btn-delete-comment
+          <!-- <btn-delete-comment
             :comment="comment"
-            :isPostComment="false"
-          />
+            :is-post-comment="isPostComment"
+          /> -->
         </template>
         <v-spacer />
       </v-card-actions>
@@ -78,9 +77,8 @@
     <div>
       <post-comment-card
         v-for="(comment) in comments"
-        :key="comment.content"
+        :key="comment.id"
         :comment="comment"
-        :isPostComment="false"
       />
     </div>
   </layout-main>
@@ -88,14 +86,12 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import btnEditComment from '../../components/btn/btnEditComment.vue'
 import btnNewCommentComment from '../../components/btn/btnNewCommentComment.vue'
 import layoutMain from '../../components/layout/loggedIn/layoutMain.vue'
 export default {
   components: {
     layoutMain,
-    btnNewCommentComment,
-    btnEditComment
+    btnNewCommentComment
     // btnNewCommentCommentComment,
     // btnEditCommentComment,
     // commentComments,
@@ -103,7 +99,7 @@ export default {
   },
   data () {
     return {
-      isPostComment: false,
+      isPostComment: true,
       src: 'https://picsum.photos/500/500'
     }
   },

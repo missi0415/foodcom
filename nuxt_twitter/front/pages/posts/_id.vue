@@ -69,8 +69,9 @@
     <div>
       <post-comment-card
         v-for="(comment) in post.comments"
-        :key="comment.id"
+        :key="comment.content"
         :comment="comment"
+        :isPostComment="isPostComment"
       />
     </div>
   </layout-main>
@@ -97,7 +98,8 @@ export default {
   data () {
     return {
       src: 'https://picsum.photos/200/200',
-      isIndex: false
+      isIndex: false,
+      isPostComment: true
     }
   },
   computed: {

@@ -17,16 +17,17 @@ class Api::V1::CommentsController < ApplicationController
   def update
     comment = Comment.find(params[:id])
     comment.content = params[:content]
-    test
-    if comment.update(comment_params) && comment.comment_id == 0
-      # comment_idは0→新規投稿
-      post = Post.find(params[:post_id])
-      render json: post, include: [:user, { comments: [:user] }]
-    elsif comment.update(comment_params) && comment.comment_id != 0
-      # comment_id0以外なら
-      # nuxt側でcomment_idにcomment.idをいれる
-      render json: { success_message: 'コメントしました', }
-      
+    if comment.update(comment_params)
+      render json: comment
+    # if comment.update(comment_params) && comment.comment_id == 0
+    #   # comment_idは0→新規投稿
+    #   # post = Post.find(params[:post_id])
+    #   # render json: post, include: [:user, { comments: [:user] }]
+    #   render json: { success_message: '更新しました', }
+    # elsif comment.update(comment_params) && comment.comment_id != 0
+    #   # comment_id0以外なら
+    #   # nuxt側でcomment_idにcomment.idをいれる
+    #   render json: { success_message: '更新しました', }
     else
       comment.errors.messages
     end
