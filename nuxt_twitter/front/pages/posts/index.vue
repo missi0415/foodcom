@@ -7,6 +7,9 @@
       outline
       @click="toShow(post.id)"
     >
+    <v-card-text>
+      page posts/index.vue
+    </v-card-text>
       <v-row>
         <v-col class="d-flex">
           <v-img
@@ -34,26 +37,23 @@
           class="card-content"
         >
           {{ post.content }}
+          コメント件数{{ post.comments.length }}
         </v-card-title>
-        <v-card-text>
-          post{{ post }}
-        </v-card-text>
       </div>
       <v-card-actions>
-        <v-btn
-          text
-          :color="btnColor"
-        >
-          いいね
-          <v-icon>
-            mdi-heart-outline
-          </v-icon>
-        </v-btn>
         <v-spacer />
         <btn-new-comment
           :post="post"
         />
         <v-spacer />
+        <v-btn
+          text
+          :color="btnColor"
+        >
+          <v-icon>
+            mdi-heart-outline
+          </v-icon>
+        </v-btn>
         <btn-edit-post-in-index
           :post="post"
         />

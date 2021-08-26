@@ -1,6 +1,12 @@
 <template>
   <layout-main #layout-main> <!--eslint-disable-line-->
-    <v-card>
+    <v-card
+      outlined
+      elevation="15"
+    >
+    <v-card-text>
+      page comments/_id.vue
+    </v-card-text>
       <v-row>
         <v-col class="d-flex">
           <v-img
@@ -9,22 +15,34 @@
             max-width="70"
             style="border-radius: 50%;"
             contain
-            class="ml-3"
+            class="ml-3 mt-3"
           />
           <v-card-title>
-            {{ comment.user.name }}
+            comment{{ comment.user.name }}_id.vue
           </v-card-title>
         </v-col>
       </v-row>
-      <v-card-title>
-        {{ comment.content }}
+      <v-card-text>
+        コメント件数は{{ comments.length }}
         commnt.id:{{ comment.id }}
-      </v-card-title>
+      </v-card-text>
+      <v-divider />
+        2リツイート0件のいいね
+      <v-divider />
       <v-card-actions>
         <v-spacer />
-        <!-- <btn-new-comment-comment-comment
+        <btn-new-comment-comment
           :comment="comment"
-        /> -->
+          :comment-index="0"
+          @my-click="searchAndSetComments"
+        />
+        {{ comments.length }}
+        <v-btn
+            :color="btnColor"
+            text
+          >
+            <v-icon v-text="'mdi-twitter-retweet'" />
+        </v-btn>
         <template v-if="comment.user_id !== currentUser.id">
           <v-spacer />
           <v-btn
@@ -54,21 +72,26 @@
         </template>
         <v-spacer />
       </v-card-actions>
-      <comment-comments />
     </v-card>
+    <!-- 先頭カードここまで－－－ー -->
+    <div>
+      <post-comment-card
+        v-for="(comment) in comments"
+        :key="comment.id"
+        :comment="comment"
+      />
+    </div>
   </layout-main>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-// import btnDeleteComment from '../../components/btn/btnDeleteComment.vue'
-// import btnEditCommentComment from '../../components/btn/btnEditCommentComment.vue'
-// import btnNewCommentCommentComment from '../../components/btn/btnNewCommentCommentComment.vue'
-// import commentComments from '../../components/comment/commentComments.vue'
+import { mapGetters, mapActions } from 'vuex'
+import btnNewCommentComment from '../../components/btn/btnNewCommentComment.vue'
 import layoutMain from '../../components/layout/loggedIn/layoutMain.vue'
 export default {
   components: {
-    layoutMain
+    layoutMain,
+    btnNewCommentComment
     // btnNewCommentCommentComment,
     // btnEditCommentComment,
     // commentComments,
@@ -87,6 +110,24 @@ export default {
       currentUser: 'auth/data',
       btnColor: 'btn/color'
     })
+  },
+  methods: {
+    ...mapActions({
+      setComments: 'comment/setComments',
+      setComment: 'comment/setComment'
+    }),
+    async searchAndSetComments (id) {
+      console.log('components-comments-id.vue run searchAndSetComments', this.comments)
+      const url = `api/v1/search_comments/${id}`
+      await this.$axios.get(url)
+        .then((res) => {
+          this.setComments(res.data)
+        })
+        .catch((err) => {
+          // eslint-disable-next-line no-console
+          console.error(err)
+        })
+    }
   }
 }
 </script>

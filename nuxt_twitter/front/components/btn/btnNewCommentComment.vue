@@ -7,17 +7,13 @@
       @click.prevent.stop="dialog = true, setPostIdAndCommentId(comment)"
     >
       <v-icon v-text="'mdi-chat-processing-outline'" />
-      <template v-if="commentsCommentsCount">
-        &nbsp;
-        {{ commentsCommentsCount }}
-      </template>
     </v-btn>
     <v-dialog
       v-model="dialog"
       width="500"
     >
       <v-card class="pa-2">
-      <v-card-text>btnNewCommentCommentComment</v-card-text>
+      <v-card-text>btnNewCommentComment</v-card-text>
         <div class="d-flex">
           <v-spacer />
           <v-btn
@@ -49,7 +45,6 @@
           <div>
             <v-card-subtitle>
               {{ comment.content }}
-              props:comment:{{ comment }}
             </v-card-subtitle>
             <v-spacer />
             <v-card-text>
@@ -115,7 +110,7 @@ export default {
       btnColor: 'btn/color'
     })
   },
-  created () {
+  beforeMount () {
     this.searchCommentsCount(this.post.comments[this.commentIndex].id)
   },
   methods: {
@@ -142,6 +137,10 @@ export default {
           this.dialog = false
           this.flashMessage({ message: 'コメントしました', type: 'primary', status: true })
           this.$refs.form.reset()
+          // 親コンポーネンとのcomments_id.vueのsearchAndSetcommentsを発火させたい
+          this.$emit('my-click', res.comment_id)
+          // postcommentcardのメソッドを発火
+          this.$emit('my-click', res.comment_id)
         })
         .catch(() => {
           this.flashMessage({ message: 'コメントに失敗しました', type: 'error', status: true })
@@ -156,6 +155,7 @@ export default {
       await this.$axios.get(url)
         .then((res) => {
           this.commentsCommentsCount = res.data.length
+          // console.log('component-btnNewCommentComment', this.commentsCommentsCount)
         })
         .catch((err) => {
           // eslint-disable-next-line no-console
