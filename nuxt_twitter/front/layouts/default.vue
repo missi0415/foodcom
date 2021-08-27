@@ -25,14 +25,15 @@ import flash from '../components/ui/flash.vue'
 export default {
   components: {
     befLoginFooter,
-    welAppBar,
     loggedInAppBar,
+    welAppBar,
     flash
   },
   computed: {
     ...mapGetters({
       isAuthenticated: 'auth/isAuthenticated',
-      currentUser: 'auth/data'
+      currentUser: 'auth/data',
+      flash: 'flash/flash'
     })
   }
 }

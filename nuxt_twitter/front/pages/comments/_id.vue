@@ -76,7 +76,7 @@
     </v-card>
     <!-- 先頭カードここまで－－－ー -->
     <div>
-      <post-comment-card
+      <comment-card
         v-for="(comment) in comments"
         :key="comment.content"
         :comment="comment"
@@ -91,15 +91,13 @@ import { mapGetters, mapActions } from 'vuex'
 import btnEditComment from '../../components/btn/btnEditComment.vue'
 import btnNewCommentComment from '../../components/btn/btnNewCommentComment.vue'
 import layoutMain from '../../components/layout/loggedIn/layoutMain.vue'
+import commentCard from '../../components/post/commentCard.vue'
 export default {
   components: {
     layoutMain,
     btnNewCommentComment,
-    btnEditComment
-    // btnNewCommentCommentComment,
-    // btnEditCommentComment,
-    // commentComments,
-    // btnDeleteComment
+    btnEditComment,
+    commentCard
   },
   data () {
     return {

@@ -7,7 +7,7 @@ class Api::V1::UsersController < ApplicationController
   def show
     user = User.find_by(id: params[:id])
     unless User.nil?
-      render json: user.as_json(only: %i[id name introduction])
+      render json: user
     else
       render json: { error_message: 'Not Found' }
     end

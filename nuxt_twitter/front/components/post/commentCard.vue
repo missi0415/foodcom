@@ -26,34 +26,26 @@
       <v-card-text>
         {{ comment.content }}
       </v-card-text>
-      <v-card-actions>
+      <v-card-actions class="justify-space-around">
         <!-- コメントボタン -->
-        <v-spacer />
         <btn-new-comment-comment
           :comment="comment"
           @my-click="returnCommentscount"
         />
         {{ commentCount }}
-        <v-spacer />
-        <v-btn
-          :color="btnColor"
-          text
-        >
-          <v-icon v-text="'mdi-heart-outline'" />
-        </v-btn>
-        <v-spacer />
+        <like-comment
+          :comment="comment"
+        />
         <v-btn
           :color="btnColor"
           text
         >
           <v-icon v-text="'mdi-twitter-retweet'" />
         </v-btn>
-        <v-spacer />
         <btn-edit-comment
           :comment="comment"
           :isPostComment="isPostComment"
         />
-        <v-spacer />
         <btn-delete-comment
           :comment="comment"
           :isPostComment="isPostComment"
@@ -68,8 +60,9 @@ import { mapGetters, mapActions } from 'vuex'
 import btnDeleteComment from '../btn/btnDeleteComment.vue'
 import btnEditComment from '../btn/btnEditComment.vue'
 import btnNewCommentComment from '../btn/btnNewCommentComment.vue'
+import likeComment from '../btn/likeComment.vue'
 export default {
-  components: { btnNewCommentComment, btnEditComment, btnDeleteComment },
+  components: { btnNewCommentComment, btnEditComment, btnDeleteComment, likeComment },
   props: {
     comment: {
       type: Object,

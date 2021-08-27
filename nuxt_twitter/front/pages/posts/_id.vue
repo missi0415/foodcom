@@ -31,15 +31,17 @@
         1リツイート0件のいいね
       <v-divider />
       <v-card-actions class="justify-space-around">
-        <v-btn
-          :color="btnColor"
-          text
-        >
-        <btn-show-post-comment
-          :post="post"
-        />
-        {{ post.comments.length }}
-        </v-btn>
+        <template>
+          <v-btn
+            :color="btnColor"
+            text
+          >
+          <btn-show-post-comment
+            :post="post"
+          />
+          </v-btn>
+          {{ post.comments.length }}
+        </template>
         <like-post
           :post="post"
         />
@@ -51,12 +53,6 @@
             <v-icon v-text="'mdi-twitter-retweet'" />
           </v-btn>
         </template>
-        <v-btn
-          :color="btnColor"
-          text
-        >
-          <v-icon v-text="'mdi-heart-outline'" />
-        </v-btn>
         <template v-if="post.user_id === currentUser.id">
           <v-spacer />
           <btn-edit-post-in-id
@@ -73,7 +69,7 @@
     </v-card>
     <!-- 先頭カードここまで－－－ー -->
     <div>
-      <post-comment-card
+      <comment-card
         v-for="(comment) in post.comments"
         :key="comment.content"
         :comment="comment"
@@ -89,8 +85,8 @@ import btnDeletePost from '../../components/btn/btnDeletePost.vue'
 import layoutMain from '../../components/layout/loggedIn/layoutMain.vue'
 import btnShowPostComment from '../../components/btn/btnShowPostComment.vue'
 import btnEditPostInId from '../../components/btn/btnEditPostInId.vue'
-import postCommentCard from '../../components/post/postCommentCard.vue'
 import likePost from '../../components/btn/likePost.vue'
+import commentCard from '../../components/post/commentCard.vue'
 export default {
   middleware: 'reload',
   components: {
@@ -98,8 +94,8 @@ export default {
     layoutMain,
     btnShowPostComment,
     btnEditPostInId,
-    postCommentCard,
-    likePost
+    likePost,
+    commentCard
   },
   data () {
     return {
