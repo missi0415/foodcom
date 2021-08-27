@@ -15,7 +15,12 @@
     />
     <v-spacer />
     <new-post />
-    <!-- <account-link /> -->
+    <v-btn
+      to="/account/index"
+      color="primary"
+    >
+    account/index
+    </v-btn>
   </v-app-bar>
 </template>
 

@@ -18,8 +18,10 @@
             max-width="60"
             contain
             style="border-radius: 50%"
+            @click="showUser(post)"
           />
           <v-card-text>
+            {{ post.user.id }}
             {{ post.user.name }}
             {{ post.id }}
           </v-card-text>
@@ -96,7 +98,8 @@ export default {
       setPosts: 'post/setPosts',
       setPost: 'post/setPost',
       setLikePosts: 'like/setLikePosts',
-      setLikeComments: 'like/setLikeComments'
+      setLikeComments: 'like/setLikeComments',
+      setUser: 'user/setUser'
     }),
     async fetchContents () {
       const url = '/api/v1/posts'
@@ -135,6 +138,10 @@ export default {
           // eslint-disable-next-line no-console
           console.error(err)
         })
+    },
+    showUser (post) {
+      this.setUser(post.user)
+      this.$router.push(`/users/${post.user.id}`)
     }
   }
 }
