@@ -18,7 +18,7 @@
             max-width="60"
             contain
             style="border-radius: 50%"
-            @click="showUser(post)"
+            @click="showUser(post.user.id)"
           />
           <v-card-text>
             {{ post.user.id }}
@@ -89,7 +89,7 @@ export default {
       likePosts: 'like/likePosts'
     })
   },
-  mounted () {
+  created () {
     this.fetchContents()
   },
   methods: {
@@ -119,6 +119,8 @@ export default {
       const url = `/api/v1/users/${this.currentUser.id}`
       await this.$axios.get(url)
         .then((res) => {
+          console.log('setCurrentUserData', res.data)
+          // api通信のusers/{id}で帰ってくる値をusershowで使うために変更したためにlikepostsが変わりエラーになった。
           this.setLikePosts(res.data.like_posts)
           this.setLikeComments(res.data.like_comments)
         })
@@ -139,10 +141,23 @@ export default {
           console.error(err)
         })
     },
-    showUser (post) {
-      this.setUser(post.user)
-      this.$router.push(`/users/${post.user.id}`)
+    showUser (id) {
+      this.$router.push(`/users/${id}`)
     }
+    // async showUser (id) {
+    //   const url = `/api/v1/users/${id}`
+    //   await this.$axios.get(url)
+    //     .then((res) => {
+    //       console.log('showUser', id)
+    //       console.log('showUser', res.data)
+    //       this.setUser(res.data)
+    //       this.$router.push(`/users/${id}`)
+    //     })
+    //     .catch((err) => {
+    //       // eslint-disable-next-line no-console
+    //       console.error(err)
+    //     })
+    // }
   }
 }
 </script>
