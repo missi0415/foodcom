@@ -29,7 +29,6 @@ class Api::V1::UsersController < ApplicationController
     render json: user.as_json(only: %i[id name])
   end
 
-
   private
 
   def user_params

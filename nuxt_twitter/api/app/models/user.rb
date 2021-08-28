@@ -5,26 +5,60 @@ class User < ApplicationRecord
   has_many :like_posts    , dependent: :destroy
   has_many :like_comments , dependent: :destroy
 
-  has_many :reverse_of_relationships, class_name: "Relationship", foreign_key: "followed_id", dependent: :destroy
-  has_many :followers, through: :reverse_of_relationships, source: :follower
-  # 被フォロー関係を通じて参照→followed_idをフォローしている人
-
-  has_many :relationships, class_name: "Relationship", foreign_key: "follower_id", dependent: :destroy
-  # 【class_name: "Relationship"】は省略可能
-  has_many :followings, through: :relationships, source: :followed
-  # 与フォロー関係を通じて参照→follower_idをフォローしている人
+  # フォロー機能
+  has_many :follower, class_name: "Relationship", foreign_key: "follower_id", dependent: :destroy # ① フォローしている人取得(Userのfollowerから見た関係)
+  has_many :followed, class_name: "Relationship", foreign_key: "followed_id", dependent: :destroy # ② フォローされている人取得(Userのfolowedから見た関係)
   
-  #フォロー機能
-  def follow(user_id)
-    relationships.create(followed_id: user_id)
-  end
-  def unfollow(user_id)
-    relationships.find_by(followed_id: user_id).destroy
-  end
-  def following?(user)
-    followings.include?(user)
-  end
-  #フォロー機能　ここまで
+  has_many :following_user, through: :follower, source: :followed # 自分がフォローしている人
+  has_many :follower_user, through: :followed, source: :follower # 自分をフォローしている人(自分がフォローされている人)
+  
+  # ユーザーをフォローする
+def follow(other_user)
+  follower.create!(followed_id: other_user)
+end
+
+# ユーザーのフォローを外す
+def unfollow(current_user,other_user)
+  follower.find_by(followed_id: user_id).destroy
+end
+
+# フォロー確認をおこなう
+def following?(user)
+  following_user.include?(user)
+end
+  
+ # #————————フォロー・フォロワー一覧を表示する-————————————
+# def followings
+#   user = User.find(params[:user_id])
+#   @users = user.followings
+# end
+
+# def followers
+#   user = User.find(params[:user_id])
+#   @users = user.followers
+# end
+  # ### フォローする ###
+  # def follow(other_user)
+  #   p 'other_user---------',other_user 
+  #   following << other_user
+  #   p 'following---------',following 
+  # end
+
+  # ### フォローを解除 ###
+  # def unfollow(other_user)
+  #   active_relationships.find_by(followed_id: other_user.id).destroy
+  # end
+
+  # ### フォローしているか ###
+  # def following?(other_user)
+  #   following.include?(other_user)
+  # end
+
+  # ### フォローされているか ###
+  # def followers?(other_user)
+  #   followers.include?(other_user)
+  # end
+
 
 
   # emailを検証時は小文字にする

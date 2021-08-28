@@ -46,23 +46,23 @@
               {{ user }}
               {{ isAuthenticated }}
               <v-btn
-                v-if="!fallow"
                 rounded
                 color="info"
                 @click="unfollowUser"
                 @mouseover="mouseover"
                 @mouseleave="mouseleave"
               >
+              フォローを外す
                 {{ message }}
               </v-btn>
               <v-btn
-                v-else
                 rounded
                 color="info"
                 outlined
                 dark
                 @click="followUser"
               >
+              フォローボタン
               </v-btn>
             </div>
           </v-card-title>
