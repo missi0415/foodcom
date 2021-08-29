@@ -7,25 +7,39 @@ class User < ApplicationRecord
 
   # フォロー機能
   has_many :follower, class_name: "Relationship", foreign_key: "follower_id", dependent: :destroy # ① フォローしている人取得(Userのfollowerから見た関係)
+    #active_relationships = follower
+
   has_many :followed, class_name: "Relationship", foreign_key: "followed_id", dependent: :destroy # ② フォローされている人取得(Userのfolowedから見た関係)
-  
+    #passive_relationships = followed
   has_many :following_user, through: :follower, source: :followed # 自分がフォローしている人
+    #following = following_user
+    
   has_many :follower_user, through: :followed, source: :follower # 自分をフォローしている人(自分がフォローされている人)
-  
-  # ユーザーをフォローする
-def follow(other_user)
-  follower.create!(followed_id: other_user)
-end
+    #followers = follower_user
+    # ユーザーをフォローする
+  def follow(other_user)
+    p 'other_user--------------',other_user
+    # following_user.create!(follower_id: other_user,followed_id: current_user)
+    following_user << other_user
+  end
 
-# ユーザーのフォローを外す
-def unfollow(current_user,other_user)
-  follower.find_by(followed_id: user_id).destroy
-end
+  # ユーザーのフォローを外す
+  def unfollow(other_user)
+    p 'other_user--------------',other_user
+    follower.find_by(followed_id: other_user.id).destroy
+  end
 
-# フォロー確認をおこなう
-def following?(user)
-  following_user.include?(user)
-end
+  ### フォローしているか ###
+  def following?(other_user)
+    following_user.include?(other_user)
+  end
+
+  ### フォローされているか ###
+  def followers?(other_user)
+    follower_user.include?(other_user)
+  end
+
+
   
  # #————————フォロー・フォロワー一覧を表示する-————————————
 # def followings

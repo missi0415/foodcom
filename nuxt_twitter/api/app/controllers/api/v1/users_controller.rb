@@ -29,6 +29,16 @@ class Api::V1::UsersController < ApplicationController
     render json: user.as_json(only: %i[id name])
   end
 
+  #フォロ－機能
+  def following
+    user  = User.find(params[:id])
+  end
+
+  def followers
+    user  = User.find(params[:id])
+  end
+  #-----------------
+
   private
 
   def user_params

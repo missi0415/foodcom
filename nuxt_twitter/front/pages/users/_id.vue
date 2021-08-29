@@ -41,30 +41,31 @@
               {{ user.name }}
             </p>
             <v-spacer />
-            <div class="text-center">
-              {{ currentUser }}
-              {{ user }}
-              {{ isAuthenticated }}
-              <v-btn
-                rounded
-                color="info"
-                @click="unfollowUser"
-                @mouseover="mouseover"
-                @mouseleave="mouseleave"
-              >
-              フォローを外す
-                {{ message }}
-              </v-btn>
-              <v-btn
-                rounded
-                color="info"
-                outlined
-                dark
-                @click="followUser"
-              >
-              フォローボタン
-              </v-btn>
-            </div>
+            <template v-if="currentUser.id !== user.id">
+              <div class="text-center">
+                <v-btn
+                  v-if="follow"
+                  rounded
+                  :color="color"
+                  @click="unfollowUser"
+                  @mouseover="mouseover"
+                  @mouseleave="mouseleave"
+                >
+                  {{ message }}
+                </v-btn>
+                <v-btn
+                  v-else
+                  rounded
+                  color="info"
+                  outlined
+                  dark
+                  @click="followUser"
+                >
+                  <v-icon class="mr-2">mdi-account-plus</v-icon>
+                    フォロー
+                </v-btn>
+              </div>
+            </template>
           </v-card-title>
           <v-card-title>
             <div class="font-weight-bold ml-8 mb-2">
@@ -157,8 +158,11 @@ export default {
       like_posts: {},
       like_comments: {},
       like_content: {},
+      color: 'info white--text',
       message: 'フォロー中',
-      fallow: false
+      follow: false,
+      following: [],
+      followers: []
     }
   },
   computed: {
@@ -186,6 +190,16 @@ export default {
           this.comments = res.data.comments
           this.like_posts = res.data.like_posts
           this.like_comments = res.data.like_comments
+          this.following = res.data.following_user
+          this.followers = res.data.follower_user
+          if (this.user) {
+            this.follow = false
+            this.followers.forEach((v) => {
+              if (v.id === this.currentUser.id) {
+                this.follow = true
+              }
+            })
+          }
         })
         .catch((err) => {
           // eslint-disable-next-line no-console
@@ -203,9 +217,10 @@ export default {
           this.flashMessage({ message: 'フォローしました', type: 'success', status: true })
           this.$axios.get(`/api/v1/users/${this.$route.params.id}`)
             .then((res) => {
-              console.log('フォロー後レス', res)
               this.follow = true
-              this.followers = res.data.followers
+              console.log('フォロー後レス', res)
+              this.followers = res.data.follower_user
+              // 今現在表示しているユーザーのフォロワー数が自分がフォローするかしないで減る
             })
         })
         .catch((err) => {
@@ -221,7 +236,7 @@ export default {
       })
         .then((res) => {
           console.log('フォロー外しました')
-          this.showMessage({ message: 'フォロー解除しました', type: 'success', status: true })
+          this.flashMessage({ message: 'フォロー解除しました', type: 'success', status: true })
           this.$axios.get(`/api/v1/users/${this.$route.params.id}`)
             .then(() => {
               this.follow = false
@@ -234,7 +249,7 @@ export default {
       this.message = 'フォロー解除'
     },
     mouseleave () {
-      this.color = 'blue white--text'
+      this.color = 'info white--text'
       this.message = 'フォロー中'
     }
   }
