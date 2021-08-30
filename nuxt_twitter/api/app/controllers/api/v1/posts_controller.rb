@@ -3,7 +3,7 @@ class Api::V1::PostsController < ApplicationController
     posts = Post.all.includes(:user).order(id: :desc)
     render json: posts, include: [
       :user,
-      :like_posts,
+      {like_posts: [:post] },
       { comments: [:user] },
       { comments: [:like_comment] }
     ]

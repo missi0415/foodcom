@@ -17,6 +17,7 @@
         :key="item.title"
         link
         class="pa-1 justify-center"
+        @click.prevent="goHome"
       >
         <v-list-item-action
         >
@@ -53,7 +54,7 @@ export default {
     return {
       mini: false,
       items: [
-        { title: 'ホーム', icon: 'mdi-home', clickLink: 'goHome' },
+        { title: 'ホーム', icon: 'mdi-home', clickLink: '/posts' },
         { title: '検索', icon: 'mdi-magnify', clickLink: 'goHome' },
         { title: '通知', icon: 'mdi-bell-outline', clickLink: 'goHome' },
         { title: 'メッセージ', icon: 'mdi-chat-processing-outline', clickLink: 'goHome' },

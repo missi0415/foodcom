@@ -107,7 +107,6 @@ export default {
       await this.$axios.$post('/api/v1/posts', this.post)
         .then(() => {
           this.flashMessage({ message: '投稿しました', type: 'primary', status: true })
-          this.fetchContents()
           this.loading = false
           this.$router.push('/posts')
           this.dialog = false
