@@ -41,7 +41,7 @@
               {{ user.name }}
             </p>
             <v-spacer />
-            <template v-if="currentUser.id !== user.id">
+            <template v-if="!is_user_self">
               <div class="text-center">
                 <v-btn
                   v-if="follow"
@@ -64,6 +64,11 @@
                   <v-icon class="mr-2">mdi-account-plus</v-icon>
                     フォロー
                 </v-btn>
+              </div>
+            </template>
+            <template v-else>
+              <div>
+                <v-btn>else自分だよ</v-btn>
               </div>
             </template>
           </v-card-title>
@@ -141,8 +146,8 @@
 </template>
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import ShowCard from '../../components/user/showCard.vue'
-import layoutMain from '../../components/layout/loggedIn/layoutMain.vue'
+import ShowCard from '../../../components/user/showCard.vue'
+import layoutMain from '../../../components/layout/loggedIn/layoutMain.vue'
 export default {
   components: {
     ShowCard,
@@ -162,7 +167,9 @@ export default {
       message: 'フォロー中',
       follow: false,
       following: [],
-      followers: []
+      followers: [],
+      is_user_self: false
+
     }
   },
   computed: {
@@ -172,7 +179,7 @@ export default {
       isAuthenticated: 'auth/isAuthenticated'
     })
   },
-  created () {
+  mounted () {
     this.getShowUserData()
   },
   methods: {
@@ -181,11 +188,15 @@ export default {
     }),
     async getShowUserData () {
       const url = `/api/v1/users/${this.$route.params.id}`
+      console.log('ruter-params', url)
       await this.$axios.get(url)
         .then((res) => {
           console.log(res.data)
           this.user.id = res.data.id
           this.user.name = res.data.name
+          if (this.currentUser.id === this.user.id) {
+            this.is_user_self = true
+          }
           this.posts = res.data.posts
           this.comments = res.data.comments
           this.like_posts = res.data.like_posts

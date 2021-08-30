@@ -1,9 +1,53 @@
 <template>
-  <v-app>
+  <v-card
+    height="400"
+    width="256"
+    class="mx-auto"
+  >
+    <v-navigation-drawer
+      app
+      clipped
+      mobile-breakpoint="960"
+    >
+          <v-list-item class="px-2">
+        <v-list-item-avatar>
+          <v-img src="https://randomuser.me/api/portraits/men/85.jpg"></v-img>
+        </v-list-item-avatar>
+
+        <v-list-item-title>John Leider</v-list-item-title>
+
+        <v-btn
+          icon
+          @click.stop="mini = !mini"
+        >
+          <v-icon>mdi-chevron-left</v-icon>
+        </v-btn>
+      </v-list-item>
+
+      <v-divider></v-divider>
+
+      <v-list dense>
+        <v-list-item
+          v-for="item in items"
+          :key="item.title"
+          link
+        >
+          <v-list-item-icon>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+
+  <!-- <v-app>
     <v-col
       cols="3"
       class="list"
     >
+    sidbar.vue
       <v-list
         v-for="(menu, i) in menus"
         :key="`menu-btn-${i}`"
@@ -22,9 +66,9 @@
           />
           {{ $t(`menus.${menu.title}`) }}
         </v-list-item>
-      </v-list>
-    </v-col>
-  </v-app>
+      </v-list> -->
+    </v-navigation-drawer>
+  </v-card>
 </template>
 
 <script>
@@ -32,7 +76,7 @@ import { mapActions } from 'vuex'
 export default {
   data () {
     return {
-      menus: [
+      items: [
         { title: 'posts', icon: 'mdi-home' },
         { title: 'search', icon: 'mdi-magnify' },
         { title: 'notification', icon: 'mdi-bell' },
@@ -63,7 +107,4 @@ export default {
 </script>
 
 <style scoped>
-  .list {
-    position: fixed;
-  }
 </style>

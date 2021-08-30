@@ -4,9 +4,10 @@
       <wel-app-bar />
     </template>
     <template v-else>
-      <logged-in-app-bar />
+      <logged-in-header />
     </template>
     <v-main>
+      defalt.vue
       ログインフラグ{{ isAuthenticated }}
       ログインユーザー{{ currentUser }}
       <flash />
@@ -19,15 +20,17 @@
 <script>
 import { mapGetters } from 'vuex'
 import befLoginFooter from '../components/beforeLogin/befLoginFooter.vue'
-import loggedInAppBar from '../components/loggedIn/header/loggedInAppBar.vue'
+// import loggedInAppBar from '../components/loggedIn/header/loggedInAppBar.vue'
 import welAppBar from '../components/welcome/welAppBar.vue'
 import flash from '../components/ui/flash.vue'
+import loggedInHeader from '../components/loggedIn/loggedInHeader.vue'
 export default {
   components: {
     befLoginFooter,
-    loggedInAppBar,
+    // loggedInAppBar,
     welAppBar,
-    flash
+    flash,
+    loggedInHeader
   },
   computed: {
     ...mapGetters({

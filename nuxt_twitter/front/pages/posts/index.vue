@@ -143,7 +143,7 @@ export default {
     },
     showUser (id) {
       console.log('showUser', id)
-      this.$router.replace(`/users/${id}`)
+      this.$router.push(`/users/${id}`)
     }
     // async showUser (id) {
     //   const url = `/api/v1/users/${id}`

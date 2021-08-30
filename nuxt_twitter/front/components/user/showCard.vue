@@ -3,7 +3,6 @@
     <v-card
       outlined
       elevation="15"
-      @click="toShow(contentId.id)"
     >
       <v-card-subtitle>
         user/showCard.vue {{ user.name }}

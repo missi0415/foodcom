@@ -2,18 +2,16 @@
   <v-container
     fluid
   >
+  layoutMain.vue
     <v-row>
-      <sidebar />
       <v-col
-        cols="6"
-        offset="3"
+        cols="9"
         class="mt-3"
       >
         <slot name="layout-main" />
       </v-col>
       <v-col cols="3">
         <v-card>
-          サイドバー
         </v-card>
       </v-col>
     </v-row>
@@ -21,10 +19,18 @@
 </template>
 
 <script>
-import sidebar from '../../loggedIn/sidebar/sidebar.vue'
+import { mapGetters } from 'vuex'
+// import sidebar from '../../loggedIn/sidebar/sidebar.vue'
 export default {
-  components: {
-    sidebar
+  // components: {
+  //   sidebar
+  // },
+  computed: {
+    ...mapGetters({
+      isAuthenticated: 'auth/isAuthenticated',
+      currentUser: 'auth/data',
+      flash: 'flash/flash'
+    })
   }
 }
 </script>

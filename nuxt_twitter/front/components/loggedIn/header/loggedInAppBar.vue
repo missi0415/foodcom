@@ -1,9 +1,11 @@
 <template>
   <v-app-bar
     app
-    dark
-    hide-on-scroll
+    elevation="1"
+    clipped-left
+    color="white"
   >
+  loggedInAppBar
     <nuxt-link
       to="/"
       class="text-decoration-none"
@@ -11,16 +13,9 @@
       <app-logo />
     </nuxt-link>
     <app-title
-      class="hidden-mobile-and-down"
     />
     <v-spacer />
     <new-post />
-    <v-btn
-      to="/account/index"
-      color="primary"
-    >
-    account/index
-    </v-btn>
   </v-app-bar>
 </template>
 

@@ -1,7 +1,6 @@
 <template>
   <div>
     <logged-in-nav-drawer
-      :drawer.sync="drawer"
     />
     <!-- eslint-disable-next-line -->
     <logged-in-app-bar #nav-icon>

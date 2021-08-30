@@ -5,7 +5,11 @@
     class="my-app-log"
   >
     <span class="white--text text-subtitle-2">
-      <v-icon v-text="`mdi-twitter`" />
+      <v-icon
+        class="white--text"
+      >
+        mdi-twitter
+      </v-icon>
     </span>
   </v-avatar>
 </template>
