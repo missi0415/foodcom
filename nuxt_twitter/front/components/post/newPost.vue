@@ -1,13 +1,34 @@
 <template>
   <div>
-    <v-btn
-      rounded
-      color="info"
-      class="open-modal-btn mr-2"
-      @click="dialog = true"
+    <div
+      class="my-2"
+      v-if="$vuetify.breakpoint.md || $vuetify.breakpoint.sm || $vuetify.breakpoint.xs"
     >
-      新規投稿
-    </v-btn>
+      <v-btn
+        color="blue"
+        fab
+        x-large
+        dark
+        @click="dialog = true"
+      >
+        <v-icon>mdi-pencil</v-icon>
+      </v-btn>
+    </div>
+    <div
+      v-else
+      class="my-2"
+    >
+      <v-btn
+        color="blue"
+        x-large
+        rounded
+        dark
+        block
+        @click="dialog = true"
+      >
+        ツイートする
+      </v-btn>
+    </div>
     <v-dialog
       v-model="dialog"
       width="500"

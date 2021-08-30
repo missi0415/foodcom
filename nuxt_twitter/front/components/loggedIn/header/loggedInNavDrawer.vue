@@ -17,7 +17,6 @@
         :key="item.title"
         link
         class="pa-1 justify-center"
-
       >
         <v-list-item-action
         >
@@ -32,39 +31,18 @@
           <v-list-item-title>{{ item.title }}</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
-      <div
-        class="my-2"
-        v-if="$vuetify.breakpoint.md || $vuetify.breakpoint.sm || $vuetify.breakpoint.xs"
-      >
-        <v-btn
-          color="blue"
-          fab
-          x-large
-          dark
-        >
-          <v-icon>mdi-pencil</v-icon>
-        </v-btn>
-      </div>
-      <div
-        v-else
-        class="my-2"
-      >
-        <v-btn
-          color="blue"
-          x-large
-          rounded
-          dark
-          block
-        >
-          ツイートする
-        </v-btn>
-      </div>
+      <new-post />
     </v-list>
   </v-navigation-drawer>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+import newPost from '../../post/newPost.vue'
 export default {
+  components: {
+    newPost
+  },
   props: {
     drawer: {
       type: Boolean,
@@ -75,12 +53,12 @@ export default {
     return {
       mini: false,
       items: [
-        { title: 'ホーム', icon: 'mdi-home' },
-        { title: '検索', icon: 'mdi-magnify' },
-        { title: '通知', icon: 'mdi-bell-outline' },
-        { title: 'メッセージ', icon: 'mdi-chat-processing-outline' },
-        { title: 'フォロー', icon: 'mdi-account-details' },
-        { title: 'フォロワー', icon: 'mdi-account-details-outline' }
+        { title: 'ホーム', icon: 'mdi-home', clickLink: 'goHome' },
+        { title: '検索', icon: 'mdi-magnify', clickLink: 'goHome' },
+        { title: '通知', icon: 'mdi-bell-outline', clickLink: 'goHome' },
+        { title: 'メッセージ', icon: 'mdi-chat-processing-outline', clickLink: 'goHome' },
+        { title: 'フォロー', icon: 'mdi-account-details', clickLink: 'goHome' },
+        { title: 'フォロワー', icon: 'mdi-account-details-outline', clickLink: 'goHome' }
       ]
     }
   },
@@ -88,6 +66,23 @@ export default {
     setDrawer: {
       get () { return this.drawer },
       set (val) { return this.$emit('update:drawer', val) }
+    }
+  },
+  methods: {
+    ...mapActions({
+      setPosts: 'post/setPosts'
+    }),
+    async goHome () {
+      const url = '/api/v1/posts'
+      await this.$axios.get(url)
+        .then((res) => {
+          this.setPosts(res.data)
+          this.$router.push('/posts')
+        })
+        .catch((err) => {
+          // eslint-disable-next-line no-console
+          console.error(err)
+        })
     }
   }
 }

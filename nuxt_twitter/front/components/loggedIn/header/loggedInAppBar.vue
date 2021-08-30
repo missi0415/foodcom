@@ -15,20 +15,17 @@
     <app-title
     />
     <v-spacer />
-    <new-post />
   </v-app-bar>
 </template>
 
 <script>
 import appLogo from '../../ui/appLogo.vue'
-import newPost from '../../post/newPost.vue'
 import appTitle from '../../ui/appTitle.vue'
 // import accountLink from './accountLink.vue'
 export default {
   components: {
     appLogo,
-    appTitle,
-    newPost
+    appTitle
     // accountLink,
   },
   data () {
