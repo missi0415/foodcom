@@ -3,7 +3,7 @@
     v-model="setName"
     :rules="rules"
     :counter="max"
-    label="ユーザー名を入力"
+    label="ユーザー名"
     placeholder="あなたの表示名"
     outlined
   />

@@ -27,6 +27,12 @@
         {{ post.content }}
         コメント数{{ post.comments.length }}
       </v-card-text>
+      <v-img
+        :src="post.image.url"
+        max-height="200"
+        max-width="200"
+        contain
+      />
       <v-divider />
         1リツイート0件のいいね
       <v-divider />

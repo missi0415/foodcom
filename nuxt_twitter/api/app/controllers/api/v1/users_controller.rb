@@ -48,7 +48,8 @@ class Api::V1::UsersController < ApplicationController
       :uid,
       :introduction,
       :is_active,
-      :admin
+      :admin,
+      :avatar
     )
   end
 end

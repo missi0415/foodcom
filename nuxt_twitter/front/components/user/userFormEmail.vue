@@ -2,7 +2,7 @@
   <v-text-field
     v-model="setEmail"
     :rules="rules"
-    label="メールアドレスを入力"
+    label="メールアドレス"
     :placeholder="form.placeholder"
     outlined
   />

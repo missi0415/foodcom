@@ -68,7 +68,9 @@
             </template>
             <template v-else>
               <div>
-                <v-btn>else自分だよ</v-btn>
+                <user-edit
+                  :currentUser="currentUser"
+                />
               </div>
             </template>
           </v-card-title>
@@ -148,10 +150,12 @@
 import { mapGetters, mapActions } from 'vuex'
 import ShowCard from '../../../components/user/showCard.vue'
 import layoutMain from '../../../components/layout/loggedIn/layoutMain.vue'
+import userEdit from '../../../components/user/userEdit.vue'
 export default {
   components: {
     ShowCard,
-    layoutMain
+    layoutMain,
+    userEdit
   },
   data () {
     return {
