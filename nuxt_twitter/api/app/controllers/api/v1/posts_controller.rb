@@ -1,6 +1,8 @@
 class Api::V1::PostsController < ApplicationController
   def index
     posts = Post.all.includes(:user).order(id: :desc)
+    @images = posts.map { |post| post.image.url }
+    # Rails側でurlまで取得しておかないと、Vue.jsで表示したときにconsoleに警告が出る。
     render json: posts, include: [
       :user,
       {like_posts: [:post] },
@@ -24,11 +26,11 @@ class Api::V1::PostsController < ApplicationController
   end
 
   def create
-    post = Post.new(post_params)
-    if post.save
-      render json: { success_message: '保存しました', }
+    @post = Post.new(post_params)
+    if @post.save
+      render json: :created
     else
-      render json: post.errors.messages
+      render json: @post.errors, status: :unprocessable_entity
     end
   end
 
@@ -53,6 +55,6 @@ class Api::V1::PostsController < ApplicationController
   private
 
   def post_params
-    params.require(:post).permit(:title, :content, :user_id)
+    params.require(:post).permit(:title, :content, :user_id, :image)
   end
 end

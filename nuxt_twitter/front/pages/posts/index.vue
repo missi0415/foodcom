@@ -23,7 +23,6 @@
           <v-card-text>
             {{ post.user.id }}
             {{ post.user.name }}
-            {{ post.id }}
           </v-card-text>
           <v-card-text
             class="text-right"
@@ -42,6 +41,12 @@
           {{ post.content }}
           コメント件数{{ post.comments.length }}
         </v-card-title>
+        <v-img
+          :src="post.image.url"
+          max-height="200"
+          max-width="200"
+          contain
+        />
       </div>
       <v-card-actions class="justify-space-around">
         <btn-new-comment

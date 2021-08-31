@@ -54,6 +54,11 @@
             <new-post-form-content
               :content.sync="post.content"
             />
+            <v-file-input
+              @change="setImage"
+              label="画像"
+              accept="image/png, image/jpeg, image/bmp"
+            />
             <v-btn
               :disabled="!isValid || loading"
               :loading="loading"
@@ -82,7 +87,8 @@ export default {
       dialog: false,
       isValid: false,
       loading: false,
-      post: { content: '' }
+      post: { content: '' },
+      image: ''
     }
   },
   computed: {
@@ -101,11 +107,25 @@ export default {
           this.setPosts(res.data)
         })
     },
+    setImage (e) {
+      this.image = e
+    },
     async newPost () {
       this.loading = true
-      this.post.user_id = this.currentUser.id
-      await this.$axios.$post('/api/v1/posts', this.post)
-        .then(() => {
+      const formData = new FormData()
+      formData.append('post[image]', this.image)
+      formData.append('post[content]', this.post.content)
+      formData.append('post[user_id]', this.currentUser.id)
+      console.log('送信データformData', formData)
+      const config = {
+        headers: {
+          'content-type': 'multipart/form-data'
+        }
+      }
+      // this.post.user_id = this.currentUser.id
+      await this.$axios.$post('/api/v1/posts', formData, config)
+        .then((res) => {
+          console.log('post投稿のレスポンス', res)
           this.flashMessage({ message: '投稿しました', type: 'primary', status: true })
           this.loading = false
           this.$router.push('/posts')
