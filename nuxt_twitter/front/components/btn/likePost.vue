@@ -1,6 +1,6 @@
 <template>
   <div>
-    <template v-if="!isLikePost">
+    <template v-if="!isLike">
       <v-btn
         :color="btnColor"
         text
@@ -15,13 +15,13 @@
         :color="btnColor"
         text
         rounded
-        @click.prevent.stop="unLikePost"
+        @click.prevent.stop="disLikePost"
       >
         <v-icon v-text="'mdi-heart'" />
       </v-btn>
     </template>
-    <template v-if="likePostCount">
-      {{ likePostCount }}
+    <template v-if="likeCount && $route.name !== 'posts-id'">
+      {{ likeCount }}
     </template>
   </div>
 </template>
@@ -33,27 +33,35 @@ export default {
     post: {
       type: Object,
       required: true
+    },
+    likePosts: {
+      type: Array,
+      required: true
     }
   },
   data () {
     return {
+      likePostUserIds: [],
       newLike: {},
-      likePostCount: this.post.like_posts.length
+      isLike: false
     }
   },
   computed: {
     ...mapGetters({
-      btnColor: 'btn/color',
       currentUser: 'auth/data',
-      likePostIds: 'like/likePostIds'
+      btnColor: 'btn/color'
     }),
-    isLikePost () {
-      return this.likePostIds.includes(this.post.id)
+    likeCount () {
+      return this.likePostUserIds.length
     }
+  },
+  created () {
+    setTimeout(() => {
+      this.setLikePostUserIds()
+    }, 500)
   },
   methods: {
     ...mapActions({
-      setLikePosts: 'like/setLikePosts',
       flashMessage: 'flash/flashMessage'
     }),
     async likePost () {
@@ -61,9 +69,10 @@ export default {
       this.newLike.post_id = this.post.id
       const url = '/api/v1/like_posts'
       await this.$axios.post(url, this.newLike)
-        .then((res) => {
-          this.likePostCount++
-          this.setLikePosts(res.data)
+        .then(() => {
+          this.likeCountIncrement()
+          this.likePostUserIds.push(this.currentUser.id)
+          this.isLike = true
           this.flashMessage({ message: 'いいねしました', type: 'success', status: true })
         })
         .catch((err) => {
@@ -71,7 +80,7 @@ export default {
           console.error(err)
         })
     },
-    unLikePost () {
+    disLikePost () {
       const url = '/api/v1/like_posts/delete'
       this.$axios.$delete(url, {
         data: {
@@ -79,15 +88,34 @@ export default {
           post_id: this.post.id
         }
       })
-        .then((res) => {
-          this.likePostCount--
-          this.setLikePosts(res)
+        .then(() => {
+          this.likeCountDecrement()
+          this.isLike = false
+          const th = this.likePostUserIds.indexOf(this.currentUser.id)
+          this.likePostUserIds.splice(th, 1)
           this.flashMessage({ message: 'いいねを取り消しました', type: 'error', status: true })
         })
         .catch((err) => {
           // eslint-disable-next-line no-console
           console.error(err)
         })
+    },
+    setLikePostUserIds () {
+      for (let i = 0; i < this.likePosts.length; i++) {
+        this.likePostUserIds.push(this.likePosts[i].user_id)
+      }
+      this.searchMyLike()
+    },
+    searchMyLike () {
+      if (this.likePostUserIds.includes(this.currentUser.id)) {
+        this.isLike = true
+      }
+    },
+    likeCountIncrement () {
+      this.$emit('likeCountIncrement')
+    },
+    likeCountDecrement () {
+      this.$emit('likeCountDecrement')
     }
   }
 }

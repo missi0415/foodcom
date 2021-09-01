@@ -3,8 +3,9 @@
     <v-card
       v-for="post in posts"
       :key="post.id"
-      class="mb-4 pl-1"
-      outline
+      class="ma-1"
+      hover
+      outlined
       @click="toShow(post.id)"
     >
     <v-card-text>
@@ -17,8 +18,9 @@
             max-height="60"
             max-width="60"
             contain
+            class="ml-2"
             style="border-radius: 50%"
-            @click="showUser(post.user.id)"
+            @click.prevent.stop="toShowUser(post.user_id)"
           />
           <v-card-text>
             {{ post.user.id }}
@@ -34,136 +36,112 @@
           </v-card-text>
         </v-col>
       </v-row>
-      <div>
-        <v-card-title
-          class="card-content"
-        >
-          {{ post.content }}
-          コメント件数{{ post.comments.length }}
-        </v-card-title>
-        <v-img
-          :src="post.image.url"
-          max-height="200"
-          max-width="200"
-          contain
-        />
-      </div>
-      <v-card-actions class="justify-space-around">
-        <btn-new-comment
-          :post="post"
-        />
-        <like-post
-          :post="post"
-        />
-        <template v-if="post.user_id === currentUser.id">
-          <btn-edit-post-in-index
-            :post="post"
+      <v-row>
+        <v-col>
+          <v-card-title
+            class="card-content"
+          >
+            {{ post.content }}
+          </v-card-title>
+          <v-img
+            :src="post.image.url"
+            max-height="200"
+            max-width="200"
+            contain
           />
-          <btn-delete-post
-            :post="post"
-            :is-index="isIndex"
-          />
-        </template>
-      </v-card-actions>
+        </v-col>
+      </v-row>
+      <template v-if="isAuthenticated">
+        <v-row>
+          <v-col>
+            <v-card-actions class="justify-space-around">
+              <btn-new-comment
+                :post="post"
+                :user="post.user"
+                :comments="post.comments"
+                :is-index="isIndex"
+              />
+              <template v-if="post.user_id !== currentUser.id">
+                <v-btn
+                  :color="btnColor"
+                  text
+                >
+                  <v-icon v-text="'mdi-twitter-retweet'" />
+                </v-btn>
+              </template>
+              <like-post
+                :post="post"
+                :like-posts="post.like_posts"
+                :like-post-count="post.like_posts.length"
+              />
+              <template v-if="post.user_id === currentUser.id">
+                <btn-edit-post
+                  :post="post"
+                  :is-index="isIndex"
+                  @fetchPosts="fetchPosts"
+                />
+                <btn-delete-post
+                  :post="post"
+                  :is-index="isIndex"
+                  @fetchPosts="fetchPosts"
+                />
+              </template>
+            </v-card-actions>
+          </v-col>
+        </v-row>
+      </template>
     </v-card>
   </layout-main>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import btnEditPostInIndex from '../../components/btn/btnEditPostInIndex.vue'
-import btnDeletePost from '../../components/btn/btnDeletePost.vue'
-import btnNewComment from '../../components/btn/btnNewcomment.vue'
-import likePost from '../../components/btn/likePost.vue'
-import layoutMain from '~/components/layout/loggedIn/layoutMain.vue'
+import LikePost from '../../components/btn/likePost.vue'
+import BtnEditPost from '../../components/btn/btnEditPost.vue'
+import BtnDeletePost from '../../components/btn/btnDeletePost.vue'
+import BtnNewComment from '~/components/btn/btnNewcomment.vue'
+import LayoutMain from '~/components/layout/loggedIn/layoutMain.vue'
 
 export default {
-  components: { layoutMain, btnEditPostInIndex, btnDeletePost, btnNewComment, likePost },
+  components: { LayoutMain, BtnDeletePost, BtnNewComment, LikePost, BtnEditPost },
   data () {
     return {
       src: 'https://picsum.photos/200/200',
-      isIndex: true
+      isIndex: true,
+      posts: []
     }
   },
   computed: {
     ...mapGetters({
-      posts: 'post/posts',
       btnColor: 'btn/color',
       currentUser: 'auth/data',
-      isAuthenticated: 'auth/isAuthenticated',
-      likePosts: 'like/likePosts'
+      isAuthenticated: 'auth/isAuthenticated'
     })
   },
   created () {
-    this.fetchContents()
+    this.fetchPosts()
   },
   methods: {
     ...mapActions({
-      flashMessage: 'flash/flashMessage',
-      setPosts: 'post/setPosts',
-      setPost: 'post/setPost',
-      setLikePosts: 'like/setLikePosts',
-      setLikeComments: 'like/setLikeComments',
-      setUser: 'user/setUser'
+      flashMessage: 'flash/flashMessage'
     }),
-    async fetchContents () {
+    async fetchPosts () {
       const url = '/api/v1/posts'
       await this.$axios.get(url)
         .then((res) => {
-          this.setPosts(res.data)
-          if (this.isAuthenticated) {
-            this.setCurrentUserData()
-          }
+          this.posts = res.data
         })
         .catch((err) => {
           // eslint-disable-next-line no-console
           console.error(err)
         })
     },
-    async setCurrentUserData () {
-      const url = `/api/v1/users/${this.currentUser.id}`
-      await this.$axios.get(url)
-        .then((res) => {
-          console.log('setCurrentUserData', res.data)
-          // api通信のusers/{id}で帰ってくる値をusershowで使うために変更したためにlikepostsが変わりエラーになった。
-          this.setLikePosts(res.data.like_posts)
-          this.setLikeComments(res.data.like_comments)
-        })
-        .catch((err) => {
-          // eslint-disable-next-line no-console
-          console.error(err)
-        })
+    toShowPost (id) {
+      this.$router.push(`/posts/${id}`)
     },
-    async toShow (id) {
-      const url = `/api/v1/posts/${id}`
-      await this.$axios.get(url)
-        .then((res) => {
-          this.setPost(res.data)
-          this.$router.push(`posts/${res.data.id}`)
-        })
-        .catch((err) => {
-          // eslint-disable-next-line no-console
-          console.error(err)
-        })
-    },
-    showUser (id) {
-      console.log('showUser', id)
-      this.$router.replace(`/users/${id}`)
+    toshowUser (id) {
+      this.$router.push(`/users/${id}`)
     }
-    // async showUser (id) {
-    //   const url = `/api/v1/users/${id}`
-    //   await this.$axios.get(url)
-    //     .then((res) => {
-    //       console.log('showUser', id)
-    //       console.log('showUser', res.data)
-    //       this.setUser(res.data)
-    //       this.$router.push(`/users/${id}`)
-    //     })
-    //     .catch((err) => {
-    //       // eslint-disable-next-line no-console
-    //       console.error(err)
-    //     })
-    // }
   }
 }
 </script>
