@@ -24,15 +24,13 @@
         </v-col>
       </v-row>
       <v-card-text>
-        {{ comment.content }}
+        {{ comment }}
       </v-card-text>
       <v-card-actions class="justify-space-around">
         <!-- コメントボタン -->
         <btn-new-comment-comment
           :comment="comment"
-          @my-click="returnCommentscount"
         />
-        {{ commentCount }}
         <like-comment
           :comment="comment"
         />
@@ -56,7 +54,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters } from 'vuex'
 import btnDeleteComment from '../btn/btnDeleteComment.vue'
 import btnEditComment from '../btn/btnEditComment.vue'
 import btnNewCommentComment from '../btn/btnNewCommentComment.vue'
@@ -64,71 +62,41 @@ import likeComment from '../btn/likeComment.vue'
 export default {
   components: { btnNewCommentComment, btnEditComment, btnDeleteComment, likeComment },
   props: {
+    isPostComment: {
+      type: Boolean,
+      required: true
+    },
     comment: {
       type: Object,
       required: true
     },
-    isPostComment: {
-      type: Boolean,
+    user: {
+      type: Object,
       required: true
     }
   },
   data () {
     return {
-      src: 'https://picsum.photos/200/200',
-      commentCount: 0,
-      content: ''
+      isIndex: true,
+      src: 'https://picsum.photos/500/500'
     }
   },
   computed: {
     ...mapGetters({
-      comments: 'comment/comments',
       currentUser: 'auth/data',
+      isAuthenticated: 'auth/isAuthenticated',
       btnColor: 'btn/color'
     })
   },
-  mounted () {
-    this.returnCommentscount(this.comment.id)
-  },
   methods: {
-    ...mapActions({
-      setComments: 'comment/setComments',
-      setComment: 'comment/setComment'
-    }),
-    async toShow (id) {
-      const url = `/api/v1/comments/${id}`
-      await this.$axios.get(url)
-        .then((res) => {
-          this.setComment(res.data)
-          this.searchAndSetComments(res.data.id)
-          this.$router.push(`/comments/${res.data.id}`)
-        })
-        .catch((err) => {
-          // eslint-disable-next-line no-console
-          console.error(err)
-        })
+    toShowComment (id) {
+      this.$router.push(`/comments/${id}`)
     },
-    async searchAndSetComments (id) {
-      const url = `api/v1/search_comments/${id}`
-      await this.$axios.get(url)
-        .then((res) => {
-          this.setComments(res.data)
-        })
-        .catch((err) => {
-          // eslint-disable-next-line no-console
-          console.error(err)
-        })
+    toShowUser (id) {
+      this.$router.push(`/users/${id}`)
     },
-    async returnCommentscount (id) {
-      const url = `api/v1/search_comments/${id}`
-      await this.$axios.get(url)
-        .then((res) => {
-          this.commentCount = res.data.length
-        })
-        .catch((err) => {
-          // eslint-disable-next-line no-console
-          console.error(err)
-        })
+    fetchPost () {
+      this.$emit('fetchPost')
     }
   }
 }

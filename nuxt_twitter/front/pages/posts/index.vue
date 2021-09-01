@@ -100,7 +100,7 @@ import { mapGetters, mapActions } from 'vuex'
 import LikePost from '../../components/btn/likePost.vue'
 import BtnEditPost from '../../components/btn/btnEditPost.vue'
 import BtnDeletePost from '../../components/btn/btnDeletePost.vue'
-import BtnNewComment from '~/components/btn/btnNewcomment.vue'
+import BtnNewComment from '~/components/btn/btnNewComment.vue'
 import LayoutMain from '~/components/layout/loggedIn/layoutMain.vue'
 
 export default {

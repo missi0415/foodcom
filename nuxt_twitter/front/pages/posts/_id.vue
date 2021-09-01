@@ -19,14 +19,13 @@
             @click.prevent.stop="toShowUser(post.user_id)"
           />
           <v-card-title>
-            post{{ post }}_id.vue
+            post{{ post.id }}_id.vue
             {{ user.name }}
           </v-card-title>
         </v-col>
       </v-row>
       <v-card-text>
-        <!-- {{ post.content }}
-        コメント数{{ post }} -->
+        {{ post.content }}
       </v-card-text>
       <!-- <v-img
         :src="post.image.url"
@@ -35,24 +34,44 @@
         contain
       /> -->
       <v-divider />
-        1リツイート0件のいいね
+        <v-row>
+          <v-col class="d-flex text-center">
+            <v-card-text>
+              0 件のリツイート
+            </v-card-text>
+            <v-card-text>
+              {{ commentsCount }} 件のコメント
+            </v-card-text>
+            <v-card-text>
+              {{ likeCount }} 件のいいね
+            </v-card-text>
+          </v-col>
+        </v-row>
       <v-divider />
       <v-card-actions class="justify-space-around">
-        <template>
-          <v-btn
-            :color="btnColor"
-            text
-          >
-          <!-- <btn-show-post-comment
+          <btn-new-comment
             :post="post"
-          /> -->
-          </v-btn>
-          <!-- {{ post }} -->
-        </template>
-        <!-- <like-post
-          :post="post"
-        /> -->
-        <template v-if="post.user_id !== currentUser.id">
+            :user="user"
+            :comments="comments"
+            :is-index="isIndex"
+            @fetchPost="fetchPost"
+          />
+          <template v-if="post.user_id !== currentUser.id">
+            <v-btn
+              :color="btnColor"
+              text
+            >
+              <v-icon v-text="'mdi-twitter-retweet'" />
+            </v-btn>
+          </template>
+          <like-post
+            :post="post"
+            :like-posts="likePosts"
+            :like-post-count="likeCount"
+            @likeCountIncrement="likeCountIncrement"
+            @likeCountDecrement="likeCountDecrement"
+          />
+        <template v-if="post.user_id !== currentUser">
           <v-btn
             :color="btnColor"
             text
@@ -60,29 +79,30 @@
             <v-icon v-text="'mdi-twitter-retweet'" />
           </v-btn>
         </template>
-        <template v-if="post.user_id === currentUser">
-          <v-spacer />
-          <!-- <btn-edit-post-in-id
-            :post="post"
-          /> -->
-          <v-spacer />
-          <!-- <btn-delete-post
+        <template v-if="post.user_id === currentUser.id">
+          <btn-edit-post
             :post="post"
             :is-index="isIndex"
-          /> -->
+            @fetchPost="fetchPost"
+          />
+          <btn-delete-post
+            :post="post"
+            :is-index="isIndex"
+            @fetchPost="fetchPost"
+          />
         </template>
-        <v-spacer />
       </v-card-actions>
     </v-card>
     <!-- 先頭カードここまで－－－ー -->
-    <!-- <div>
+    <div>
       <comment-card
         v-for="(comment) in comments"
         :key="comment.content"
         :comment="comment"
+        :user="user"
         :isPostComment="true"
       />
-    </div> -->
+    </div>
   </layout-main>
 </template>
 
@@ -91,17 +111,20 @@ import { mapGetters } from 'vuex'
 // import btnDeletePost from '../../components/btn/btnDeletePost.vue'
 // import btnShowPostComment from '../../components/btn/btnShowPostComment.vue'
 // import btnEditPostInId from '../../components/btn/btnEditPostInId.vue'
-// import likePost from '../../components/btn/likePost.vue'
-// import commentCard from '../../components/post/commentCard.vue'
+import likePost from '../../components/btn/likePost.vue'
+import commentCard from '../../components/post/commentCard.vue'
+import BtnNewComment from '../../components/btn/btnNewComment.vue'
 import layoutMain from '../../components/layout/loggedIn/layoutMain.vue'
 export default {
   components: {
     // btnDeletePost,
     // btnShowPostComment,
     // btnEditPostInId,
-    // likePost
-    // commentCard
-    layoutMain
+    likePost,
+    commentCard,
+    // BtnNewComment,
+    layoutMain,
+    BtnNewComment
   },
   data () {
     return {
@@ -123,7 +146,6 @@ export default {
     })
   },
   mounted () {
-    console.log('this.currentUser', this.currentUser)
     this.fetchPost()
   },
   methods: {

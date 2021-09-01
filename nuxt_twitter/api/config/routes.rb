@@ -15,7 +15,7 @@ Rails.application.routes.draw do
       resources   :like_comments, only: %i[create destroy]
       # user
       get 'find_login_user/:uid'  => 'users#find_login_user'
-      get 'get_show_user_data/:id' => 'users#get_show_user_data'
+      get 'search_likes'         => 'users#search_likes'
       # comment
       get 'search_comments/:id'   => 'comments#search_comments'
     end
