@@ -6,8 +6,9 @@
       class="ma-1"
       hover
       outlined
-      @click="toShow(post.id)"
+      @click="toShowPost(post.id)"
     >
+    {{ post.id }}
     <v-card-text>
       page posts/index.vue
     </v-card-text>
@@ -20,7 +21,7 @@
             contain
             class="ml-2"
             style="border-radius: 50%"
-            @click.prevent.stop="toShowUser(post.user_id)"
+            @click.stop="toShowUser(post.user_id)"
           />
           <v-card-text>
             {{ post.user.id }}

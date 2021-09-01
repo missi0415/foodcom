@@ -5,7 +5,7 @@
       elevation="15"
     >
     <v-card-text>
-      page posts/_id.vue
+      page posts/_id.vuesdfsdfd
     </v-card-text>
       <v-row>
         <v-col class="d-flex">
@@ -16,23 +16,24 @@
             style="border-radius: 50%;"
             contain
             class="ml-3 mt-3"
+            @click.prevent.stop="toShowUser(post.user_id)"
           />
           <v-card-title>
-            post{{ post.id }}_id.vue
-            {{ post.user.name }}
+            post{{ post }}_id.vue
+            {{ user.name }}
           </v-card-title>
         </v-col>
       </v-row>
       <v-card-text>
-        {{ post.content }}
-        コメント数{{ post.comments.length }}
+        <!-- {{ post.content }}
+        コメント数{{ post }} -->
       </v-card-text>
-      <v-img
+      <!-- <v-img
         :src="post.image.url"
         max-height="200"
         max-width="200"
         contain
-      />
+      /> -->
       <v-divider />
         1リツイート0件のいいね
       <v-divider />
@@ -42,15 +43,15 @@
             :color="btnColor"
             text
           >
-          <btn-show-post-comment
+          <!-- <btn-show-post-comment
             :post="post"
-          />
+          /> -->
           </v-btn>
-          {{ post.comments.length }}
+          <!-- {{ post }} -->
         </template>
-        <like-post
+        <!-- <like-post
           :post="post"
-        />
+        /> -->
         <template v-if="post.user_id !== currentUser.id">
           <v-btn
             :color="btnColor"
@@ -59,63 +60,99 @@
             <v-icon v-text="'mdi-twitter-retweet'" />
           </v-btn>
         </template>
-        <template v-if="post.user_id === currentUser.id">
+        <template v-if="post.user_id === currentUser">
           <v-spacer />
-          <btn-edit-post-in-id
+          <!-- <btn-edit-post-in-id
             :post="post"
-          />
+          /> -->
           <v-spacer />
-          <btn-delete-post
+          <!-- <btn-delete-post
             :post="post"
             :is-index="isIndex"
-          />
+          /> -->
         </template>
         <v-spacer />
       </v-card-actions>
     </v-card>
     <!-- 先頭カードここまで－－－ー -->
-    <div>
+    <!-- <div>
       <comment-card
-        v-for="(comment) in post.comments"
+        v-for="(comment) in comments"
         :key="comment.content"
         :comment="comment"
         :isPostComment="true"
       />
-    </div>
+    </div> -->
   </layout-main>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import btnDeletePost from '../../components/btn/btnDeletePost.vue'
+// import btnDeletePost from '../../components/btn/btnDeletePost.vue'
+// import btnShowPostComment from '../../components/btn/btnShowPostComment.vue'
+// import btnEditPostInId from '../../components/btn/btnEditPostInId.vue'
+// import likePost from '../../components/btn/likePost.vue'
+// import commentCard from '../../components/post/commentCard.vue'
 import layoutMain from '../../components/layout/loggedIn/layoutMain.vue'
-import btnShowPostComment from '../../components/btn/btnShowPostComment.vue'
-import btnEditPostInId from '../../components/btn/btnEditPostInId.vue'
-import likePost from '../../components/btn/likePost.vue'
-import commentCard from '../../components/post/commentCard.vue'
 export default {
-  middleware: 'reload',
   components: {
-    btnDeletePost,
-    layoutMain,
-    btnShowPostComment,
-    btnEditPostInId,
-    likePost,
-    commentCard
+    // btnDeletePost,
+    // btnShowPostComment,
+    // btnEditPostInId,
+    // likePost
+    // commentCard
+    layoutMain
   },
   data () {
     return {
       src: 'https://picsum.photos/200/200',
-      isIndex: false
+      isIndex: false,
+      post: {},
+      user: {},
+      comments: [],
+      likePosts: [],
+      commentsCount: 0,
+      likeCount: 0,
+      time: ''
     }
   },
   computed: {
     ...mapGetters({
-      post: 'post/post',
-      postUser: 'post/user',
       currentUser: 'auth/data',
       btnColor: 'btn/color'
     })
+  },
+  mounted () {
+    console.log('this.currentUser', this.currentUser)
+    this.fetchPost()
+  },
+  methods: {
+    async fetchPost () {
+      const url = `/api/v1/posts/${this.$route.params.id}`
+      console.log(url)
+      await this.$axios.get(url)
+        .then((res) => {
+          console.log('then.res', res)
+          this.post = res.data
+          this.user = res.data.user
+          this.comments = res.data.comments
+          this.commentsCount = res.data.comments.length
+          this.likePosts = res.data.like_posts
+          this.likeCount = res.data.like_posts.length
+          this.time = this.$my.format(this.post.created_at)
+        })
+    },
+    likeCountIncrement () {
+      this.likeCount++
+    },
+    likeCountDecrement () {
+      this.likeCount--
+    },
+    toShowUser (id) {
+      this.$router.push(`/users/${id}`)
+    }
   }
 }
 </script>
+<style scoped>
+</style>
