@@ -62,7 +62,7 @@
                 :comments="post.comments"
                 :is-index="isIndex"
               />
-              <template v-if="post.user_id !== currentUser.id">
+              <template v-if="post.user !== currentUser">
                 <v-btn
                   :color="btnColor"
                   text
@@ -75,7 +75,7 @@
                 :like-posts="post.like_posts"
                 :like-post-count="post.like_posts.length"
               />
-              <template v-if="post.user_id === currentUser.id">
+              <template v-if="post.user === currentUser">
                 <btn-edit-post
                   :post="post"
                   :is-index="isIndex"

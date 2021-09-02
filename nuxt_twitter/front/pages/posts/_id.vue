@@ -25,6 +25,7 @@
         </v-col>
       </v-row>
       <v-card-text>
+        {{ user }}
         {{ post.content }}
       </v-card-text>
       <!-- <v-img
@@ -56,7 +57,7 @@
             :is-index="isIndex"
             @fetchPost="fetchPost"
           />
-          <template v-if="post.user_id !== currentUser.id">
+          <template v-if="post.user_id !== currentUser">
             <v-btn
               :color="btnColor"
               text
@@ -79,7 +80,7 @@
             <v-icon v-text="'mdi-twitter-retweet'" />
           </v-btn>
         </template>
-        <template v-if="post.user_id === currentUser.id">
+        <template v-if="post.user_id === currentUser">
           <btn-edit-post
             :post="post"
             :is-index="isIndex"
@@ -136,7 +137,8 @@ export default {
       likePosts: [],
       commentsCount: 0,
       likeCount: 0,
-      time: ''
+      time: '',
+      loginUser: {}
     }
   },
   computed: {
@@ -172,6 +174,9 @@ export default {
     },
     toShowUser (id) {
       this.$router.push(`/users/${id}`)
+    },
+    loginUserSet () {
+      this.loginUser = this.currentUser
     }
   }
 }
