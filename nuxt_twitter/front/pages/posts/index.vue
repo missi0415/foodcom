@@ -11,6 +11,7 @@
     {{ post.id }}
     <v-card-text>
       page posts/index.vue
+      {{ currentUserId }}
     </v-card-text>
       <v-row>
         <v-col class="d-flex">
@@ -62,7 +63,7 @@
                 :comments="post.comments"
                 :is-index="isIndex"
               />
-              <template v-if="post.user !== currentUser">
+              <template v-if="post.user_id !== currentUserId">
                 <v-btn
                   :color="btnColor"
                   text
@@ -75,7 +76,7 @@
                 :like-posts="post.like_posts"
                 :like-post-count="post.like_posts.length"
               />
-              <template v-if="post.user === currentUser">
+              <template v-if="post.user_id === currentUserId">
                 <btn-edit-post
                   :post="post"
                   :is-index="isIndex"
@@ -116,6 +117,7 @@ export default {
     ...mapGetters({
       btnColor: 'btn/color',
       currentUser: 'auth/data',
+      currentUserId: 'auth/currentUserId',
       isAuthenticated: 'auth/isAuthenticated'
     })
   },
@@ -140,8 +142,19 @@ export default {
     toShowPost (id) {
       this.$router.push(`/posts/${id}`)
     },
-    toshowUser (id) {
+    toShowUser (id) {
       this.$router.push(`/users/${id}`)
+    },
+    async fetch () {
+      const url = '/api/v1/posts'
+      await this.fetch(this.$axios.get(url))
+        .then((res) => {
+          this.posts = res.data
+        })
+        .catch((err) => {
+          // eslint-disable-next-line no-console
+          console.error(err)
+        })
     }
   }
 }

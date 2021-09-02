@@ -7,7 +7,7 @@
         color="white"
         x-large
         rounded
-        @click="dialog = true"
+        @click="userDataSet()"
       >
       <v-icon>mdi-pencil</v-icon>
         プロフィールを編集
@@ -27,7 +27,7 @@
             <v-btn
               icon
               large
-              class="pr-5"
+              class="mr-5"
               @click="dialog = false"
             >
               ✖︎
@@ -61,26 +61,22 @@
             </p>
             <v-spacer />
           </v-card-title>
-          <v-card-title>
-            <div class="font-weight-bold ml-8 mb-2">
-              よろしくおねがいします
-            </div>
-            </v-card-title>
-            {{ currentUser }}
             <v-container>
               <v-form
                 ref="form"
                 v-model="isValid"
               >
-                // nameのフォーム
+                <user-form-introduction
+                  :introduction.sync="user.introduction"
+                />
                 <user-form-name
-                  :name="user.name"
+                  :name.sync="user.name"
                 />
                 <user-form-email
-                  :email="user.email"
+                  :email.sync="user.email"
                 />
                 <user-form-password
-                  :password="user.password"
+                  :password.sync="user.password"
                 />
                 <v-file-input
                   @change="setImage"
@@ -92,7 +88,7 @@
                 :loading="loading"
                 block
                 color="info"
-                @click="newPost"
+                @click="updateUser()"
               >
                 保存する
               </v-btn>
@@ -108,70 +104,74 @@
 <script>
 import { mapActions } from 'vuex'
 import userFormEmail from './userFormEmail.vue'
+import UserFormIntroduction from './userFormIntroduction.vue'
 import userFormName from './userFormName.vue'
 import userFormPassword from './userFormPassword.vue'
 export default {
   components: {
     userFormEmail,
     userFormPassword,
-    userFormName
-  },
-  props: {
-    currentUser: {
-      type: Object,
-      required: true
-    }
+    userFormName,
+    UserFormIntroduction
   },
   data () {
     return {
       dialog: false,
       isValid: false,
       loading: false,
+      editLading: false,
       user: { id: '', name: '', email: '', password: '', avatar: '', introduction: '' },
       image: ''
     }
   },
-  mounted () {
-    this.userDataSet()
-  },
   methods: {
     ...mapActions({
-      flashMessage: 'flash/flashMessage'
+      flashMessage: 'flash/flashMessage',
+      currentUserId: 'auth/currentUserId',
+      currentUser: 'auth/currentUser'
     }),
-    userDataSet () {
-      this.user.id = this.currentUser.id
-      this.user.name = this.currentUser.name
-      this.user.email = this.currentUser.email
-      this.user.password = this.currentUser.password
-      this.user.avatar = this.currentUser.avatar
-    },
-    fetchContents () {
-      this.$axios.get('/api/v1/posts')
+    async userDataSet () {
+      console.log('userDataSet発火')
+      const url = `/api/v1/users/${this.$route.params.id}`
+      console.log('url', url)
+      await this.$axios.get(url)
         .then((res) => {
-          this.setPosts(res.data)
+          console.log('userDataSetres', res)
+          this.user.id = res.data.id
+          this.user.name = res.data.name
+          this.user.email = res.data.email
+          this.user.introduction = res.data.introduction
+          this.user.avatar = res.data.avatar.url
+          this.user.admin = res.data.admin
+          console.log('userDataSet完了')
+          this.dialog = true
         })
     },
+    // fetchContents () {
+    //   this.$axios.get('/api/v1/posts')
+    //     .then((res) => {
+    //       this.setPosts(res.data)
+    //     })
+    // },
     setImage (e) {
       this.image = e
     },
-    async newPost () {
+    async updateUser () {
       this.loading = true
       const formData = new FormData()
-      formData.append('post[post_image]', this.image)
-      formData.append('post[content]', this.post.content)
-      formData.append('post[user_id]', this.currentUser.id)
+      formData.append('user[name]', this.user.name)
+      formData.append('user[email]', this.user.email)
+      formData.append('user[introduction]', this.user.introduction)
+      formData.append('user[avatar]', this.user.avatar)
+      formData.append('user[admin]', this.user.admin)
       console.log('送信データformData', formData)
-      const config = {
-        headers: {
-          'content-type': 'multipart/form-data'
-        }
-      }
-      await this.$axios.$post('/api/v1/posts', formData, config)
+      await this.$axios.$put(`/api/v1/users/${this.user.id}`, formData)
         .then((res) => {
-          console.log('post投稿のレスポンス', res)
-          this.flashMessage({ message: '投稿しました', type: 'primary', status: true })
+          console.log('userapdateのレスポンス', res)
+          this.$emit('getShowUserData')
+          this.$router.push(`/users/${this.user.id}`)
+          this.flashMessage({ message: '更新しました', type: 'primary', status: true })
           this.loading = false
-          this.$router.push('/posts')
           this.dialog = false
           this.$refs.form.reset()
         })

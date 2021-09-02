@@ -1,5 +1,5 @@
 class UserSerializer < ActiveModel::Serializer
-  attributes :id,:name,:introduction, :avatar
+  attributes :id,:name, :avatar ,:email,:introduction,:is_active, :admin
   has_many :posts
   has_many :comments
   has_many :like_posts

@@ -19,21 +19,19 @@
             @click.prevent.stop="toShowUser(post.user_id)"
           />
           <v-card-title>
-            post{{ post.id }}_id.vue
             {{ user.name }}
           </v-card-title>
         </v-col>
       </v-row>
       <v-card-text>
-        {{ user }}
         {{ post.content }}
       </v-card-text>
-      <!-- <v-img
-        :src="post.image.url"
+      <v-img
+        :src="postImage"
         max-height="200"
         max-width="200"
         contain
-      /> -->
+      />
       <v-divider />
         <v-row>
           <v-col class="d-flex text-center">
@@ -57,7 +55,7 @@
             :is-index="isIndex"
             @fetchPost="fetchPost"
           />
-          <template v-if="post.user_id !== currentUser">
+          <template v-if="post.user_id !== currentUserId">
             <v-btn
               :color="btnColor"
               text
@@ -72,7 +70,7 @@
             @likeCountIncrement="likeCountIncrement"
             @likeCountDecrement="likeCountDecrement"
           />
-        <template v-if="post.user_id !== currentUser">
+        <template v-if="post.user_id !== currentUserId">
           <v-btn
             :color="btnColor"
             text
@@ -80,7 +78,7 @@
             <v-icon v-text="'mdi-twitter-retweet'" />
           </v-btn>
         </template>
-        <template v-if="post.user_id === currentUser">
+        <template v-if="post.user_id === currentUserId">
           <btn-edit-post
             :post="post"
             :is-index="isIndex"
@@ -138,12 +136,14 @@ export default {
       commentsCount: 0,
       likeCount: 0,
       time: '',
-      loginUser: {}
+      loginUser: {},
+      postImage: ''
     }
   },
   computed: {
     ...mapGetters({
       currentUser: 'auth/data',
+      currentUserId: 'auth/currentUserId',
       btnColor: 'btn/color'
     })
   },
@@ -158,6 +158,7 @@ export default {
         .then((res) => {
           console.log('then.res', res)
           this.post = res.data
+          this.postImage = res.data.image.url
           this.user = res.data.user
           this.comments = res.data.comments
           this.commentsCount = res.data.comments.length

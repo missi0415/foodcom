@@ -11,7 +11,7 @@
             <v-btn
               icon
               large
-              class="pr-5"
+              class="mr-5"
             >
               <v-icon>mdi-arrow-left</v-icon>
             </v-btn>
@@ -41,7 +41,7 @@
               {{ user.name }}
             </p>
             <v-spacer />
-            <template v-if="!is_user_self">
+            <template v-if="user.id != currentUserId">
               <div class="text-center">
                 <v-btn
                   v-if="follow"
@@ -69,14 +69,14 @@
             <template v-else>
               <div>
                 <user-edit
-                  :currentUser="currentUser"
+                  @getShowUserData="getShowUserData"
                 />
               </div>
             </template>
           </v-card-title>
           <v-card-title>
             <div class="font-weight-bold ml-8 mb-2">
-              よろしくおねがいします
+              {{ user.introduction}}
             </div>
           </v-card-title>
           <v-divider />
@@ -92,7 +92,7 @@
           </v-tabs>
           <v-tabs-items v-model="tab">
             <v-tab-item>
-              <div v-for="post in posts" :key="post.id">
+              <!-- <div v-for="post in posts" :key="post.id">
                 <show-card
                   :is-post="true"
                   :user="post.user"
@@ -108,7 +108,7 @@
                   :user="comment.user"
                   :content-id="comment.id"
                   :content="comment.content"
-                />
+                /> -->
               </div>
             </v-tab-item>
             <v-tab-item>
@@ -117,7 +117,7 @@
               </div>
             </v-tab-item>
             <v-tab-item>
-              <div
+              <!-- <div
                 v-for="like_post in like_posts"
                 :key="like_post.id"
               >
@@ -138,7 +138,7 @@
                   :content-id="like_comment.comment.id"
                   :content="like_comment.comment.content"
                 />
-              </div>
+              </div> -->
             </v-tab-item>
           </v-tabs-items>
         </v-card>
@@ -148,19 +148,19 @@
 </template>
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import ShowCard from '../../../components/user/showCard.vue'
+// import ShowCard from '../../../components/user/showCard.vue'
 import layoutMain from '../../../components/layout/loggedIn/layoutMain.vue'
 import userEdit from '../../../components/user/userEdit.vue'
 export default {
   components: {
-    ShowCard,
+    // ShowCard,
     layoutMain,
     userEdit
   },
   data () {
     return {
       tab: null,
-      user: {},
+      user: { id: '', name: '', email: '', avatar: '', introduction: '', admin: '' },
       posts: {},
       comments: {},
       // medias: {},
@@ -171,20 +171,19 @@ export default {
       message: 'フォロー中',
       follow: false,
       following: [],
-      followers: [],
-      is_user_self: false
-
+      followers: []
     }
   },
   computed: {
     ...mapGetters({
       btnColor: 'btn/color',
       currentUser: 'auth/data',
+      currentUserId: 'auth/currentUserId',
       isAuthenticated: 'auth/isAuthenticated'
     })
   },
-  mounted () {
-    this.getShowUserData()
+  async mounted () {
+    await this.getShowUserData()
   },
   methods: {
     ...mapActions({
@@ -195,12 +194,12 @@ export default {
       console.log('ruter-params', url)
       await this.$axios.get(url)
         .then((res) => {
-          console.log(res.data)
           this.user.id = res.data.id
           this.user.name = res.data.name
-          if (this.currentUser.id === this.user.id) {
-            this.is_user_self = true
-          }
+          this.user.email = res.data.email
+          this.user.introduction = res.data.introduction
+          this.user.avatar = res.data.avatar.url
+          this.user.admin = res.data.admin
           this.posts = res.data.posts
           this.comments = res.data.comments
           this.like_posts = res.data.like_posts
@@ -210,7 +209,7 @@ export default {
           if (this.user) {
             this.follow = false
             this.followers.forEach((v) => {
-              if (v.id === this.currentUser.id) {
+              if (v.id === this.currentUserId) {
                 this.follow = true
               }
             })
@@ -222,9 +221,8 @@ export default {
         })
     },
     followUser () {
-      console.log(this.currentUser.id, this.user.id)
       this.$axios.post('/api/v1/relationships', {
-        user_id: this.currentUser.id,
+        user_id: this.currentUserId,
         follow_id: this.user.id
       })
         .then((res) => {
@@ -245,7 +243,7 @@ export default {
     unfollowUser () {
       this.$axios.delete('/api/v1/relationships/delete', {
         params: {
-          user_id: this.currentUser.id,
+          user_id: this.currentUserId,
           follow_id: this.user.id
         }
       })
@@ -266,6 +264,9 @@ export default {
     mouseleave () {
       this.color = 'info white--text'
       this.message = 'フォロー中'
+    },
+    parentEvent () {
+      this.$refs.userEdit.userDataSet()
     }
   }
 }

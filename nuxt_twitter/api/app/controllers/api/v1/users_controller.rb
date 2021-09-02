@@ -1,7 +1,7 @@
 class Api::V1::UsersController < ApplicationController
   def index
     users = User.all
-    render json: users.as_json(only: %i[id name introduction])
+    render json: users.as_json(only: %i[id name introduction avatar is_active admin])
   end
 
   def show
@@ -14,7 +14,6 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def create
-    puts params
     @user = User.new(user_params)
     @user.is_active = true
     if @user.save
@@ -24,9 +23,19 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
+  def update
+    p params
+    user = User.find(params[:id])
+    if user.update(user_params)
+      render json: user
+    else
+      render json: user.errors,status: :unprocessable_entity
+    end
+  end
+
   def find_login_user
     user = User.find_by(uid: params[:uid])
-    render json: user.as_json
+    render json: user.as_json(only: %i[id name introduction avatar is_active admin])
   end
 
   #フォロ－機能

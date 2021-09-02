@@ -42,40 +42,6 @@ class User < ApplicationRecord
   end
 
 
-  
- # #————————フォロー・フォロワー一覧を表示する-————————————
-# def followings
-#   user = User.find(params[:user_id])
-#   @users = user.followings
-# end
-
-# def followers
-#   user = User.find(params[:user_id])
-#   @users = user.followers
-# end
-  # ### フォローする ###
-  # def follow(other_user)
-  #   p 'other_user---------',other_user 
-  #   following << other_user
-  #   p 'following---------',following 
-  # end
-
-  # ### フォローを解除 ###
-  # def unfollow(other_user)
-  #   active_relationships.find_by(followed_id: other_user.id).destroy
-  # end
-
-  # ### フォローしているか ###
-  # def following?(other_user)
-  #   following.include?(other_user)
-  # end
-
-  # ### フォローされているか ###
-  # def followers?(other_user)
-  #   followers.include?(other_user)
-  # end
-
-
 
   # emailを検証時は小文字にする
   before_validation :downcase_email
