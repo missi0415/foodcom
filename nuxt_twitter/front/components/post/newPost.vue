@@ -77,7 +77,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import newPostFormContent from './newPostFormContent.vue'
+import newPostFormContent from './newPostForm.vue'
 export default {
   components: {
     newPostFormContent

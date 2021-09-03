@@ -57,9 +57,10 @@
             ref="form"
             v-model="isValid"
           >
-            <new-comment-form
-              :content.sync="newComment.content"
+            <new-post-form
+              :content.sync="newPost.content"
             />
+            {{ newPost }}
             <v-btn
               :disabled="!isValid || loading"
               :loading="loading"
@@ -73,19 +74,16 @@
         </v-container>
       </v-card>
     </v-dialog>
-    <template v-if="isIndex && commentCount">
-      {{ commentCount }}
-    </template>
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import NewCommentForm from '../comment/newCommentForm.vue'
+import NewPostForm from '../post/newPostForm.vue'
 
 export default {
   components: {
-    NewCommentForm
+    NewPostForm
   },
   props: {
     post: {
@@ -95,14 +93,6 @@ export default {
     user: {
       type: Object,
       required: true
-    },
-    comments: {
-      type: Array,
-      required: true
-    },
-    isIndex: {
-      type: Boolean,
-      required: true
     }
   },
   data () {
@@ -111,7 +101,7 @@ export default {
       isValid: false,
       loading: false,
       commentCount: 0,
-      newComment: { content: '' },
+      newPost: { content: '' },
       src: 'https://picsum.photos/200/200'
     }
   },
@@ -121,18 +111,18 @@ export default {
       btnColor: 'btn/color'
     })
   },
-  mounted () {
-    this.commentCount = this.comments.length
-  },
+  // mounted () {
+  //   this.commentCount = this.comments.length
+  // },
   methods: {
     ...mapActions({
       flashMessage: 'flash/flashMessage'
     }),
     async submitComment () {
       this.loading = true
-      this.newComment.user_id = this.currentUser.id
-      this.newComment.post_id = this.post.id
-      await this.$axios.$post('/api/v1/comments', this.newComment)
+      this.newPost.user_id = this.currentUser.id
+      this.newPost.post_id = this.post.id
+      await this.$axios.$post('/api/v1/posts', this.newPost)
         .then(() => {
           this.loading = false
           this.dialog = false

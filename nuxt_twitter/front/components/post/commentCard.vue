@@ -28,9 +28,9 @@
       </v-card-text>
       <v-card-actions class="justify-space-around">
         <!-- コメントボタン -->
-        <btn-new-comment-comment
+        <!-- <btn-new-comment-comment
           :comment="comment"
-        />
+        /> -->
         <like-comment
           :comment="comment"
         />
@@ -57,10 +57,9 @@
 import { mapGetters } from 'vuex'
 import btnDeleteComment from '../btn/btnDeleteComment.vue'
 import btnEditComment from '../btn/btnEditComment.vue'
-import btnNewCommentComment from '../btn/btnNewCommentComment.vue'
 import likeComment from '../btn/likeComment.vue'
 export default {
-  components: { btnNewCommentComment, btnEditComment, btnDeleteComment, likeComment },
+  components: {  btnEditComment, btnDeleteComment, likeComment },
   props: {
     isPostComment: {
       type: Boolean,

@@ -8,43 +8,32 @@
       outlined
       @click="toShowPost(post.id)"
     >
-    {{ post.id }}
-    <v-card-text>
-      page posts/index.vue
-      {{ currentUserId }}
-    </v-card-text>
-      <v-row>
-        <v-col class="d-flex">
-          <v-img
+      <v-card-title>
+        <v-avatar size="56">
+          <img
             :src="src"
-            max-height="60"
-            max-width="60"
             contain
-            class="ml-2"
-            style="border-radius: 50%"
             @click.stop="toShowUser(post.user_id)"
           />
-          <v-card-text>
-            {{ post.user.id }}
-            {{ post.user.name }}
-          </v-card-text>
-          <v-card-text
-            class="text-right"
+          </v-avatar>
+          <p class="ml-3 mt-3">
+              {{ post.user.name }}
+          </p>
+          <v-spacer />
+          <p
+            class="font-size: 1px"
           >
-            <v-icon size="16">
+            <v-icon size="15">
               mdi-update
             </v-icon>
             {{ $my.format(post.created_at) }}
-          </v-card-text>
-        </v-col>
-      </v-row>
+          </p>
+      </v-card-title>
       <v-row>
         <v-col>
-          <v-card-title
-            class="card-content"
-          >
-            {{ post.content }}
-          </v-card-title>
+          <v-card-text >
+            {{ post }}
+          </v-card-text>
           <v-img
             :src="post.image.url"
             max-height="200"
@@ -60,8 +49,6 @@
               <btn-new-comment
                 :post="post"
                 :user="post.user"
-                :comments="post.comments"
-                :is-index="isIndex"
               />
               <template v-if="post.user_id !== currentUserId">
                 <v-btn
@@ -101,11 +88,17 @@ import { mapGetters, mapActions } from 'vuex'
 import LikePost from '../../components/btn/likePost.vue'
 import BtnEditPost from '../../components/btn/btnEditPost.vue'
 import BtnDeletePost from '../../components/btn/btnDeletePost.vue'
-import BtnNewComment from '~/components/btn/btnNewComment.vue'
+// import BtnNewComment from '~/components/btn/btnNewComment.vue'
 import LayoutMain from '~/components/layout/loggedIn/layoutMain.vue'
 
 export default {
-  components: { LayoutMain, BtnDeletePost, BtnNewComment, LikePost, BtnEditPost },
+  components: {
+    LayoutMain,
+    BtnDeletePost,
+    // BtnNewComment,
+    LikePost,
+    BtnEditPost
+  },
   data () {
     return {
       src: 'https://picsum.photos/200/200',

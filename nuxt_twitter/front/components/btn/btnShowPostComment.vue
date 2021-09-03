@@ -56,9 +56,9 @@
             ref="form"
             v-model="isValid"
           >
-            <new-comment-form
+            <!-- <new-comment-form
               :content.sync="newComment.content"
-            />
+            /> -->
             <v-btn
               :disabled="!isValid || loading"
               :loading="loading"
@@ -77,10 +77,10 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import newCommentForm from '../comment/newCommentForm.vue'
+// import newCommentForm from '../comment/newCommentForm.vue'
 export default {
   components: {
-    newCommentForm
+    // newCommentForm
   },
   props: {
     post: {

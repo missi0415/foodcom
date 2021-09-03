@@ -24,7 +24,7 @@
         </v-col>
       </v-row>
       <v-card-text>
-        {{ post.content }}
+        {{ post }}
       </v-card-text>
       <v-img
         :src="postImage"
