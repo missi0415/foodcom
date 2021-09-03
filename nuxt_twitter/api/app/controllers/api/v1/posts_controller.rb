@@ -1,5 +1,6 @@
 class Api::V1::PostsController < ApplicationController
   def index
+    posts = {}
     posts = Post.where(post_id: 0).includes(:user).order(id: :desc)
     # posts = Post.all.includes(:user).order(id: :desc)
     @images = posts.map { |post| post.image.url }
@@ -11,13 +12,16 @@ class Api::V1::PostsController < ApplicationController
   end
 
   def show
-    post = Post.includes([:user]).find(params[:id])
-    p 'post', post
+    # post = Post.includes([:user]).find(params[:id])
+    # comments = Post.where(:post_id params[:id])
+    post = {}
+    post[:post] = Post.find(params[:id])#postの中身
+    post[:user] = User.find(post[:post].user_id)
+    post[:comments] = Post.joins(:user).select("posts.*, user AS user").where(post_id: params[:id]).order(created_at: :desc)
+    post[:like_posts] = LikePost.where(post_id: params[:id]).order(created_at: :desc)
+    post[:like_count] = post[:like_posts].length
     unless Post.nil?
-      render json: post, include: [
-        :user,
-        :like_posts
-      ]
+      render json: post
     else
       render json: { error_message: 'Not Found' }
     end
