@@ -14,6 +14,7 @@ Rails.application.routes.draw do
       # user
       get 'find_login_user/:uid'  => 'users#find_login_user'
       get 'search_likes'          => 'users#search_likes'
+      get 'post_comments'          => 'posts#search_likes'
     end
   end
 end

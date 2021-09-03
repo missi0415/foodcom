@@ -48,7 +48,7 @@
             <v-card-actions class="justify-space-around">
               <btn-new-comment
                 :post="post"
-                :user="post.user"
+                :is-index="isIndex"
               />
               <template v-if="post.user_id !== currentUserId">
                 <v-btn
@@ -80,6 +80,14 @@
         </v-row>
       </template>
     </v-card>
+    <VueInfiniteLoading
+      ref="infiniteLoading"
+      spinner="bubbles"
+      @infinite="infiniteHandler"
+    >
+      <span slot="no-more">-----投稿は以上です-----</span>
+      <span slot="no-results">----投稿がありません----</span>
+    </VueInfiniteLoading>
   </layout-main>
 </template>
 
@@ -103,7 +111,8 @@ export default {
     return {
       src: 'https://picsum.photos/200/200',
       isIndex: true,
-      posts: []
+      posts: [],
+      count: 1
     }
   },
   computed: {
@@ -121,6 +130,23 @@ export default {
     ...mapActions({
       flashMessage: 'flash/flashMessage'
     }),
+    infiniteHandler () {
+      this.count += 1
+      this.$axios.get('/api/v1/posts', { params: { page: this.count } })
+        .then((res) => {
+          const posts = res.data
+          setTimeout(() => {
+            if (posts.length !== 0) {
+              console.log('ロードします', posts)
+              this.posts.push(...posts)
+              this.$refs.infiniteLoading.stateChanger.loaded()
+            } else {
+              console.log('データなし')
+              this.$refs.infiniteLoading.stateChanger.complete()
+            }
+          }, 1000)
+        })
+    },
     async fetchPosts () {
       const url = '/api/v1/posts'
       await this.$axios.get(url)

@@ -9,6 +9,9 @@
       <v-icon v-text="'mdi-chat-processing-outline'" />
       &nbsp;
     </v-btn>
+    <template v-if="commentCount > 0">
+      {{ commentCount }}
+    </template>
     <v-dialog
       v-model="dialog"
       width="500"
@@ -33,7 +36,7 @@
             class="ml-2"
           />
           <v-card-title>
-            {{ user.name }}
+            {{ post.user.name }}
           </v-card-title>
         </div>
         <div class="d-flex">
@@ -48,7 +51,7 @@
             </v-card-subtitle>
             <v-spacer />
             <v-card-text>
-              返信先：{{ user.name }} さん
+              返信先：{{ post.user.name }} さん
             </v-card-text>
           </div>
         </div>
@@ -90,8 +93,8 @@ export default {
       type: Object,
       required: true
     },
-    user: {
-      type: Object,
+    isIndex: {
+      type: Boolean,
       required: true
     }
   },
@@ -123,7 +126,9 @@ export default {
       this.newPost.user_id = this.currentUser.id
       this.newPost.post_id = this.post.id
       await this.$axios.$post('/api/v1/posts', this.newPost)
-        .then(() => {
+        .then((res) => {
+          console.log('createレスポンス', res)
+          this.commentCount = res
           this.loading = false
           this.dialog = false
           this.flashMessage({ message: 'コメントしました', type: 'primary', status: true })

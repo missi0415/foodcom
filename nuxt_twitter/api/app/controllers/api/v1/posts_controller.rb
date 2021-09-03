@@ -1,14 +1,15 @@
 class Api::V1::PostsController < ApplicationController
+  include Pagenation #pagenation_controllerにて定義
   def index
-    posts = {}
-    posts = Post.where(post_id: 0).includes(:user).order(id: :desc)
-    # posts = Post.all.includes(:user).order(id: :desc)
-    @images = posts.map { |post| post.image.url }
+    posts = Post.where(post_id: 0).order(id: :desc)
+    # posts = Post.where(post_id: 0).order(id: :desc)
+    posts = posts.page(params[:page]).per(5)
+    pagenation = resources_with_pagination(posts)
+    # @images = posts.map { |post| post.image.url }
     # Rails側でurlまで取得しておかないと、Vue.jsで表示したときにconsoleに警告が出る。
-    render json: posts, include: [
-      :user,
-      {like_posts: [:post] }
-    ]
+    @posts = posts.as_json
+    object = { posts: @posts, kaminari: pagenation }
+    render json: posts
   end
 
   def show
@@ -30,7 +31,9 @@ class Api::V1::PostsController < ApplicationController
   def create
     @post = Post.new(post_params)
     if @post.save
-      render json: :created
+      p @post.post_id
+      comment_count = Post.where(post_id: @post.post_id).length
+      render json: comment_count
     else
       render json: @post.errors, status: :unprocessable_entity
     end
@@ -52,6 +55,10 @@ class Api::V1::PostsController < ApplicationController
     else
       render json: post.errors
     end
+  end
+
+  def post_comments(id)
+    return Post.where(post_id: id)
   end
 
   private
