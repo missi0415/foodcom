@@ -19,6 +19,7 @@
         </v-card-title>
         <v-card-text>
           この操作は取り消せません。
+          {{ $route.name }}
         </v-card-text>
         <v-divider />
         <v-card-actions>
@@ -76,7 +77,7 @@ export default {
           if (this.$route.name === 'users-id') {
             this.fetchUser()
           } else if (this.isIndex) {
-            this.fetchPosts()
+            this.fetchPost()
           } else {
             this.$router.replace('/posts')
           }
@@ -87,6 +88,9 @@ export default {
           // eslint-disable-next-line no-console
           console.log('投稿の削除に失敗', err)
         })
+    },
+    fetchPost () {
+      this.$emit('fetchPost')
     },
     fetchPosts () {
       this.$emit('fetchPosts')

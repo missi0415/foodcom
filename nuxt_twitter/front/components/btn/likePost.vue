@@ -19,9 +19,9 @@
       >
         <v-icon v-text="'mdi-heart'" />
       </v-btn>
-    </template>
-    <template v-if="likeCount && $route.name !== 'posts-id'">
+    <template v-if="likeCount > 0 ">
       {{ likeCount }}
+    </template>
     </template>
   </div>
 </template>

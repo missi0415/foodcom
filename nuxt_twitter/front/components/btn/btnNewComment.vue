@@ -114,9 +114,9 @@ export default {
       btnColor: 'btn/color'
     })
   },
-  // mounted () {
-  //   this.commentCount = this.comments.length
-  // },
+  mounted () {
+    this.commentCount = this.post.comments.length
+  },
   methods: {
     ...mapActions({
       flashMessage: 'flash/flashMessage'

@@ -19,7 +19,7 @@
             @click.prevent.stop="toShowUser(post.user_id)"
           />
           <v-card-title>
-            {{ user.name }}
+            {{ post.user.name }}
           </v-card-title>
         </v-col>
       </v-row>
@@ -50,7 +50,6 @@
       <v-card-actions class="justify-space-around">
           <btn-new-comment
             :post="post"
-            :comments="comments"
             :is-index="isIndex"
             @fetchPost="fetchPost"
           />
@@ -69,14 +68,6 @@
             @likeCountIncrement="likeCountIncrement"
             @likeCountDecrement="likeCountDecrement"
           />
-        <template v-if="post.user_id !== currentUserId">
-          <v-btn
-            :color="btnColor"
-            text
-          >
-            <v-icon v-text="'mdi-twitter-retweet'" />
-          </v-btn>
-        </template>
         <template v-if="post.user_id === currentUserId">
           <btn-edit-post
             :post="post"
@@ -94,11 +85,10 @@
     <!-- 先頭カードここまで－－－ー -->
     <div>
       <comment-card
-        v-for="(comment) in comments"
-        :key="comment.content"
-        :comment="comment"
-        :user="user"
-        :isPostComment="true"
+        v-for="comment in post.comments"
+        :key="comment.id"
+        :content-id="comment.id"
+        @fetchPost="fetchPost"
       />
     </div>
   </layout-main>
@@ -128,9 +118,7 @@ export default {
     return {
       src: 'https://picsum.photos/200/200',
       isIndex: false,
-      post: {},
-      user: {},
-      comments: [],
+      post: { user: {}, comments: {} },
       likePosts: [],
       commentsCount: 0,
       likeCount: 0,
@@ -146,7 +134,7 @@ export default {
       btnColor: 'btn/color'
     })
   },
-  mounted () {
+  created () {
     this.fetchPost()
   },
   methods: {
@@ -158,8 +146,8 @@ export default {
           console.log('then.res', res)
           this.post = res.data.post
           this.postImage = res.data.post.image.url
-          this.user = res.data.user
-          this.comments = res.data.comments
+          this.post.user = res.data.user
+          this.post.comments = res.data.comments
           this.commentsCount = res.data.comments.length
           this.likePosts = res.data.like_posts
           this.likeCount = res.data.like_posts.length
