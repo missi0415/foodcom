@@ -1,14 +1,14 @@
 class Api::V1::PostsController < ApplicationController
   include Pagenation #pagenation_controllerにて定義
   def index
-    posts = Post.where(post_id: 0).order(id: :desc)
+    # posts = Post.all.page(params[:page]).per(5)
+    posts = Post.where(post_id: 0).order(id: :desc).page(params[:page]).per(5)
     # posts = Post.where(post_id: 0).order(id: :desc)
-    posts = posts.page(params[:page]).per(5)
     pagenation = resources_with_pagination(posts)
     # @images = posts.map { |post| post.image.url }
     # Rails側でurlまで取得しておかないと、Vue.jsで表示したときにconsoleに警告が出る。
-    @posts = posts.as_json
-    object = { posts: @posts, kaminari: pagenation }
+    # @posts = posts.as_json
+    # object = { posts: @posts, kaminari: pagenation }
     render json: posts
   end
 
@@ -64,6 +64,6 @@ class Api::V1::PostsController < ApplicationController
   private
 
   def post_params
-    params.require(:post).permit(:title, :content, :user_id, :image, :post_id)
+    params.require(:post).permit( :content, :user_id, :image, :post_id)
   end
 end

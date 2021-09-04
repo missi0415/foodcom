@@ -50,7 +50,6 @@
       <v-card-actions class="justify-space-around">
           <btn-new-comment
             :post="post"
-            :user="user"
             :comments="comments"
             :is-index="isIndex"
             @fetchPost="fetchPost"
@@ -157,8 +156,8 @@ export default {
       await this.$axios.get(url)
         .then((res) => {
           console.log('then.res', res)
-          this.post = res.data
-          this.postImage = res.data.image.url
+          this.post = res.data.post
+          this.postImage = res.data.post.image.url
           this.user = res.data.user
           this.comments = res.data.comments
           this.commentsCount = res.data.comments.length
