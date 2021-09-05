@@ -93,10 +93,15 @@ export default {
         .then(() => {
           if (this.$route.name === 'users-id') {
             this.fetchUser()
+          } else if (this.$route.name === 'posts-id' && this.isIndex === true) {
+            console.log('fetch')
+            this.fetchComment()
           } else if (this.isIndex) {
+            console.log('fetchposts')
             this.fetchPosts()
           } else {
             this.fetchPost()
+            console.log('fetchpost')
           }
           this.flashMessage({ message: '更新しました', type: 'primary', status: true })
           this.loading = false
@@ -117,6 +122,9 @@ export default {
     },
     fetchUser () {
       this.$emit('fetchUser')
+    },
+    fetchComment () {
+      this.$emit('fetchComment')
     }
   }
 }

@@ -31,9 +31,7 @@ class Api::V1::PostsController < ApplicationController
   def create
     @post = Post.new(post_params)
     if @post.save
-      p @post.post_id
-      comment_count = Post.where(post_id: @post.post_id).length
-      render json: comment_count
+      render json: @post, status: :created
     else
       render json: @post.errors, status: :unprocessable_entity
     end

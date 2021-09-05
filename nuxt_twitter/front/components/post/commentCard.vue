@@ -67,12 +67,11 @@
           <btn-edit-post
             :post="post"
             :is-index="isIndex"
-            @fetchComment="fetchPost"
+            @fetchComment="fetchComment"
           />
           <btn-delete-post
             :post="post"
             :is-index="isIndex"
-            @fetchComment="fetchPost"
             @fetchPost="fetchPost"
           />
         </template>
@@ -131,7 +130,7 @@ export default {
     },
     async fetchComment () {
       const url = `/api/v1/posts/${this.contentId}`
-      console.log(url)
+      console.log('fetchComment')
       await this.$axios.get(url)
         .then((res) => {
           console.log('then.res', res)

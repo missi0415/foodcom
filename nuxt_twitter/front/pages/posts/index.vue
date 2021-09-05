@@ -1,5 +1,8 @@
 <template>
   <layout-main #layout-main><!--eslint-disable-line-->
+    <new-post-index
+      @fetchPosts="fetchPosts"
+    />
     <v-card
       v-for="post in posts"
       :key="post.id"
@@ -96,16 +99,16 @@ import { mapGetters, mapActions } from 'vuex'
 import LikePost from '../../components/btn/likePost.vue'
 import BtnEditPost from '../../components/btn/btnEditPost.vue'
 import BtnDeletePost from '../../components/btn/btnDeletePost.vue'
-// import BtnNewComment from '~/components/btn/btnNewComment.vue'
+import NewPostIndex from '../../components/post/newPostIndex.vue'
 import LayoutMain from '~/components/layout/loggedIn/layoutMain.vue'
 
 export default {
   components: {
     LayoutMain,
     BtnDeletePost,
-    // BtnNewComment,
     LikePost,
-    BtnEditPost
+    BtnEditPost,
+    NewPostIndex
   },
   data () {
     return {

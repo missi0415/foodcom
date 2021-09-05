@@ -76,6 +76,8 @@ export default {
         .then(() => {
           if (this.$route.name === 'users-id') {
             this.fetchUser()
+          } else if (this.$route.name === 'posts') {
+            this.fetchPosts()
           } else if (this.isIndex) {
             this.fetchPost()
           } else {
