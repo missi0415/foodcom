@@ -69,7 +69,7 @@
             <template v-else>
               <div>
                 <user-edit
-                  @getShowUserData="getShowUserData"
+                  @fetchUser="fetchUser"
                 />
               </div>
             </template>
@@ -86,29 +86,53 @@
             grow
           >
             <v-tab>ツイート</v-tab>
-            <v-tab>コメント</v-tab>
+            <v-tab>ツイートと返信</v-tab>
             <v-tab>メディア</v-tab>
             <v-tab>いいね</v-tab>
           </v-tabs>
           <v-tabs-items v-model="tab">
             <v-tab-item>
-              <!-- <div v-for="post in posts" :key="post.id">
-                <show-card
-                  :is-post="true"
-                  :user="post.user"
-                  :content-id="post.id"
-                  :content="post.content"
+              <div>
+                <comment-card
+                  v-for="comment in posts"
+                  :key="comment.id"
+                  :content-id="comment.id"
+                  @fetchUser="fetchUser"
                 />
               </div>
             </v-tab-item>
             <v-tab-item>
-              <div v-for="comment in comments" :key="comment.id">
-                <show-card
-                  :is-post="false"
-                  :user="comment.user"
+              <div>
+                <div
+                  v-for="comment in post_and_comments"
+                  :key="comment.id"
                   :content-id="comment.id"
-                  :content="comment.content"
-                /> -->
+                >
+                  <v-card
+                  >
+                    <comment-card
+                      :content-id="comment.post.id"
+                      @fetchUser="fetchUser"
+                    />
+                  </v-card>
+                  <div class="d-flex">
+                    <v-divider
+                      vertical
+                      inset
+                      class="ml-9"
+                    />
+                    <div>
+                      <div
+                        class="pl-5"
+                      >
+                        <comment-card
+                          :content-id="comment.comment.id"
+                          @fetchUser="fetchUser"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </v-tab-item>
             <v-tab-item>
@@ -117,28 +141,14 @@
               </div>
             </v-tab-item>
             <v-tab-item>
-              <!-- <div
-                v-for="like_post in like_posts"
-                :key="like_post.id"
-              >
-                <show-card
-                  :is-post="true"
-                  :user="like_post.user"
-                  :content-id="like_post.post.id"
-                  :content="like_post.post.content"
+              <div>
+                <comment-card
+                  v-for="comment in like_posts"
+                  :key="comment.id"
+                  :content-id="comment.id"
+                  @fetchUser="fetchUser"
                 />
               </div>
-              <div
-                v-for="like_comment in like_comments"
-                :key="like_comment.id"
-              >
-                <show-card
-                  :is-post="false"
-                  :user="like_comment.user"
-                  :content-id="like_comment.comment.id"
-                  :content="like_comment.comment.content"
-                />
-              </div> -->
             </v-tab-item>
           </v-tabs-items>
         </v-card>
@@ -150,28 +160,28 @@
 import { mapGetters, mapActions } from 'vuex'
 // import ShowCard from '../../../components/user/showCard.vue'
 import layoutMain from '../../../components/layout/loggedIn/layoutMain.vue'
+import CommentCard from '../../../components/post/commentCard.vue'
 import userEdit from '../../../components/user/userEdit.vue'
 export default {
   components: {
     // ShowCard,
     layoutMain,
-    userEdit
+    userEdit,
+    CommentCard
   },
   data () {
     return {
       tab: null,
       user: { id: '', name: '', email: '', avatar: '', introduction: '', admin: '' },
       posts: {},
-      comments: {},
       // medias: {},
       like_posts: {},
-      like_comments: {},
-      like_content: {},
       color: 'info white--text',
       message: 'フォロー中',
       follow: false,
-      following: [],
-      followers: []
+      post_and_comments: [],
+      following_user: [],
+      follower_user: []
     }
   },
   computed: {
@@ -182,33 +192,33 @@ export default {
       isAuthenticated: 'auth/isAuthenticated'
     })
   },
-  async mounted () {
-    await this.getShowUserData()
+  mounted () {
+    this.fetchUser()
   },
   methods: {
     ...mapActions({
       flashMessage: 'flash/flashMessage'
     }),
-    async getShowUserData () {
+    async fetchUser () {
       const url = `/api/v1/users/${this.$route.params.id}`
       console.log('ruter-params', url)
       await this.$axios.get(url)
         .then((res) => {
-          this.user.id = res.data.id
-          this.user.name = res.data.name
-          this.user.email = res.data.email
-          this.user.introduction = res.data.introduction
-          this.user.avatar = res.data.avatar.url
-          this.user.admin = res.data.admin
+          console.log('thenres', res)
+          this.user.id = res.data.user.id
+          this.user.name = res.data.user.name
+          this.user.email = res.data.user.email
+          this.user.introduction = res.data.user.introduction
+          this.user.avatar = res.data.user.avatar.url
+          this.user.admin = res.data.user.admin
           this.posts = res.data.posts
-          this.comments = res.data.comments
           this.like_posts = res.data.like_posts
-          this.like_comments = res.data.like_comments
-          this.following = res.data.following_user
-          this.followers = res.data.follower_user
+          this.post_and_comments = res.data.post_and_comments
+          this.following_user = res.data.following_user
+          this.follower_user = res.data.follower_user
           if (this.user) {
             this.follow = false
-            this.followers.forEach((v) => {
+            this.follower_user.forEach((v) => {
               if (v.id === this.currentUserId) {
                 this.follow = true
               }
@@ -232,7 +242,7 @@ export default {
             .then((res) => {
               this.follow = true
               console.log('フォロー後レス', res)
-              this.followers = res.data.follower_user
+              this.follower_user = res.data.follower_user
               // 今現在表示しているユーザーのフォロワー数が自分がフォローするかしないで減る
             })
         })
@@ -253,7 +263,7 @@ export default {
           this.$axios.get(`/api/v1/users/${this.$route.params.id}`)
             .then(() => {
               this.follow = false
-              this.followers = res.data.followers
+              this.follower_user = res.data.follower_user
             })
         })
     },

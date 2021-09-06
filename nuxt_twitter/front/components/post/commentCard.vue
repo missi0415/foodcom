@@ -5,9 +5,6 @@
       elevation="15"
       @click="toShowPost(post.id)"
     >
-      <v-card-text>
-        postCommentCard.Vue
-      </v-card-text>
       <v-row>
         <v-col class="d-flex">
           <v-img
@@ -25,7 +22,7 @@
         </v-col>
       </v-row>
       <v-card-text>
-        {{ post }}
+        {{ post.content }}
       </v-card-text>
       <v-img
         :src="postImage"
@@ -158,6 +155,9 @@ export default {
     },
     fetchPost () {
       this.$emit('fetchPost')
+    },
+    fetchUser () {
+      this.$emit('fetchUser')
     }
   }
 }

@@ -3,18 +3,11 @@ class Api::V1::PostsController < ApplicationController
   def index
     # posts = Post.all.page(params[:page]).per(5)
     posts = Post.where(post_id: 0).order(id: :desc).page(params[:page]).per(5)
-    # posts = Post.where(post_id: 0).order(id: :desc)
     pagenation = resources_with_pagination(posts)
-    # @images = posts.map { |post| post.image.url }
-    # Rails側でurlまで取得しておかないと、Vue.jsで表示したときにconsoleに警告が出る。
-    # @posts = posts.as_json
-    # object = { posts: @posts, kaminari: pagenation }
     render json: posts
   end
 
   def show
-    # post = Post.includes([:user]).find(params[:id])
-    # comments = Post.where(:post_id params[:id])
     post = {}
     post[:post] = Post.find(params[:id])#postの中身
     post[:user] = User.find(post[:post].user_id)
@@ -49,6 +42,7 @@ class Api::V1::PostsController < ApplicationController
   def destroy
     post = Post.find(params[:id])
     if post.destroy
+      Post.where(post_id: params[:id]).destroy_all
       render json: post
     else
       render json: post.errors

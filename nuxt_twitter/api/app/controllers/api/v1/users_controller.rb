@@ -5,7 +5,30 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def show
-    user = User.find_by(id: params[:id])
+    user = {}
+    user[:user] = User.find(params[:id])
+    user[:posts] = Post.where(post_id: 0).where(user_id: params[:id]).order(created_at: :desc) 
+    like_posts = []
+      user_likes = user[:user].like_posts.order(created_at: :desc).pluck(:post_id) 
+      user_likes.each do |f|
+        post = Post.find(f)
+        like_posts.push(post)
+      end
+    user[:like_posts] = like_posts
+    post_and_comments = []
+      user_comments = Post.where.not(post_id: 0).where(user_id: params[:id]).order(created_at: :desc)
+      combinations = user_comments.pluck(:post_id, :id)
+      combinations.each_with_index do |f, i|
+        post_and_comment = {}
+        post_and_comment[:post] = Post.find(f[0])
+        post_and_comment[:comment] = Post.find(f[1])
+        post_and_comments.push(post_and_comment)
+      end
+
+    user[:post_and_comments] = post_and_comments
+    user[:follower_user] = user[:user].follower_user
+    user[:following_user] = user[:user].following_user
+    
     unless User.nil?
       render json: user
     else
@@ -46,19 +69,17 @@ class Api::V1::UsersController < ApplicationController
   def followers
     user  = User.find(params[:id])
   end
+
   #-----------------
 
   def search_likes
     like_posts = []
-
-
     params[:like_post_ids].each do |post_id|
       like_posts.push(Post.find(post_id))
     end
-
-
     render json: like_posts, include: :user
   end
+
 
 
   private
