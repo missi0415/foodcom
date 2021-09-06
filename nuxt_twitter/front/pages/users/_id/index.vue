@@ -169,15 +169,14 @@
 </template>
 <script>
 import { mapGetters, mapActions } from 'vuex'
-// import ShowCard from '../../../components/user/showCard.vue'
 import layoutMain from '../../../components/layout/loggedIn/layoutMain.vue'
 import CommentCard from '../../../components/post/commentCard.vue'
-import userEdit from '../../../components/user/userEdit.vue'
+import UserEdit from '../../../components/user/userEdit.vue'
 export default {
   components: {
     // ShowCard,
     layoutMain,
-    userEdit,
+    UserEdit,
     CommentCard
   },
   data () {
