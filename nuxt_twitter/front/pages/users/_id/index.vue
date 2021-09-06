@@ -79,6 +79,17 @@
               {{ user.introduction}}
             </div>
           </v-card-title>
+          <v-card-subtitle
+            link
+            @click="toFollowingUser(user.id)"
+          >
+          {{ following_user.length }}フォロー中
+          </v-card-subtitle>
+          <v-card-subtitle
+            @click="toFollowerUser(user.id)"
+          >
+          {{ follower_user.length }}フォロワー
+          </v-card-subtitle>
           <v-divider />
           <v-tabs
             v-model="tab"
@@ -201,10 +212,8 @@ export default {
     }),
     async fetchUser () {
       const url = `/api/v1/users/${this.$route.params.id}`
-      console.log('ruter-params', url)
       await this.$axios.get(url)
         .then((res) => {
-          console.log('thenres', res)
           this.user.id = res.data.user.id
           this.user.name = res.data.user.name
           this.user.email = res.data.user.email
@@ -277,6 +286,12 @@ export default {
     },
     parentEvent () {
       this.$refs.userEdit.userDataSet()
+    },
+    toFollowingUser (id) {
+      this.$router.push({ path: `/users/${id}/follow`, query: { tab: 0 } })
+    },
+    toFollowerUser (id) {
+      this.$router.push({ path: `/users/${id}/follow`, query: { tab: 1 } })
     }
   }
 }

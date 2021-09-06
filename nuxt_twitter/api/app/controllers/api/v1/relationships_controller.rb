@@ -22,8 +22,4 @@ class Api::V1::RelationshipsController < ApplicationController
 
   end
 
-  # def relationship_params
-  #   params.require(:relationship).permit(:follower_id, :followed_id)
-  # end
-
 end

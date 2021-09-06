@@ -18,7 +18,7 @@
             contain
             @click.stop="toShowUser(post.user_id)"
           />
-          </v-avatar>
+        </v-avatar>
           <p class="ml-3 mt-3">
               {{ post.user.name }}
           </p>
@@ -35,7 +35,7 @@
       <v-row>
         <v-col>
           <v-card-text >
-            {{ post }}
+            {{ post.content }}
           </v-card-text>
           <v-img
             :src="post.image.url"

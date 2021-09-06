@@ -4,7 +4,6 @@
     hover
     outlined
   >
-  post.contetnt{{ post.content }}
     <v-form
       ref="form"
       v-model="isValid"

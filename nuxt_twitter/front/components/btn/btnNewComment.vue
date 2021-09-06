@@ -63,7 +63,6 @@
             <new-post-form
               :content.sync="newPost.content"
             />
-            {{ newPost }}
             <v-btn
               :disabled="!isValid || loading"
               :loading="loading"

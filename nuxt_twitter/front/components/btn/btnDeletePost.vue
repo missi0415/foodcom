@@ -19,7 +19,6 @@
         </v-card-title>
         <v-card-text>
           この操作は取り消せません。
-          {{ $route.name }}
         </v-card-text>
         <v-divider />
         <v-card-actions>
