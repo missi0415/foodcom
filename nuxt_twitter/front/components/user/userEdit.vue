@@ -48,15 +48,29 @@
           </v-app-bar>
           <v-img
             height="200px"
-            src="https://cdn.pixabay.com/photo/2020/07/12/07/47/bee-5396362_1280.jpg"
-          />
+            width="800px"
+            :src="user.header"
+          >
+          </v-img>
+            <v-file-input
+              @change="setHeaderImage"
+              prepend-icon="mdi-camera"
+              label="ヘッダー画像"
+              accept="image/png, image/jpeg, image/bmp"
+            />
           <v-card-title>
             <v-avatar size="56">
               <img
                 alt="user"
-                src="https://cdn.pixabay.com/photo/2020/06/24/19/12/cabbage-5337431_1280.jpg"
+                :src="user.avatar"
               >
             </v-avatar>
+            <v-file-input
+              @change="setAvatarImage"
+              prepend-icon="mdi-camera"
+              label="アバター画像"
+              accept="image/png, image/jpeg, image/bmp"
+            />
             <p class="ml-3 mt-3">
             </p>
             <v-spacer />
@@ -66,11 +80,11 @@
                 ref="form"
                 v-model="isValid"
               >
-                <user-form-introduction
-                  :introduction.sync="user.introduction"
-                />
                 <user-form-name
                   :name.sync="user.name"
+                />
+                <user-form-introduction
+                  :introduction.sync="user.introduction"
                 />
                 <user-form-email
                   :email.sync="user.email"
@@ -78,17 +92,12 @@
                 <user-form-password
                   :password.sync="user.password"
                 />
-                <v-file-input
-                  @change="setImage"
-                  label="アバター画像"
-                  accept="image/png, image/jpeg, image/bmp"
-                />
               <v-btn
                 :disabled="!isValid || loading"
                 :loading="loading"
                 block
                 color="info"
-                @click="updateUser()"
+                @click="updateUser"
               >
                 保存する
               </v-btn>
@@ -120,8 +129,9 @@ export default {
       isValid: false,
       loading: false,
       editLading: false,
-      user: { id: '', name: '', email: '', password: '', avatar: '', introduction: '' },
-      image: ''
+      user: { id: '', name: '', email: '', password: '', avatar: '', header: '', introduction: '' },
+      avatarImage: '',
+      headerImage: ''
     }
   },
   methods: {
@@ -131,24 +141,23 @@ export default {
       currentUser: 'auth/currentUser'
     }),
     async userDataSet () {
-      console.log('userDataSet発火')
       const url = `/api/v1/users/${this.$route.params.id}`
-      console.log('url', url)
       await this.$axios.get(url)
         .then((res) => {
-          console.log('userDataSetres', res)
           this.user.id = res.data.user.id
           this.user.name = res.data.user.name
           this.user.email = res.data.user.email
           this.user.introduction = res.data.user.introduction
           this.user.avatar = res.data.user.avatar.url
-          this.user.admin = res.data.admin
-          console.log('userDataSet完了')
+          this.user.header = res.data.user.header.url
           this.dialog = true
         })
     },
-    setImage (e) {
-      this.image = e
+    setAvatarImage (e) {
+      this.avatarImage = e
+    },
+    setHeaderImage (e) {
+      this.headerImage = e
     },
     async updateUser () {
       this.loading = true
@@ -156,7 +165,8 @@ export default {
       formData.append('user[name]', this.user.name)
       formData.append('user[email]', this.user.email)
       formData.append('user[introduction]', this.user.introduction)
-      formData.append('user[avatar]', this.user.avatar)
+      formData.append('user[avatar]', this.avatarImage)
+      formData.append('user[header]', this.headerImage)
       formData.append('user[admin]', this.user.admin)
       console.log('送信データformData', formData)
       await this.$axios.$put(`/api/v1/users/${this.user.id}`, formData)

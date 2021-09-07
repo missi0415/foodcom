@@ -92,7 +92,8 @@ class Api::V1::UsersController < ApplicationController
       :introduction,
       :is_active,
       :admin,
-      :avatar
+      :avatar,
+      :header
     )
   end
 end

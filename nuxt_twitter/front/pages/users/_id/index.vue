@@ -28,7 +28,8 @@
           </v-app-bar>
           <v-img
             height="200px"
-            src="https://cdn.pixabay.com/photo/2020/07/12/07/47/bee-5396362_1280.jpg"
+            width="1000px"
+            :src="user.header"
           />
           <v-card-title>
             <v-avatar size="56">
@@ -182,7 +183,7 @@ export default {
   data () {
     return {
       tab: null,
-      user: { id: '', name: '', email: '', avatar: '', introduction: '', admin: '' },
+      user: { id: '', name: '', email: '', avatar: '', introduction: '', admin: '', header: '' },
       posts: {},
       // medias: {},
       like_posts: {},
@@ -219,6 +220,7 @@ export default {
           this.user.introduction = res.data.user.introduction
           this.user.avatar = res.data.user.avatar.url
           this.user.admin = res.data.user.admin
+          this.user.header = res.data.user.header.url
           this.posts = res.data.posts
           this.like_posts = res.data.like_posts
           this.post_and_comments = res.data.post_and_comments
