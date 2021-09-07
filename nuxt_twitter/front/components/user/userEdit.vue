@@ -7,7 +7,7 @@
         color="white"
         x-large
         rounded
-        @click="userDataSet()"
+        @click="userDataSet"
       >
       <v-icon>mdi-pencil</v-icon>
         プロフィールを編集
@@ -137,22 +137,16 @@ export default {
       await this.$axios.get(url)
         .then((res) => {
           console.log('userDataSetres', res)
-          this.user.id = res.data.id
-          this.user.name = res.data.name
-          this.user.email = res.data.email
-          this.user.introduction = res.data.introduction
-          this.user.avatar = res.data.avatar.url
+          this.user.id = res.data.user.id
+          this.user.name = res.data.user.name
+          this.user.email = res.data.user.email
+          this.user.introduction = res.data.user.introduction
+          this.user.avatar = res.data.user.avatar.url
           this.user.admin = res.data.admin
           console.log('userDataSet完了')
           this.dialog = true
         })
     },
-    // fetchContents () {
-    //   this.$axios.get('/api/v1/posts')
-    //     .then((res) => {
-    //       this.setPosts(res.data)
-    //     })
-    // },
     setImage (e) {
       this.image = e
     },
@@ -168,8 +162,7 @@ export default {
       await this.$axios.$put(`/api/v1/users/${this.user.id}`, formData)
         .then((res) => {
           console.log('userapdateのレスポンス', res)
-          this.$emit('getShowUserData')
-          this.$router.push(`/users/${this.user.id}`)
+          this.fetchUser()
           this.flashMessage({ message: '更新しました', type: 'primary', status: true })
           this.loading = false
           this.dialog = false
@@ -179,6 +172,9 @@ export default {
           this.flashMessage({ message: err.response.data.message.join('\n'), type: 'error', status: true })
           this.loading = false
         })
+    },
+    fetchUser () {
+      this.$emit('fetchUser')
     }
   }
 }
