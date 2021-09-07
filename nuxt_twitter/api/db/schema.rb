@@ -48,7 +48,7 @@ ActiveRecord::Schema.define(version: 2021_08_30_083641) do
   create_table "posts", force: :cascade do |t|
     t.bigint "user_id"
     t.string "content", null: false
-    t.integer "post_id", default: 0
+    t.integer "post_id", default: 0, null: false
     t.string "image"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -69,6 +69,7 @@ ActiveRecord::Schema.define(version: 2021_08_30_083641) do
     t.string "email", null: false
     t.string "uid", null: false
     t.string "avatar"
+    t.string "header"
     t.string "introduction", default: "よろしくお願いします。", null: false
     t.boolean "is_active", default: true, null: false
     t.boolean "admin", default: false, null: false

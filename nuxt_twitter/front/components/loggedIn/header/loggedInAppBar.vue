@@ -15,10 +15,17 @@
     <app-title
     />
     <v-spacer />
+    <v-btn
+      outlined
+      @click="signOut"
+    >
+      ログアウト
+    </v-btn>
   </v-app-bar>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import appLogo from '../../ui/appLogo.vue'
 import appTitle from '../../ui/appTitle.vue'
 // import accountLink from './accountLink.vue'
@@ -39,6 +46,15 @@ export default {
   computed: {
     notTopPage () {
       return this.$route.name !== 'index'
+    }
+  },
+  methods: {
+    ...mapActions({
+      logout: 'auth/logout'
+    }),
+    signOut () {
+      this.logout()
+      this.$router.replace('/')
     }
   }
 }

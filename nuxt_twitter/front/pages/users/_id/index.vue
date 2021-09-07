@@ -34,7 +34,7 @@
             <v-avatar size="56">
               <img
                 alt="user"
-                src="https://cdn.pixabay.com/photo/2020/06/24/19/12/cabbage-5337431_1280.jpg"
+                :src="user.avatar"
               >
             </v-avatar>
             <p class="ml-3 mt-3">

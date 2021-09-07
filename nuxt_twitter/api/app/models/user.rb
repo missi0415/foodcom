@@ -5,7 +5,8 @@ class User < ApplicationRecord
   has_many :like_posts    , dependent: :destroy
   has_many :like_comments , dependent: :destroy
   #画像投稿
-  mount_uploader :avatar, ImageUploader
+  mount_uploader :avatar, AvatarUploader
+  mount_uploader :header, HeaderUploader
 
   # フォロー機能
   has_many :follower, class_name: "Relationship", foreign_key: "follower_id", dependent: :destroy # ① フォローしている人取得(Userのfollowerから見た関係)
