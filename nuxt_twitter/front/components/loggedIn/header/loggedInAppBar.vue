@@ -15,6 +15,9 @@
     <app-title
     />
     <v-spacer />
+      [ログイン状態:{{ isAuthenticated }}]
+      [ユーザーid:{{ currentUser.id }}]
+      [ユーザー名:{{ currentUser.name }}]
     <v-btn
       outlined
       @click="signOut"
@@ -25,15 +28,13 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import appLogo from '../../ui/appLogo.vue'
 import appTitle from '../../ui/appTitle.vue'
-// import accountLink from './accountLink.vue'
 export default {
   components: {
     appLogo,
     appTitle
-    // accountLink,
   },
   data () {
     return {
@@ -46,7 +47,12 @@ export default {
   computed: {
     notTopPage () {
       return this.$route.name !== 'index'
-    }
+    },
+    ...mapGetters({
+      isAuthenticated: 'auth/isAuthenticated',
+      currentUser: 'auth/data',
+      flash: 'flash/flash'
+    })
   },
   methods: {
     ...mapActions({
