@@ -5,6 +5,12 @@ User.create!(
   uid: 'o9ZjWKLSopPGANCZGMDd4KdCzSH3',
   introduction: 'user01です。よろしくおねがいします。',
   is_active: true,
+  header: {
+    url: "https://rails-nuxt.s3.ap-northeast-1.amazonaws.com/uploads/default/image/defalut-header.png"
+  },
+  avatar: {
+    url: "https://rails-nuxt.s3.amazonaws.com/uploads/default/image/defalt-avatar-gray.png"
+  },
   admin: false
 )
 User.create!(
@@ -14,6 +20,12 @@ User.create!(
   uid: 'pD2peNKajfQuo93zQZ976ncaOwI2',
   introduction: 'user02です。よろしくおねがいします。',
   is_active: true,
+  header: {
+    url: "https://rails-nuxt.s3.ap-northeast-1.amazonaws.com/uploads/default/image/defalut-header.png"
+  },
+  avatar: {
+    url: "https://rails-nuxt.s3.amazonaws.com/uploads/default/image/defalt-avatar-gray.png"
+  },
   admin: false
 )
 User.create!(
@@ -23,6 +35,12 @@ User.create!(
   uid: 'gwqZZWE0R9So1vIw0Jl6UGhvN3A2',
   introduction: 'user03です。よろしくおねがいします。',
   is_active: true,
+  header: {
+    url: "https://rails-nuxt.s3.ap-northeast-1.amazonaws.com/uploads/default/image/defalut-header.png"
+  },
+  avatar: {
+    url: "https://rails-nuxt.s3.amazonaws.com/uploads/default/image/defalt-avatar-gray.png"
+  },
   admin: false
 )
 

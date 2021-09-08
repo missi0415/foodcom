@@ -1,37 +1,72 @@
 <template>
   <layout-main #layout-main> <!--eslint-disable-line-->
     <v-card
+      class="ma-1"
+      hover
       outlined
-      elevation="15"
     >
-    <v-card-text>
-      page posts/_id.vuesdfsdfd
-    </v-card-text>
-      <v-row>
-        <v-col class="d-flex">
+      <v-app-bar
+        flat
+        color="rgba(0, 0, 0, 0)"
+      >
+        <v-btn
+          icon
+          large
+          class="mr-5"
+          @click="pageBack"
+        >
+        <v-icon>mdi-arrow-left</v-icon>
+        </v-btn>
+        <v-toolbar-title>
+          ツイート
+        </v-toolbar-title>
+      </v-app-bar>
+      <v-divider/>
+      <v-list-item
+        class="grow"
+        link
+      >
+        <v-list-item-avatar
+          size=60
+        >
           <v-img
-            :src="src"
-            max-height="70"
-            max-width="70"
-            style="border-radius: 50%;"
+            :src="avatarImage"
             contain
-            class="ml-3 mt-3"
+            lazy-src
             @click.prevent.stop="toShowUser(post.user_id)"
           />
-          <v-card-title>
+        </v-list-item-avatar>
+        <v-list-item-content>
+          <v-list-item-title>
             {{ post.user.name }}
-          </v-card-title>
+          </v-list-item-title>
+        </v-list-item-content>
+        <v-row
+          align="center"
+          justify="end"
+          class="mr-1"
+        >
+          <caption>
+            <v-icon size="15">
+              mdi-update
+            </v-icon>
+              {{ time }}
+          </caption>
+        </v-row>
+      </v-list-item>
+      <v-row>
+        <v-col>
+          <v-card-text>
+            {{ post.content}}
+          </v-card-text>
+          <v-img
+            :src="postImage"
+            max-height="200"
+            max-width="200"
+            contain
+          />
         </v-col>
       </v-row>
-      <v-card-text>
-        {{ post }}
-      </v-card-text>
-      <v-img
-        :src="postImage"
-        max-height="200"
-        max-width="200"
-        contain
-      />
       <v-divider />
         <v-row>
           <v-col class="d-flex text-center">
@@ -96,23 +131,16 @@
 
 <script>
 import { mapGetters } from 'vuex'
-// import btnDeletePost from '../../components/btn/btnDeletePost.vue'
-// import btnShowPostComment from '../../components/btn/btnShowPostComment.vue'
-// import btnEditPostInId from '../../components/btn/btnEditPostInId.vue'
 import likePost from '../../components/btn/likePost.vue'
 import commentCard from '../../components/post/commentCard.vue'
-import BtnNewComment from '../../components/btn/btnNewComment.vue'
+import btnNewComment from '../../components/btn/btnNewComment.vue'
 import layoutMain from '../../components/layout/loggedIn/layoutMain.vue'
 export default {
   components: {
-    // btnDeletePost,
-    // btnShowPostComment,
-    // btnEditPostInId,
     likePost,
     commentCard,
-    // BtnNewComment,
     layoutMain,
-    BtnNewComment
+    btnNewComment
   },
   data () {
     return {
@@ -124,7 +152,8 @@ export default {
       likeCount: 0,
       time: '',
       loginUser: {},
-      postImage: ''
+      postImage: '',
+      avatarImage: ''
     }
   },
   computed: {
@@ -144,6 +173,7 @@ export default {
       await this.$axios.get(url)
         .then((res) => {
           console.log('then.res', res)
+          this.avatarImage = res.data.user.avatar.url
           this.post = res.data.post
           this.postImage = res.data.post.image.url
           this.post.user = res.data.user
@@ -165,9 +195,10 @@ export default {
     },
     loginUserSet () {
       this.loginUser = this.currentUser
+    },
+    pageBack () {
+      this.$router.go(-1)
     }
   }
 }
 </script>
-<style scoped>
-</style>

@@ -58,23 +58,30 @@
               label="ヘッダー画像"
               accept="image/png, image/jpeg, image/bmp"
             />
-          <v-card-title>
-            <v-avatar size="56">
-              <img
-                alt="user"
-                :src="user.avatar"
+            <v-list-item
+              class="grow"
+              link
+            >
+              <v-list-item-avatar
+                size=60
               >
-            </v-avatar>
-            <v-file-input
-              @change="setAvatarImage"
-              prepend-icon="mdi-camera"
-              label="アバター画像"
-              accept="image/png, image/jpeg, image/bmp"
-            />
-            <p class="ml-3 mt-3">
-            </p>
-            <v-spacer />
-          </v-card-title>
+                <v-img
+                  :src="avatarImage"
+                  contain
+                  lazy-src
+                />
+              </v-list-item-avatar>
+              <v-list-item-content>
+                <v-list-item-title>
+                  <v-file-input
+                    @change="setAvatarImage"
+                    prepend-icon="mdi-camera"
+                    label="アバター画像"
+                    accept="image/png, image/jpeg, image/bmp"
+                  />
+                </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
             <v-container>
               <v-form
                 ref="form"
@@ -113,7 +120,7 @@
 <script>
 import { mapActions } from 'vuex'
 import userFormEmail from './userFormEmail.vue'
-import UserFormIntroduction from './userFormIntroduction.vue'
+import userFormIntroduction from './userFormIntroduction.vue'
 import userFormName from './userFormName.vue'
 import userFormPassword from './userFormPassword.vue'
 export default {
@@ -121,7 +128,7 @@ export default {
     userFormEmail,
     userFormPassword,
     userFormName,
-    UserFormIntroduction
+    userFormIntroduction
   },
   data () {
     return {
@@ -144,6 +151,7 @@ export default {
       const url = `/api/v1/users/${this.$route.params.id}`
       await this.$axios.get(url)
         .then((res) => {
+          this.avatarImage = res.data.user.avatar.url
           this.user.id = res.data.user.id
           this.user.name = res.data.user.name
           this.user.email = res.data.user.email

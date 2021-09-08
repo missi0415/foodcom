@@ -1,35 +1,56 @@
 <template>
   <div>
     <v-card
+      class="ma-1"
+      hover
       outlined
-      elevation="15"
       @click="toShowPost(post.id)"
     >
-      <v-row>
-        <v-col class="d-flex">
+      <v-list-item
+        class="grow"
+        link
+      >
+        <v-list-item-avatar
+          size=60
+        >
           <v-img
-            :src="src"
-            max-height="70"
-            max-width="70"
-            style="border-radius: 50%;"
+            :src="avatarImage"
             contain
-            class="ml-3 mt-3"
+            lazy-src
             @click.prevent.stop="toShowUser(post.user_id)"
           />
-          <v-card-title>
+        </v-list-item-avatar>
+        <v-list-item-content>
+          <v-list-item-title>
             {{ post.user.name }}
-          </v-card-title>
+          </v-list-item-title>
+        </v-list-item-content>
+        <v-row
+          align="center"
+          justify="end"
+          class="mr-1"
+        >
+          <caption>
+            <v-icon size="15">
+              mdi-update
+            </v-icon>
+              {{ time }}
+          </caption>
+        </v-row>
+      </v-list-item>
+      <v-row>
+        <v-col>
+          <v-card-text>
+            {{ post.content}}
+          </v-card-text>
+          <v-img
+            :src="postImage"
+            max-height="200"
+            max-width="200"
+            contain
+          />
         </v-col>
       </v-row>
-      <v-card-text>
-        {{ post.content }}
-      </v-card-text>
-      <v-img
-        :src="postImage"
-        max-height="200"
-        max-width="200"
-        contain
-      />
       <v-divider />
       <v-card-actions class="justify-space-around">
         <btn-new-comment
@@ -107,7 +128,8 @@ export default {
       likeCount: 0,
       time: '',
       loginUser: {},
-      postImage: ''
+      postImage: '',
+      avatarImage: ''
     }
   },
   computed: {
@@ -131,7 +153,9 @@ export default {
       await this.$axios.get(url)
         .then((res) => {
           console.log('then.res', res)
+          this.avatarImage = res.data.user.avatar.url
           this.post = res.data.post
+          this.time = this.$my.format(res.data.post.created_at)
           this.postImage = res.data.post.image.url
           this.post.user = res.data.user
           this.post.comments = res.data.comments
@@ -162,3 +186,25 @@ export default {
   }
 }
 </script>
+<style scoped>
+a {
+  position: relative;
+  display: inline-block;
+  text-decoration: none;
+}
+a::after {
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  content: '';
+  width: 100%;
+  height: 2px;
+  background: #333;
+  transform: scale(0, 1);
+  transform-origin: left top;
+  transition: transform .3s;
+}
+a:hover::after {
+  transform: scale(1, 1);
+}
+</style>

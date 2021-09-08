@@ -16,7 +16,7 @@ class HeaderUploader < CarrierWave::Uploader::Base
   def default_url(*args)
     # For Rails 3.1+ asset pipeline compatibility:
     # ActionController::Base.helpers.asset_path("fallback/" + [version_name, "default.png"].compact.join('_'))
-      "https://rails-nuxt.s3.amazonaws.com/uploads/default/image/defalt-header.png"
+      "https://rails-nuxt.s3.ap-northeast-1.amazonaws.com/uploads/default/image/defalut-header.png"
     # "/images/fallback/" + [version_name, "default.png"].compact.join('_')
   end
 

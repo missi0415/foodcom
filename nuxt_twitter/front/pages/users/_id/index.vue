@@ -1,6 +1,5 @@
 <template>
   <layout-main #layout-main><!--eslint-disable-line-->
-    page users/id.vue
     <v-container>
       <v-row justify="space-around">
         <v-card>
@@ -12,6 +11,7 @@
               icon
               large
               class="mr-5"
+              @click="pageBack"
             >
               <v-icon>mdi-arrow-left</v-icon>
             </v-btn>
@@ -26,55 +26,66 @@
               <v-icon>mdi-dots-vertical</v-icon>
             </v-btn>
           </v-app-bar>
+          <v-divider/>
           <v-img
             height="200px"
             width="1000px"
             :src="user.header"
           />
-          <v-card-title>
-            <v-avatar size="56">
-              <img
+          <v-list-item class="grow">
+            <v-list-item-avatar
+              size=60
+            >
+              <v-img
                 alt="user"
+                contain
                 :src="user.avatar"
-              >
-            </v-avatar>
-            <p class="ml-3 mt-3">
-              {{ user.name }}
-            </p>
-            <v-spacer />
-            <template v-if="user.id != currentUserId">
-              <div class="text-center">
-                <v-btn
-                  v-if="follow"
-                  rounded
-                  :color="color"
-                  @click="unfollowUser"
-                  @mouseover="mouseover"
-                  @mouseleave="mouseleave"
-                >
-                  {{ message }}
-                </v-btn>
-                <v-btn
-                  v-else
-                  rounded
-                  color="info"
-                  outlined
-                  dark
-                  @click="followUser"
-                >
-                  <v-icon class="mr-2">mdi-account-plus</v-icon>
-                    フォロー
-                </v-btn>
-              </div>
-            </template>
-            <template v-else>
-              <div>
-                <user-edit
-                  @fetchUser="fetchUser"
-                />
-              </div>
-            </template>
-          </v-card-title>
+              />
+            </v-list-item-avatar>
+            <v-list-item-content>
+              <v-list-item-title>
+                {{ user.name }}
+              </v-list-item-title>
+            </v-list-item-content>
+            <v-row
+              align="center"
+              justify="end"
+              class="mr-1"
+            >
+              <template v-if="user.id != currentUserId">
+                <div class="text-center">
+                  <v-btn
+                    v-if="follow"
+                    rounded
+                    :color="color"
+                    @click="unfollowUser"
+                    @mouseover="mouseover"
+                    @mouseleave="mouseleave"
+                  >
+                    {{ message }}
+                  </v-btn>
+                  <v-btn
+                    v-else
+                    rounded
+                    color="info"
+                    outlined
+                    dark
+                    @click="followUser"
+                  >
+                    <v-icon class="mr-2">mdi-account-plus</v-icon>
+                      フォロー
+                  </v-btn>
+                </div>
+              </template>
+              <template v-else>
+                <div>
+                  <user-edit
+                    @fetchUser="fetchUser"
+                  />
+                </div>
+              </template>
+            </v-row>
+          </v-list-item>
           <v-card-title>
             <div class="font-weight-bold ml-8 mb-2">
               {{ user.introduction}}
@@ -293,6 +304,9 @@ export default {
     },
     toFollowerUser (id) {
       this.$router.push({ path: `/users/${id}/follow`, query: { tab: 1 } })
+    },
+    pageBack () {
+      this.$router.go(-1)
     }
   }
 }

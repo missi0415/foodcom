@@ -11,27 +11,34 @@
       outlined
       @click="toShowPost(post.id)"
     >
-      <v-card-title>
-        <v-avatar size="56">
-          <img
-            :src="src"
+      <v-list-item class="grow">
+        <v-list-item-avatar
+          size=60
+        >
+          <v-img
+            :src="post.user.avatar.url"
             contain
             @click.stop="toShowUser(post.user_id)"
           />
-        </v-avatar>
-          <p class="ml-3 mt-3">
-              {{ post.user.name }}
-          </p>
-          <v-spacer />
-          <p
-            class="font-size: 1px"
-          >
+        </v-list-item-avatar>
+        <v-list-item-content>
+          <v-list-item-title>
+            {{ post.user.name }}
+          </v-list-item-title>
+        </v-list-item-content>
+        <v-row
+          align="center"
+          justify="end"
+          class="mr-1"
+        >
+          <caption>
             <v-icon size="15">
               mdi-update
             </v-icon>
-            {{ $my.format(post.created_at) }}
-          </p>
-      </v-card-title>
+              {{ $my.format(post.created_at) }}
+          </caption>
+        </v-row>
+      </v-list-item>
       <v-row>
         <v-col>
           <v-card-text >
@@ -140,11 +147,9 @@ export default {
           const posts = res.data
           setTimeout(() => {
             if (posts.length !== 0) {
-              console.log('ロードします', posts)
               this.posts.push(...posts)
               this.$refs.infiniteLoading.stateChanger.loaded()
             } else {
-              console.log('データなし')
               this.$refs.infiniteLoading.stateChanger.complete()
             }
           }, 1000)
@@ -166,17 +171,6 @@ export default {
     },
     toShowUser (id) {
       this.$router.push(`/users/${id}`)
-    },
-    async fetch () {
-      const url = '/api/v1/posts'
-      await this.fetch(this.$axios.get(url))
-        .then((res) => {
-          this.posts = res.data
-        })
-        .catch((err) => {
-          // eslint-disable-next-line no-console
-          console.error(err)
-        })
     }
   }
 }

@@ -2,7 +2,6 @@
   <v-container
     fluid
   >
-  layoutMain.vue
     <v-row>
       <v-col
         cols="9"
@@ -20,11 +19,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-// import sidebar from '../../loggedIn/sidebar/sidebar.vue'
 export default {
-  // components: {
-  //   sidebar
-  // },
   computed: {
     ...mapGetters({
       isAuthenticated: 'auth/isAuthenticated',
