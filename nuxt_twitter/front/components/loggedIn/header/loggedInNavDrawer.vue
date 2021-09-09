@@ -5,7 +5,7 @@
     clipped
     :mini-variant="$vuetify.breakpoint.md || $vuetify.breakpoint.sm || $vuetify.breakpoint.xs"
     mini-variant-width="112"
-    mobile-breakpoint="425px"
+    mobile-breakpoint="0"
     bottom
     class="pa-3 justify-center"
   >
