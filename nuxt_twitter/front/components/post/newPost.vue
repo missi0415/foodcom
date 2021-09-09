@@ -11,7 +11,7 @@
         dark
         @click="dialog = true"
       >
-        <v-icon>mdi-pencil</v-icon>
+        <v-icon>mdi-feather</v-icon>
       </v-btn>
     </div>
     <div

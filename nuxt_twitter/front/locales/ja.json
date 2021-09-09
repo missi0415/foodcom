@@ -1,15 +1,8 @@
 {
   "menus": {
     "about": "サイトについて",
-    "products": "製品",
-    "price": "価格",
     "contact": "お問合せ",
-    "company": "会社情報",
     "users": "ユーザー一覧",
-    "payments": {
-      "month": "月払い",
-      "year": "年払い"
-      },
     "posts": "新規投稿",
     "search": "検索",
     "notification": "通知",
@@ -21,6 +14,11 @@
     "auth-signup": "会員登録",
     "auth-login": "ログイン",
     "signup": "会員登録",
-    "login": "ログイン"
+    "login": "ログイン",
+    "logout": "ログアウト",
+    "account": {
+      "settings": "アカウント設定",
+      "password": "パスワード変更"
+    }
   }
 }
