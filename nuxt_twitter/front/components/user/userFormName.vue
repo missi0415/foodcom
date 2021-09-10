@@ -5,7 +5,6 @@
     :counter="max"
     label="ユーザー名"
     placeholder="あなたの表示名"
-    outlined
   />
 </template>
 

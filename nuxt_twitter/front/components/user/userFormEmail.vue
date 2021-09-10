@@ -4,7 +4,6 @@
     :rules="rules"
     label="メールアドレス"
     :placeholder="form.placeholder"
-    outlined
   />
 </template>
 

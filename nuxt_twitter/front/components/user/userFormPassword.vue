@@ -7,7 +7,6 @@
     label="パスワード"
     :placeholder="form.placeholder"
     :hide-details="noValidation"
-    outlined
     :append-icon="toggle.icon"
     :type="toggle.type"
     autocomplete="on"

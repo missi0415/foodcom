@@ -18,13 +18,12 @@
           <v-icon>mdi-arrow-left</v-icon>
           </v-btn>
           <v-toolbar-title>
-            パスワードを変更する
+            アカウントの設定
           </v-toolbar-title>
         </v-app-bar>
         <v-divider/>
         <v-container>
           <!-- パスワード変更 -->
-          {{ firebaseUser }}
           {{ currentUser }}
           {{ email }}
           {{ password }}
@@ -89,8 +88,7 @@ export default {
       email: '',
       password: '',
       newPassword: '',
-      noValidation: false,
-      firebaseUser: {}
+      noValidation: false
     }
   },
   computed: {
@@ -114,9 +112,6 @@ export default {
       const type = this.show ? 'text' : 'password'
       return { icon, type }
     }
-  },
-  mounted () {
-    this.firebaseUser = firebase.auth().currentUser
   },
   methods: {
     ...mapActions({

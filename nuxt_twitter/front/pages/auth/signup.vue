@@ -25,9 +25,6 @@
     >
       登録する
     </v-btn>
-    <v-card-text>
-      {{ user }}
-    </v-card-text>
   </bef-login-form-card>
 </template>
 
