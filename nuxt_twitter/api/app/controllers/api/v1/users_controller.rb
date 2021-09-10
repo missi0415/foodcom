@@ -59,7 +59,7 @@ class Api::V1::UsersController < ApplicationController
 
   def find_login_user
     user = User.find_by(uid: params[:uid])
-    render json: user.as_json(only: %i[id name introduction avatar is_active admin])
+    render json: user.as_json(only: %i[id name uid introduction avatar is_active admin])
   end
 
   #フォロ－機能

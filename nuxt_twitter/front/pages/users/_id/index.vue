@@ -53,6 +53,11 @@
               class="mr-1"
             >
               <template v-if="user.id != currentUserId">
+                <v-btn
+                  @click="toChatRoom(user.id)"
+                >
+                  チャットルーム
+                </v-btn>
                 <div class="text-center">
                   <v-btn
                     v-if="follow"
@@ -182,14 +187,13 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import layoutMain from '../../../components/layout/loggedIn/layoutMain.vue'
-import CommentCard from '../../../components/post/commentCard.vue'
-import UserEdit from '../../../components/user/userEdit.vue'
+import commentCard from '../../../components/post/commentCard.vue'
+import userEdit from '../../../components/user/userEdit.vue'
 export default {
   components: {
-    // ShowCard,
     layoutMain,
-    UserEdit,
-    CommentCard
+    userEdit,
+    commentCard
   },
   data () {
     return {
@@ -307,6 +311,9 @@ export default {
     },
     pageBack () {
       this.$router.go(-1)
+    },
+    toChatRoom (id) {
+      this.$router.push(`/rooms/${id}`)
     }
   }
 }
