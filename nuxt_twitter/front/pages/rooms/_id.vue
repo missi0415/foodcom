@@ -35,6 +35,17 @@
           <v-card-text>
             channel_id {{ channel_id }}
           </v-card-text>
+          <v-list three-line>
+            <v-list-item
+              v-for="(item, i) in chats"
+              :key="i"
+            >
+              <v-list-item-content>
+                <v-list-item-title v-text="item.name"></v-list-item-title>
+                <v-list-item-subtitle v-text="item.message"></v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
           <v-form>
             <v-text-field
               v-model="message"
@@ -83,8 +94,8 @@ export default {
   mounted () {
     this.fetchUser()
     setTimeout(() => {
-      this.fetchMessage()
       this.setChannelId()
+      this.fetchMessage()
     }, 300)
   },
   methods: {
@@ -115,7 +126,7 @@ export default {
       // 投稿データをfirestoreに送信 //
       await firebase.firestore()
         .collection('rooms')
-        .doc(this.$route.params.id)
+        .doc(this.channel_id)
         .collection('chats')
         .add(chat)
       this.resetForm()
@@ -127,7 +138,7 @@ export default {
     },
     fetchMessage () {
       const chats = []
-      firebase.firestore().collection('rooms').doc(this.$route.params.id).collection('chats').get()
+      firebase.firestore().collection('rooms').doc(this.channel_id).collection('chats').orderBy('createdAt', 'asc').get()
         .then((res) => {
           console.log('res', res)
           res.forEach((doc) => {
@@ -145,18 +156,10 @@ export default {
       this.$router.go(-1)
     },
     setChannelId () {
-      console.log('user.uidが撮ってこれてるか', this.user.uid)
-      console.log('currentUser.uidが撮ってこれてるか', this.currentUser.uid)
       if (this.user.uid > this.currentUser.uid) {
-        console.log('user.uidがでかい')
-        console.log(this.user.uid)
         this.channel_id = this.user.uid + '-' + this.currentUser.uid
-        console.log('channel', this.channel_id)
       } else {
-        console.log('currentUser.uidがでかい')
         this.channel_id = this.currentUser.uid + '-' + this.user.uid
-        console.log('user.uid', this.user.uid)
-        console.log('channel', this.channel_id)
       }
     }
   }
