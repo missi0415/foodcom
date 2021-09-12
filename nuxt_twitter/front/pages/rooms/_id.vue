@@ -44,9 +44,16 @@
                   >
                 </v-avatar>
               </div>
-              <p class="says">
-                {{ msg.message }}
-              </p>
+              <div>
+                <p class="says">
+                  {{ msg.message }}
+                </p>
+                <div
+                  class="d-flex"
+                >
+                  <h6>{{ $moment(msg.timestamp).format('YYYY-MM-DD HH:mm') }}</h6>
+                </div>
+              </div>
             </div>
           </v-col>
           <v-col v-else>
@@ -61,10 +68,16 @@
                   >
                 </v-avatar>
               </div>
-              <p class="says-current">
-                {{ msg.message }}
-                {{ msg.createdAt }}
-              </p>
+              <div>
+                <p class="says-current">
+                  {{ msg.message }}
+                </p>
+                <div
+                  class="d-flex justify-end"
+                >
+                  <h6>{{ $moment(msg.timestamp).format('YYYY-MM-DD HH:mm') }}</h6>
+                </div>
+              </div>
             </div>
           </v-col>
         </v-list-item>
@@ -199,7 +212,6 @@ export default {
       }
     },
     scrollBottom () {
-      console.log('scrollBottom')
       const chatBack = document.getElementById('chat-height')
       chatBack.scrollTop = chatBack.scrollHeight
     }
@@ -246,10 +258,11 @@ export default {
 }
 .says-current {
   max-width: 300px;
+  word-break:break-all;
   display: flex;
   flex-wrap: wrap;
   position: relative;
-  padding: 10px;
+  padding: 8px;
   border-radius: 12px;
   background: #64B5F6;
   box-sizing: border-box;

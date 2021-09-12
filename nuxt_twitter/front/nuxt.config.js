@@ -51,7 +51,9 @@ export default {
     // https://go.nuxtjs.dev/eslint
     '@nuxtjs/eslint-module',
     // https://go.nuxtjs.dev/vuetify
-    '@nuxtjs/vuetify'
+    '@nuxtjs/vuetify',
+    // https://momentjs.com/
+    '@nuxtjs/moment'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -61,6 +63,9 @@ export default {
     // Doc: https://www.npmjs.com/package/nuxt-i18n
     'nuxt-i18n'
   ],
+  moment: {
+    locales: ['ja']
+  },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {},

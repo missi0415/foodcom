@@ -60,10 +60,10 @@
           />
         <template v-if="post.user_id !== currentUserId">
             <v-btn
-              :color="btnColor"
-              text
+              icon
+              class="btn-repeat"
             >
-              <v-icon v-text="'mdi-twitter-retweet'" />
+              <v-icon>mdi-repeat-variant</v-icon>
             </v-btn>
           </template>
           <like-post
@@ -73,14 +73,6 @@
             @likeCountIncrement="likeCountIncrement"
             @likeCountDecrement="likeCountDecrement"
           />
-        <template v-if="post.user_id !== currentUserId">
-          <v-btn
-            :color="btnColor"
-            text
-          >
-            <v-icon v-text="'mdi-twitter-retweet'" />
-          </v-btn>
-        </template>
         <template v-if="post.user_id === currentUserId">
           <btn-edit-post
             :post="post"
@@ -207,4 +199,8 @@ a::after {
 a:hover::after {
   transform: scale(1, 1);
 }
+.btn-repeat:hover {
+    color: green;
+  }
+
 </style>

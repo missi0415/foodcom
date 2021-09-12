@@ -53,13 +53,25 @@
               class="mr-1"
             >
               <template v-if="user.id != currentUserId">
-                <v-btn
-                  @click="toChatRoom(user.id)"
-                >
-                  チャットルーム
-                </v-btn>
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on }">
+                    <v-btn
+                      class="ma-2"
+                      outlined
+                      fab
+                      small
+                      color="blue"
+                      v-on="on"
+                      @click="toChatRoom(user.id)"
+                    >
+                      <v-icon>mdi-wechat</v-icon>
+                    </v-btn>
+                  </template>
+                <span>チャットルーム</span>
+              </v-tooltip>
                 <div class="text-center">
                   <v-btn
+                    min-width="130px"
                     v-if="follow"
                     rounded
                     :color="color"
@@ -71,6 +83,7 @@
                   </v-btn>
                   <v-btn
                     v-else
+                    min-width="130px"
                     rounded
                     color="info"
                     outlined
@@ -202,7 +215,7 @@ export default {
       posts: {},
       // medias: {},
       like_posts: {},
-      color: 'info white--text',
+      color: 'blue white--text',
       message: 'フォロー中',
       follow: false,
       post_and_comments: [],
@@ -297,7 +310,7 @@ export default {
       this.message = 'フォロー解除'
     },
     mouseleave () {
-      this.color = 'info white--text'
+      this.color = 'blue white--text'
       this.message = 'フォロー中'
     },
     parentEvent () {

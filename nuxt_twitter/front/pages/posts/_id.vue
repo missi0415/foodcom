@@ -92,8 +92,9 @@
             <v-btn
               :color="btnColor"
               text
+              rounded
             >
-              <v-icon v-text="'mdi-twitter-retweet'" />
+              <v-icon v-text="'mdi-repeat-variant'" />
             </v-btn>
           </template>
           <like-post
