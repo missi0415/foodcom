@@ -1,5 +1,6 @@
 <template>
   <layout-main #layout-main><!--eslint-disable-line-->
+    {{ submitPost }}
     <new-post-index
       @fetchPosts="fetchPosts"
     />
@@ -130,15 +131,25 @@ export default {
       btnColor: 'btn/color',
       currentUser: 'auth/data',
       currentUserId: 'auth/currentUserId',
-      isAuthenticated: 'auth/isAuthenticated'
+      isAuthenticated: 'auth/isAuthenticated',
+      submitPost: 'post/submitPost'
     })
   },
   created () {
     this.fetchPosts()
   },
+  watch: {
+    submitPost (val) {
+      if (val === true) {
+        this.fetchPosts()
+        this.setSubmitPost(false)
+      }
+    }
+  },
   methods: {
     ...mapActions({
-      flashMessage: 'flash/flashMessage'
+      flashMessage: 'flash/flashMessage',
+      setSubmitPost: 'post/setSubmitPost'
     }),
     infiniteHandler () {
       this.count += 1

@@ -178,27 +178,7 @@ export default {
   }
 }
 </script>
-<style scoped>
-a {
-  position: relative;
-  display: inline-block;
-  text-decoration: none;
-}
-a::after {
-  position: absolute;
-  bottom: -4px;
-  left: 0;
-  content: '';
-  width: 100%;
-  height: 2px;
-  background: #333;
-  transform: scale(0, 1);
-  transform-origin: left top;
-  transition: transform .3s;
-}
-a:hover::after {
-  transform: scale(1, 1);
-}
+<style>
 .btn-repeat:hover {
     color: green;
   }

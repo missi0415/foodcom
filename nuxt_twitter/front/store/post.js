@@ -1,31 +1,21 @@
 export const state = () => ({
-  posts: [],
-  post: {}
+  submitPost: false
 })
 
 export const getters = {
-  posts (state) {
-    return state.posts
-  },
-  post (state) {
-    return state.post
+  submitPost (state) {
+    return state.submitPost
   }
 }
 
 export const mutations = {
-  setPosts (state, payload) {
-    state.posts = payload
-  },
-  setPost (state, payload) {
-    state.post = payload
+  setSubmitPost (state, payload) {
+    state.submitPost = payload
   }
 }
 
 export const actions = {
-  setPosts ({ commit }, posts) {
-    commit('setPosts', posts)
-  },
-  setPost ({ commit }, post) {
-    commit('setPost', post)
+  setSubmitPost ({ commit }, submitPost) {
+    commit('setSubmitPost', submitPost)
   }
 }

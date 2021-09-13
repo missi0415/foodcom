@@ -37,6 +37,7 @@
         <div class="d-flex">
           <v-card-title>
             新規投稿
+            {{ submitPost }}
           </v-card-title>
           <v-spacer />
           <v-btn
@@ -93,20 +94,15 @@ export default {
   },
   computed: {
     ...mapGetters({
-      currentUser: 'auth/data'
+      currentUser: 'auth/data',
+      submitPost: 'post/submitPost'
     })
   },
   methods: {
     ...mapActions({
       flashMessage: 'flash/flashMessage',
-      setPosts: 'post/setPosts'
+      setSubmitPost: 'post/setSubmitPost'
     }),
-    fetchContents () {
-      this.$axios.get('/api/v1/posts')
-        .then((res) => {
-          this.setPosts(res.data)
-        })
-    },
     setImage (e) {
       this.image = e
     },
@@ -127,6 +123,7 @@ export default {
         .then((res) => {
           console.log('post投稿のレスポンス', res)
           this.flashMessage({ message: '投稿しました', type: 'primary', status: true })
+          this.setSubmitPost(true)
           this.loading = false
           this.$router.push('/posts')
           this.dialog = false
