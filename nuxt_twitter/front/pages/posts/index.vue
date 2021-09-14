@@ -1,6 +1,5 @@
 <template>
   <layout-main #layout-main><!--eslint-disable-line-->
-    {{ submitPost }}
     <new-post-index
       @fetchPosts="fetchPosts"
     />

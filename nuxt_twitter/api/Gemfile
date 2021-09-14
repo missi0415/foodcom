@@ -49,10 +49,22 @@ gem 'hirb', '~> 0.7.3'
 # コンソール文字列補正 Doc: https://github.com/steakknife/hirb-unicode
 gem 'hirb-unicode-steakknife', '~> 0.0.9'
 gem "bcrypt"
+#パスワード自動生成時に必要
 gem 'active_model_serializers'
+# apiデータの整形
 gem 'bullet'
+# n+1問題発見を手助け
 gem 'carrierwave'
+# 画像アップロード機能
 gem 'jbuilder'
+# jsonデータの整形
 gem 'kaminari'
+# pagenation機能 Nuxtのinfityloaderと組み合わせて使用
 gem 'fog-aws'
+# carrierwaveとamazonS3連携時に使用
 gem 'dotenv-rails'
+# rails内の環境変数管理
+gem 'rspec-rails'
+# rails 内テスト
+gem 'factory_bot_rails'
+# rspec使用時のサンプルデータ作成
