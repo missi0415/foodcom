@@ -3,15 +3,19 @@ version: '3.8'
 services:
   db:
     image: postgres:12.3-alpine
+    env_file:
+      - /.env
     environment:
       TZ: UTC
       PGTZ: UTC
       POSTGRES_PASSWORD: $POSTGRES_PASSWORD
       API_DOMAIN: "localhost:$FRONT_PORT" 
     volumes:
-       - app_postgre:/var/lib/postgresql/data #Windowsの場合
+      - app_postgre:/var/lib/postgresql/data #Windowsの場合
 
   api:
+    env_file:
+      - /.env
     build:
       context: ./api
       args:
@@ -30,6 +34,8 @@ services:
       - "$API_PORT:$CONTAINER_PORT"
 
   front:
+    env_file:
+      - /.env
     build:
       context: ./front
       args:
