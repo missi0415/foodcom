@@ -4,18 +4,30 @@
     class="ma-1"
     hover
   >
-    <v-card-title>
-      <v-avatar size="56">
-        <img
-          alt="user"
-          src="https://cdn.pixabay.com/photo/2020/06/24/19/12/cabbage-5337431_1280.jpg"
+    <v-list-item
+      class="grow"
+    >
+      <v-list-item-avatar
+        size=60
+      >
+        <v-img
+          :src="user.avatar.url"
+          class="img"
+          contain
+          lazy-src
           @click="toShowUser(user.id)"
-        >
-      </v-avatar>
-      <p class="ml-3 mt-3">
-        {{ user.name }}
-      </p>
-      <v-spacer />
+        />
+      </v-list-item-avatar>
+      <v-list-item-content>
+        <v-list-item-title>
+          {{ user.name }}
+        </v-list-item-title>
+      </v-list-item-content>
+      <v-row
+        align="center"
+        justify="end"
+        class="mr-1"
+      >
       <template v-if="user.id !== currentUserId">
         <div class="text-center">
           <v-btn
@@ -41,7 +53,8 @@
           </v-btn>
         </div>
       </template>
-    </v-card-title>
+      </v-row>
+    </v-list-item>
     <v-card-title>
       <div class="ml-8 mb-2">
         {{ user.introduction}}
