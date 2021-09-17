@@ -5,7 +5,6 @@
     clipped-left
     color="white"
   >
-  loggedInAppBar
     <nuxt-link
       to="/"
       class="text-decoration-none"

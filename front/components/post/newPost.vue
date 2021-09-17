@@ -4,15 +4,22 @@
       class="my-2"
       v-if="$vuetify.breakpoint.md || $vuetify.breakpoint.sm || $vuetify.breakpoint.xs"
     >
-      <v-btn
-        color="blue"
-        fab
-        x-large
-        dark
-        @click="dialog = true"
-      >
-        <v-icon>mdi-feather</v-icon>
-      </v-btn>
+    <v-tooltip bottom>
+      <template #activator="{ on, attrs }">
+        <v-btn
+          color="blue"
+          fab
+          x-large
+          dark
+          v-bind="attrs"
+          v-on="on"
+          @click="dialog = true"
+        >
+          <v-icon>mdi-pencil-plus</v-icon>
+        </v-btn>
+      </template>
+      <span>新規投稿</span>
+    </v-tooltip>
     </div>
     <div
       v-else
@@ -26,18 +33,17 @@
         block
         @click="dialog = true"
       >
-        ツイートする
+        新規投稿
       </v-btn>
     </div>
     <v-dialog
       v-model="dialog"
-      width="500"
+      width="600"
     >
       <v-card>
         <div class="d-flex">
           <v-card-title>
             新規投稿
-            {{ submitPost }}
           </v-card-title>
           <v-spacer />
           <v-btn

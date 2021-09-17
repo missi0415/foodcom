@@ -1,20 +1,26 @@
 <template>
   <div>
-    <v-btn
-      :color="btnColor"
-      text
-      rounded
-      @click.prevent.stop="dialog = true"
-    >
-      <v-icon v-text="'mdi-chat-processing-outline'" />
-      &nbsp;
-    </v-btn>
+    <v-tooltip bottom>
+      <template #activator="{ on, attrs }">
+        <v-btn
+          icon
+          class="pl-1 btn-comment"
+          v-bind="attrs"
+          v-on="on"
+          @click.prevent.stop="dialog = true"
+        >
+          <v-icon v-text="'mdi-chat-processing-outline'" />
+          &nbsp;
+        </v-btn>
+      </template>
+      <span>返信</span>
+    </v-tooltip>
     <template v-if="commentCount > 0">
       {{ commentCount }}
     </template>
     <v-dialog
       v-model="dialog"
-      width="500"
+      width="600"
     >
       <v-card class="pa-2">
         <div class="d-flex">
@@ -28,7 +34,7 @@
         </div>
         <div class="d-flex">
           <v-img
-            :src="src"
+            :src="post.user.avatar.url"
             max-height="60"
             max-width="60"
             contain
@@ -109,8 +115,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      currentUser: 'auth/data',
-      btnColor: 'btn/color'
+      currentUser: 'auth/data'
     })
   },
   mounted () {
@@ -148,3 +153,8 @@ export default {
   }
 }
 </script>
+<style scoped>
+  .btn-comment:hover {
+    color: #2aa1f1;
+  }
+</style>

@@ -8,7 +8,7 @@
       <v-icon
         class="white--text"
       >
-        mdi-twitter
+        mdi-food-fork-drink
       </v-icon>
     </span>
   </v-avatar>

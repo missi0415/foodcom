@@ -1,14 +1,19 @@
 <template>
   <div>
-    <v-btn
-      :color="btnColor"
-      text
-      rounded
-      @click.prevent.stop="dialog = true"
-    >
-      編集
-      <v-icon v-text="'mdi-lead-pencil'" />
-    </v-btn>
+    <v-tooltip bottom>
+      <template #activator="{ on, attrs }">
+        <v-btn
+          icon
+          class="btn-edit"
+          v-bind="attrs"
+          v-on="on"
+          @click.prevent.stop="dialog = true"
+        >
+          <v-icon v-text="'mdi-pencil'" />
+        </v-btn>
+      </template>
+      <span>編集</span>
+    </v-tooltip>
     <v-dialog
       v-model="dialog"
       width="500"
@@ -129,3 +134,8 @@ export default {
   }
 }
 </script>
+<style scoped>
+  .btn-edit:hover {
+    color: #02b97c;
+  }
+</style>

@@ -1,14 +1,19 @@
 <template>
   <div>
-    <v-btn
-      :color="btnColor"
-      text
-      rounded
-      @click.prevent.stop="dialog = true"
-    >
-      削除
-      <v-icon v-text="'mdi-delete-empty'" />
-    </v-btn>
+    <v-tooltip bottom>
+      <template #activator="{ on, attrs }">
+        <v-btn
+          icon
+          class="btn-delete"
+          v-bind="attrs"
+          v-on="on"
+          @click.prevent.stop="dialog = true"
+        >
+          <v-icon v-text="'mdi-delete-empty'" />
+        </v-btn>
+      </template>
+      <span>削除</span>
+    </v-tooltip>
     <v-dialog
       v-model="dialog"
       width="500"
@@ -102,3 +107,8 @@ export default {
   }
 }
 </script>
+<style scoped>
+  .btn-delete:hover {
+    color: #ff5656;
+  }
+</style>

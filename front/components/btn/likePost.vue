@@ -1,27 +1,32 @@
 <template>
   <div>
     <template v-if="!isLike">
-      <v-btn
-        :color="btnColor"
-        text
-        rounded
-        @click.prevent.stop="likePost"
-      >
-        <v-icon v-text="'mdi-heart-outline'" />
-      </v-btn>
+      <v-tooltip bottom>
+        <template #activator="{ on, attrs }">
+          <v-btn
+            icon
+            class="btn-like"
+            v-bind="attrs"
+            v-on="on"
+            @click.prevent.stop="likePost"
+          >
+            <v-icon v-text="'mdi-heart-outline'" />
+          </v-btn>
+          </template>
+        <span>いいね</span>
+      </v-tooltip>
     </template>
-    <template v-else>
-      <v-btn
-        :color="btnColor"
-        text
-        rounded
-        @click.prevent.stop="disLikePost"
-      >
-        <v-icon v-text="'mdi-heart'" />
-      </v-btn>
+        <template v-else>
+          <v-btn
+            icon
+            class="btn-like"
+            @click.prevent.stop="disLikePost"
+          >
+            <v-icon v-text="'mdi-heart'" />
+          </v-btn>
+        </template>
     <template v-if="likeCount > 0 ">
       {{ likeCount }}
-    </template>
     </template>
   </div>
 </template>
@@ -120,3 +125,8 @@ export default {
   }
 }
 </script>
+<style scoped>
+  .btn-like:hover {
+    color: #ff007f;
+  }
+</style>
