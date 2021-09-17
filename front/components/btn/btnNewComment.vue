@@ -34,7 +34,7 @@
         </div>
         <div class="d-flex">
           <v-img
-            :src="post.user.avatar.url"
+            :src="avatarImage"
             max-height="60"
             max-width="60"
             contain
@@ -100,6 +100,10 @@ export default {
     },
     isIndex: {
       type: Boolean,
+      required: true
+    },
+    avatarImage: {
+      type: String,
       required: true
     }
   },

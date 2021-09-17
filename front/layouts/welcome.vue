@@ -24,11 +24,6 @@
             :style="{ letterSpacing: '5px' }"
           >
           </h4>
-          <!-- <v-btn
-            @click="console"
-          >
-            ボタン
-          </v-btn> -->
         </v-col>
       </v-row>
     </v-img>

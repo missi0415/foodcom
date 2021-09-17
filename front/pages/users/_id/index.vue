@@ -281,7 +281,6 @@ export default {
               this.follow = true
               console.log('フォロー後レス', res)
               this.follower_user = res.data.follower_user
-              // 今現在表示しているユーザーのフォロワー数が自分がフォローするかしないで減る
             })
         })
         .catch((err) => {

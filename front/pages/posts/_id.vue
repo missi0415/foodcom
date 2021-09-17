@@ -18,19 +18,19 @@
         <v-icon>mdi-arrow-left</v-icon>
         </v-btn>
         <v-toolbar-title>
-          ツイート
+          投稿
         </v-toolbar-title>
       </v-app-bar>
       <v-divider/>
       <v-list-item
         class="grow"
-        link
       >
         <v-list-item-avatar
           size=60
         >
           <v-img
             :src="avatarImage"
+            class="img"
             contain
             lazy-src
             @click.prevent.stop="toShowUser(post.user_id)"
@@ -84,6 +84,7 @@
       <v-divider />
       <v-card-actions class="justify-space-around">
           <btn-new-comment
+            :avatarImage="avatarImage"
             :post="post"
             :is-index="isIndex"
             @fetchPost="fetchPost"

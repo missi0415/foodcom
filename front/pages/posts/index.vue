@@ -16,6 +16,7 @@
           size=60
         >
           <v-img
+            class="img"
             :src="post.user.avatar.url"
             contain
             @click.stop="toShowUser(post.user_id)"
@@ -57,6 +58,7 @@
           <v-col>
             <v-card-actions class="justify-space-around">
               <btn-new-comment
+                :avatarImage="post.user.avatar.url"
                 :post="post"
                 :is-index="isIndex"
               />

@@ -8,13 +8,13 @@
     >
       <v-list-item
         class="grow"
-        link
       >
         <v-list-item-avatar
           size=60
         >
           <v-img
             :src="avatarImage"
+            class="img"
             contain
             lazy-src
             @click.prevent.stop="toShowUser(post.user_id)"
@@ -54,6 +54,7 @@
       <v-divider />
       <v-card-actions class="justify-space-around">
         <btn-new-comment
+            :avatarImage="avatarImage"
             :post="post"
             :is-index="isIndex"
             @fetchComment="fetchPost"
@@ -182,5 +183,8 @@ export default {
 .btn-repeat:hover {
     color: green;
   }
+.img:hover {
+  opacity: 0.7;
+}
 
 </style>
