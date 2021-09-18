@@ -7,6 +7,9 @@ class Api::V1::LikePostsController < ApplicationController
   def create
     like = LikePost.new(like_post_params)
     if like.save
+      current_user = User.find(params[:user_id])
+      post = Post.find(params[:post_id])
+      post.create_notification_like!(current_user)
       user_likes = LikePost.where(user_id: like.user_id)
       render json: user_likes
     else
