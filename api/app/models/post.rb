@@ -24,11 +24,17 @@ class Post < ApplicationRecord
   end
 
   def create_notification_comment!(current_user, visited_id)
+    p 'creata_notification_comment!の発火'
+    p current_user
+    p visited_id
     notification = current_user.active_notifications.new(
       post_id:    id        ,
       visited_id: visited_id,
       action:     'comment'
     )
+    if notification.visitor_id == notification.visited_id
+      notification.checked = true
+    end
     notification.save if notification.valid?
   end
 end

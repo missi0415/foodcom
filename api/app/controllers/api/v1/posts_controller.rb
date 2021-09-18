@@ -24,6 +24,27 @@ class Api::V1::PostsController < ApplicationController
   def create
     @post = Post.new(post_params)
     if @post.save
+      p '-----------------@postの値だよ-----------------'
+      p @post
+      p '----------------------------------'
+      # newpost 
+      #<Post id: 23, user_id: 6, content: "xczx", post_id: 0, image: nil, created_at: "2021-09-18 11:03:15", updated_at: "2021-09-18 11:03:15">
+      # newcomment 
+      #<Post id: 40, user_id: 1, content: "visitor_idはuser01 コメントしたやつ\nvisited_idはuser06　コメントさ...", post_id: 26, image: nil, created_at: "2021-09-18 11:53:45", updated_at: "2021-09-18 11:53:45">
+      if @post.post_id != 0
+        current_user = User.find(@post.user_id)
+        #今回のポストの値はpost_idの値
+        posted = Post.find(@post.post_id)
+        p posted , '--------------------------------'
+        if posted.user_id != current_user.id
+          p '通知の作成'
+          posted.create_notification_comment!(current_user, posted.user_id)
+        end
+          p '通知は作成しない'
+        p 'this is comment'
+      else
+        p 'this is post'
+      end
       render json: @post, status: :created
     else
       render json: @post.errors, status: :unprocessable_entity

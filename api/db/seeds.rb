@@ -90,43 +90,37 @@ User.create!(
 )
 
 
-3.times do |i|
+5.times do |i|
   Post.create!(
     user_id: 1,
     content: "post content#{i+1}"
   )
 end
-3.times do |i|
+5.times do |i|
   Post.create!(
     user_id: 2,
     content: "post content#{i+1}"
   )
 end
-3.times do |i|
+5.times do |i|
   Post.create!(
     user_id: 3,
     content: "post content#{i+1}"
   )
 end
-3.times do |i|
+5.times do |i|
   Post.create!(
     user_id: 4,
     content: "post content#{i+1}"
   )
 end
-3.times do |i|
-  Post.create!(
-    user_id: 4,
-    content: "post content#{i+1}"
-  )
-end
-3.times do |i|
+5.times do |i|
   Post.create!(
     user_id: 5,
     content: "post content#{i+1}"
   )
 end
-3.times do |i|
+5.times do |i|
   Post.create!(
     user_id: 6,
     content: "post content#{i+1}"
