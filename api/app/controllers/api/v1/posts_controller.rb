@@ -1,9 +1,9 @@
 class Api::V1::PostsController < ApplicationController
-  include Pagenation #pagenation_controllerにて定義
+  include Pagination #pagenation_controllerにて定義
   def index
     # posts = Post.all.page(params[:page]).per(5)
     posts = Post.where(post_id: 0).order(id: :desc).page(params[:page]).per(5)
-    pagenation = resources_with_pagination(posts)
+    pagination = resources_with_pagination(posts)
     render json: posts
   end
 

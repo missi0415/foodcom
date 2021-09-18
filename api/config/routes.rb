@@ -11,10 +11,12 @@ Rails.application.routes.draw do
       resources   :relationships, only: %i[create destroy]
       resources   :posts        , only: %i[index show create update destroy]
       resources   :like_posts   , only: %i[create destroy]
+      resources   :notifications, only: %i[show create]
       # user
-      get 'find_login_user/:uid'  => 'users#find_login_user'
-      get 'search_likes'          => 'users#search_likes'
-      get 'post_comments'          => 'posts#search_likes'
+      get 'find_login_user/:uid'          => 'users#find_login_user'
+      get 'search_likes'                  => 'users#search_likes'
+      get 'post_comments'                 => 'posts#search_likes'
+      get 'find_notifications_count/:id'  => 'notifications#find_notifications_count'
     end
   end
 end

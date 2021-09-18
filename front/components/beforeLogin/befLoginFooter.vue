@@ -2,6 +2,7 @@
 <template>
   <div :style="{ marginTop: `${height}px`}">
     <v-footer
+      app
       absolute
       dark
       color="black"

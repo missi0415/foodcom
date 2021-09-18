@@ -55,6 +55,7 @@
       <v-list-item
         link
         class="pa-1 justify-center"
+        @click="toNotificatons"
       >
         <v-list-item-action
         >
@@ -150,7 +151,8 @@ export default {
   },
   data () {
     return {
-      mini: false
+      mini: false,
+      count: 0
     }
   },
   computed: {
@@ -163,6 +165,19 @@ export default {
       set (val) { return this.$emit('update:drawer', val) }
     }
   },
+  watch: {
+    isActive (val) {
+      if (val) {
+        this.fetchContents()
+        this.setIsActive(false)
+      }
+    }
+  },
+  mounted () {
+    setTimeout(() => {
+      this.fetchNotificationCount()
+    }, 500)
+  },
   methods: {
     ...mapActions({
       setPosts: 'post/setPosts'
@@ -171,7 +186,6 @@ export default {
       const url = '/api/v1/posts'
       await this.$axios.get(url)
         .then((res) => {
-          this.setPosts(res.data)
           this.$router.push('/posts')
         })
         .catch((err) => {
@@ -184,6 +198,20 @@ export default {
     },
     toFollowerUser () {
       this.$router.push({ path: `/users/${this.currentUserId}/follow`, query: { tab: 1 } })
+    },
+    toNotificatons () {
+      this.$router.push(`/notifications/${this.currentUserId}`)
+    },
+    fetchNotificationCount () {
+      const url = `api/v1/find_notifications_count/${this.currentUserId}`
+      this.$axios.get(url)
+        .then((res) => {
+          this.count = res.data
+        })
+        .catch((err) => {
+          // eslint-disable-next-line no-console
+          console.error(err)
+        })
     }
   }
 }

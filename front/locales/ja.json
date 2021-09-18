@@ -20,5 +20,11 @@
       "settings": "アカウント設定",
       "password": "パスワード変更"
     }
+  },
+  "actions": {
+    "comment": "コメント",
+    "like"   : "いいね"  ,
+    "follow" : "フォロー",
+    "chat"   : "チャット"
   }
 }

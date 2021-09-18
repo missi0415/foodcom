@@ -20,6 +20,7 @@
           <v-btn
             icon
             class="btn-like"
+            color="#ff007f"
             @click.prevent.stop="disLikePost"
           >
             <v-icon v-text="'mdi-heart'" />

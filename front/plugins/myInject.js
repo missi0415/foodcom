@@ -19,6 +19,10 @@ class MyInject {
     const title = this.app.i18n.t(jsonPath)
     return (typeof (title) === 'object') ? title.index : title
   }
+
+  action (action) {
+    return this.app.i18n.t(action)
+  }
 }
 
 export default ({ app }, inject) => {
