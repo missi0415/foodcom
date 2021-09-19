@@ -22,15 +22,14 @@ class User < ApplicationRecord
     #following = following_user
     
   has_many :follower_user, through: :followed, source: :follower # 自分をフォローしている人(自分がフォローされている人)
-    #followers = follower_user
     # ユーザーをフォローする
   def follow(other_user)
+    p '2回発火している'
     following_user << other_user
   end
 
   # ユーザーのフォローを外す
   def unfollow(other_user)
-    p 'other_user--------------',other_user
     follower.find_by(followed_id: other_user.id).destroy
   end
 
@@ -50,9 +49,9 @@ class User < ApplicationRecord
     temp = Notification.where(["visitor_id = ? and visited_id = ? and action = ?", current_user.id, id, 'follow'])
     if temp.blank?
       notification = current_user.active_notifications.new(
-                                                          visited_id: id,
-                                                          action: 'follow'
-                                                        )
+        visited_id: id,
+        action: 'follow'
+      )
       notification.save if notification.valid?
     end
   end

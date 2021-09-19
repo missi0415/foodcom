@@ -274,7 +274,6 @@ export default {
         follow_id: this.user.id
       })
         .then((res) => {
-          console.log('フォローしました', res)
           this.flashMessage({ message: 'フォローしました', type: 'success', status: true })
           this.$axios.get(`/api/v1/users/${this.$route.params.id}`)
             .then((res) => {
