@@ -125,7 +125,6 @@ export default {
       // rooms: [],
       message: '',
       messages: [],
-      chats: [],
       channel_id: '',
       userAvatar: '',
       currentUserAvatar: ''
@@ -135,13 +134,26 @@ export default {
     ...mapGetters({
       currentUser: 'auth/data',
       currentUserId: 'auth/currentUserId',
-      isAuthenticated: 'auth/isAuthenticated'
+      isAuthenticated: 'auth/isAuthenticated',
+      chats: 'chats/chats'
     })
   },
   mounted () {
     setTimeout(() => {
       this.fetchUser()
     }, 100)
+  },
+  watch: {
+    storechats () {
+      console.log('storeの値が変わりました')
+      setTimeout(() => {
+        this.scrollBottom()
+      }, 100)
+    }
+  },
+  destroyed () {
+    this.$store.dispatch('chats/clear')
+    if (this.unsubscribe) { this.unsubscribe() }
   },
   methods: {
     async fetchUser () {
@@ -157,7 +169,14 @@ export default {
           this.userAvatar = res.data.user.avatar.url
           this.user.introduction = res.data.user.introduction
           this.setChannelId()
-          this.fetchMessage()
+          setTimeout(() => {
+            this.scrollBottom()
+          }, 50)
+          const roomId = this.channel_id
+          const unsubscribe = this.$store.dispatch('chats/subscribe', { roomId })
+          return {
+            unsubscribe
+          }
         })
         .catch((err) => {
           // eslint-disable-next-line no-console
@@ -179,27 +198,12 @@ export default {
         .collection('chats')
         .add(chat)
       this.resetForm()
-      this.fetchMessage()
+      setTimeout(() => {
+        this.scrollBottom()
+      }, 100)
     },
     resetForm () {
       this.message = ''
-    },
-    async fetchMessage () {
-      const chats = []
-      await firebase.firestore().collection('rooms').doc(this.channel_id).collection('chats').orderBy('createdAt', 'asc').get()
-        .then((res) => {
-          res.forEach((doc) => {
-            chats.push(doc.data())
-            this.chats = chats
-          })
-          setTimeout(() => {
-            this.scrollBottom()
-          }, 100)
-        })
-        .catch((err) => {
-          // eslint-disable-next-line no-console
-          console.error(err)
-        })
     },
     pageBack () {
       this.$router.go(-1)
