@@ -19,7 +19,9 @@
     >
       <v-container>
         <v-row justify="space-around">
-          <v-card>
+          <v-card
+            class="pa-2"
+          >
           <v-app-bar
             flat
             color="rgba(0, 0, 0, 0)"
@@ -60,8 +62,6 @@
               label="ヘッダー画像"
               accept="image/png, image/jpeg, image/bmp"
             />
-            ヘッダー[{{ typeof(headerImage) }}]
-            アバター[{{ typeof(avatarImage) }}]
             <v-list-item
               class="grow"
               link
@@ -99,12 +99,6 @@
                 <user-form-introduction
                   :introduction.sync="user.introduction"
                 />
-                <user-form-email
-                  :email.sync="user.email"
-                />
-                <user-form-password
-                  :password.sync="user.password"
-                />
               <v-btn
                 :disabled="!isValid || loading"
                 :loading="loading"
@@ -125,14 +119,10 @@
 
 <script>
 import { mapActions } from 'vuex'
-import userFormEmail from './userFormEmail.vue'
 import userFormIntroduction from './userFormIntroduction.vue'
 import userFormName from './userFormName.vue'
-import userFormPassword from './userFormPassword.vue'
 export default {
   components: {
-    userFormEmail,
-    userFormPassword,
     userFormName,
     userFormIntroduction
   },
@@ -223,7 +213,6 @@ export default {
           this.loading = false
           this.dialog = false
           this.$refs.form.reset()
-          console.log('thisだよ', this.$refs)
         })
         .catch((err) => {
           this.flashMessage({ message: err.response.data.message.join('\n'), type: 'error', status: true })
