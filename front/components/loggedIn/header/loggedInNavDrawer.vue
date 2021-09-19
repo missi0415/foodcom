@@ -59,12 +59,18 @@
       >
         <v-list-item-action
         >
+        <v-badge
+          color="red"
+          :content="noticeCount"
+          :value="noticeCount"
+        >
           <v-icon
             size="38px"
             class="justify-center"
           >
             mdi-bell-outline
           </v-icon>
+        </v-badge>
         </v-list-item-action>
         <v-list-item-content>
           <v-list-item-title>
@@ -152,7 +158,8 @@ export default {
   data () {
     return {
       mini: false,
-      count: 0
+      count: 0,
+      noticeCount: 0
     }
   },
   computed: {
@@ -201,12 +208,13 @@ export default {
     },
     toNotificatons () {
       this.$router.push(`/notifications/${this.currentUserId}`)
+      this.noticeCount = 0
     },
     fetchNotificationCount () {
       const url = `api/v1/find_notifications_count/${this.currentUserId}`
       this.$axios.get(url)
         .then((res) => {
-          this.count = res.data
+          this.noticeCount = res.data
         })
         .catch((err) => {
           // eslint-disable-next-line no-console
