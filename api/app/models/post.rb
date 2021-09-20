@@ -34,4 +34,8 @@ class Post < ApplicationRecord
     end
     notification.save if notification.valid?
   end
+
+  def self.search(keyword)
+    where(["content like?", "%#{keyword}%"])
+  end
 end

@@ -88,6 +88,18 @@
         </template>
       </v-card-actions>
     </v-card>
+    <template
+      v-if="isUserCommentPage"
+
+    >
+      <nuxt-link
+        class="pl-2"
+        :to="'/users/' + post.user_id"
+      >
+        {{ post.user.name }}
+      </nuxt-link>
+      さんへ返信
+    </template>
   </div>
 </template>
 
@@ -108,6 +120,9 @@ export default {
     contentId: {
       type: Number,
       required: true
+    },
+    isUserCommentPage: {
+      type: Boolean
     }
   },
   data () {

@@ -109,17 +109,24 @@
               {{ user.introduction}}
             </div>
           </v-card-title>
-          <v-card-subtitle
-            link
-            @click="toFollowingUser(user.id)"
-          >
-          {{ following_user.length }}フォロー中
-          </v-card-subtitle>
-          <v-card-subtitle
-            @click="toFollowerUser(user.id)"
-          >
-          {{ follower_user.length }}フォロワー
-          </v-card-subtitle>
+          <v-card-actions>
+            <v-btn
+              rounded
+              color="primary"
+              text
+              @click="toFollowingUser(user.id)"
+            >
+            <h4>{{ following_user.length }}</h4>フォロー中
+            </v-btn>
+            <v-btn
+              rounded
+              color="primary"
+              text
+              @click="toFollowerUser(user.id)"
+            >
+            {{ follower_user.length }}フォロワー
+            </v-btn>
+          </v-card-actions>
           <v-divider />
           <v-tabs
             v-model="tab"
@@ -149,29 +156,26 @@
                   :key="comment.id"
                   :content-id="comment.id"
                 >
-                  <v-card
-                  >
-                    <comment-card
-                      :content-id="comment.post.id"
-                      @fetchUser="fetchUser"
-                    />
-                  </v-card>
-                  <div class="d-flex">
-                    <v-divider
-                      vertical
-                      inset
-                      class="ml-9"
-                    />
-                    <div>
-                      <div
-                        class="pl-5"
+                  <comment-card
+                    :content-id="comment.post.id"
+                    @fetchUser="fetchUser"
+                    :isUserCommentPage="isUserCommentPage"
+                  />
+                  <div>
+                    <v-row>
+                      <v-col
+                        md='1'
+                      >
+                      </v-col>
+                      <v-col
+                        md='11'
                       >
                         <comment-card
                           :content-id="comment.comment.id"
                           @fetchUser="fetchUser"
                         />
-                      </div>
-                    </div>
+                      </v-col>
+                    </v-row>
                   </div>
                 </div>
               </div>
@@ -220,7 +224,8 @@ export default {
       follow: false,
       post_and_comments: [],
       following_user: [],
-      follower_user: []
+      follower_user: [],
+      isUserCommentPage: true
     }
   },
   computed: {

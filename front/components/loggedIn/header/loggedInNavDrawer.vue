@@ -42,6 +42,7 @@
           <v-icon
             size="38px"
             class="justify-center"
+            @click="toSearches"
           >
             mdi-magnify
           </v-icon>
@@ -209,6 +210,9 @@ export default {
     toNotificatons () {
       this.$router.push(`/notifications/${this.currentUserId}`)
       this.noticeCount = 0
+    },
+    toSearches () {
+      this.$router.push('/searches')
     },
     fetchNotificationCount () {
       const url = `api/v1/find_notifications_count/${this.currentUserId}`

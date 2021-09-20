@@ -69,6 +69,10 @@ export default {
     user: {
       type: Object,
       required: true
+    },
+    follwingUsers: {
+      type: Array,
+      required: false
     }
   },
   data () {
@@ -76,7 +80,7 @@ export default {
       src: 'https://picsum.photos/500/500',
       color: 'info white--text',
       message: 'フォロー中',
-      follow: true
+      follow: false
     }
   },
   computed: {
@@ -85,6 +89,11 @@ export default {
       currentUserId: 'auth/currentUserId',
       isAuthenticated: 'auth/isAuthenticated'
     })
+  },
+  mounted () {
+    if (this.follwingUsers.includes(this.user.id)) {
+      this.follow = true
+    }
   },
   methods: {
     ...mapActions({
@@ -109,13 +118,6 @@ export default {
         .then((res) => {
           console.log('フォローしました', res)
           this.flashMessage({ message: 'フォローしました', type: 'success', status: true })
-          this.$axios.get(`/api/v1/users/${this.$route.params.id}`)
-            .then((res) => {
-              this.follow = true
-              console.log('フォロー後レス', res)
-              this.follower_user = res.data.follower_user
-              // 今現在表示しているユーザーのフォロワー数が自分がフォローするかしないで減る
-            })
         })
         .catch((err) => {
           console.log('フォローエラー', err)

@@ -12,14 +12,14 @@
       <v-tab-item>
         <user-follow-card
           v-for="user in following_user"
-          :key = "user.id"
+          :key="user.id"
           :user="user"
         />
       </v-tab-item>
       <v-tab-item>
         <user-follow-card
           v-for="user in follower_user"
-          :key = "user.id"
+          :key="user.id"
           :user="user"
         />
       </v-tab-item>

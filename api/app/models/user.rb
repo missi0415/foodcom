@@ -24,7 +24,6 @@ class User < ApplicationRecord
   has_many :follower_user, through: :followed, source: :follower # 自分をフォローしている人(自分がフォローされている人)
     # ユーザーをフォローする
   def follow(other_user)
-    p '2回発火している'
     following_user << other_user
   end
 
@@ -83,6 +82,10 @@ class User < ApplicationRecord
   def email_activated?
     users = User.where.not(id: id)
     users.find_activated(email).present?
+  end
+
+  def self.search(keyword)
+    where(["name like? OR introduction like?", "%#{keyword}%", "%#{keyword}%"])
   end
   
   private

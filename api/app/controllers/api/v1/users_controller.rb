@@ -8,7 +8,6 @@ class Api::V1::UsersController < ApplicationController
     user = {}
     user[:user] = User.find(params[:id])
     user[:posts] = Post.joins(:user).select("posts.*, user AS user").where(post_id: 0).where(user_id: params[:id]).order(created_at: :desc) 
-    # user[:posts] = Post.where(post_id: 0).where(user_id: params[:id]).order(created_at: :desc) 
     like_posts = []
       user_likes = user[:user].like_posts.order(created_at: :desc).pluck(:post_id) 
       user_likes.each do |f|
@@ -48,7 +47,6 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def update
-    p params
     user = User.find(params[:id])
     if user.update(user_params)
       render json: user
@@ -61,17 +59,20 @@ class Api::V1::UsersController < ApplicationController
     user = User.find_by(uid: params[:uid])
     render json: user.as_json(only: %i[id name uid introduction avatar is_active admin])
   end
-
-  #フォロ－機能
-  def following
-    user  = User.find(params[:id])
+  
+  def following_users
+    p "--------------------------------------------------"
+    p params
+    data = {}
+    user = User.find(params[:id])
+    data[:following_users] = user.following_user.pluck(:id)
+    render json: data
   end
 
   def followers
     user  = User.find(params[:id])
   end
 
-  #-----------------
 
   def search_likes
     like_posts = []
