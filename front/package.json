@@ -18,6 +18,7 @@
     "nuxt": "^2.15.7",
     "nuxt-i18n": "^6.28.1",
     "vue-infinite-loading": "^2.4.5",
+    "vue-text-highlight": "^2.0.10",
     "vuetify": "^2.5.5",
     "vuex-persistedstate": "^4.0.0"
   },

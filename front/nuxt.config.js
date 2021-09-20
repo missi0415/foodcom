@@ -39,6 +39,7 @@ export default {
     'plugins/axios',
     // ここに登録したファイルはNuxt.jsが初期化される前位に読み込まれる
     'plugins/myInject',
+    'plugins/highlight',
     { src: '~plugins/persistedstate.js', ssr: false },
     { src: '~/plugins/infiniteloading', ssr: false },
   ],

@@ -46,23 +46,23 @@
       </v-tabs>
       <v-tabs-items v-model="tab">
         <v-tab-item>
-          ポスト
           <comment-card
             v-for="post in posts"
             :key="post.id"
             :content-id="post.id"
+            :keyword="keyword"
           />
-          {{ posts }}
+            {{ posts }}
         </v-tab-item>
         <v-tab-item>
-          ユーザー
           <user-follow-card
             v-for="user in users"
             :key="user.id"
             :user="user"
+            :followingUsers="followingUsers"
+            :keyword="keyword"
           />
           {{ users }}
-          {{ follwingUsers }}
         </v-tab-item>
       </v-tabs-items>
     </v-card>
@@ -86,7 +86,7 @@ export default {
       loading: false,
       posts: [],
       users: [],
-      follwingUsers: []
+      followingUsers: []
     }
   },
   computed: {
@@ -117,8 +117,8 @@ export default {
       const url = `api/v1/users/${this.currentUserId}/following_users`
       this.$axios.get(url)
         .then((res) => {
-          console.log('follwingusers', res)
-          this.follwingUsers = res.data.following_users
+          console.log('followingUsers', res)
+          this.followingUsers = res.data.following_users
         })
         .catch((err) => {
           console.log(err)
@@ -130,3 +130,5 @@ export default {
   }
 }
 </script>
+<style scoped>
+</style>

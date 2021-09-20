@@ -20,7 +20,9 @@
       </v-list-item-avatar>
       <v-list-item-content>
         <v-list-item-title>
-          {{ user.name }}
+          <text-highlight :queries="keyword">
+            {{ user.name }}
+          </text-highlight>
         </v-list-item-title>
       </v-list-item-content>
       <v-row
@@ -38,7 +40,9 @@
             @mouseover="mouseover"
             @mouseleave="mouseleave"
           >
-            {{ message }}
+            <text-highlight :queries="keyword">
+              {{ message }}
+            </text-highlight>
           </v-btn>
           <v-btn
             v-else
@@ -70,9 +74,13 @@ export default {
       type: Object,
       required: true
     },
-    follwingUsers: {
+    followingUsers: {
       type: Array,
       required: false
+    },
+    keyword: {
+      type: String,
+      default: ''
     }
   },
   data () {
@@ -91,7 +99,9 @@ export default {
     })
   },
   mounted () {
-    if (this.follwingUsers.includes(this.user.id)) {
+    console.log('folow', this.followingUsers)
+    console.log('userid', this.user.id)
+    if (this.followingUsers.includes(this.user.id)) {
       this.follow = true
     }
   },

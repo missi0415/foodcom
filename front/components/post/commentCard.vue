@@ -22,7 +22,9 @@
         </v-list-item-avatar>
         <v-list-item-content>
           <v-list-item-title>
-            {{ post.user.name }}
+            <text-highlight :queries="keyword">
+              {{ post.user.name }}
+            </text-highlight>
           </v-list-item-title>
         </v-list-item-content>
         <v-row
@@ -41,7 +43,9 @@
       <v-row>
         <v-col>
           <v-card-text>
-            {{ post.content}}
+            <text-highlight :queries="keyword">
+              {{ post.content}}
+            </text-highlight>
           </v-card-text>
           <v-img
             :src="postImage"
@@ -123,6 +127,10 @@ export default {
     },
     isUserCommentPage: {
       type: Boolean
+    },
+    keyword: {
+      type: String,
+      default: ''
     }
   },
   data () {
