@@ -1,8 +1,8 @@
 <template>
   <div>
-    <template v-if="!isLike">
-      <v-tooltip bottom>
-        <template #activator="{ on, attrs }">
+    <v-tooltip bottom>
+      <template #activator="{ on, attrs }">
+        <template v-if="!isLike">
           <v-btn
             icon
             class="btn-like"
@@ -12,20 +12,22 @@
           >
             <v-icon v-text="'mdi-heart-outline'" />
           </v-btn>
-          </template>
-        <span>いいね</span>
-      </v-tooltip>
-    </template>
+        </template>
         <template v-else>
           <v-btn
             icon
             class="btn-like"
+            v-bind="attrs"
+            v-on="on"
             color="#ff007f"
             @click.prevent.stop="disLikePost"
           >
             <v-icon v-text="'mdi-heart'" />
           </v-btn>
         </template>
+      </template>
+        <span>いいね</span>
+      </v-tooltip>
     <template v-if="likeCount > 0 ">
       {{ likeCount }}
     </template>

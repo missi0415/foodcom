@@ -1,97 +1,14 @@
 <template>
   <layout-main #layout-main><!--eslint-disable-line-->
     <new-post-index
-      @fetchPosts="fetchPosts"
+      @fetchPost="fetchPost"
     />
-    <v-card
+    <comment-card
       v-for="post in posts"
       :key="post.id"
-      class="ma-1"
-      hover
-      outlined
-      @click="toShowPost(post.id)"
-    >
-      <v-list-item class="grow">
-        <v-list-item-avatar
-          size=60
-        >
-          <v-img
-            class="img"
-            :src="post.user.avatar.url"
-            contain
-            @click.stop="toShowUser(post.user_id)"
-          />
-        </v-list-item-avatar>
-        <v-list-item-content>
-          <v-list-item-title>
-            {{ post.user.name }}
-          </v-list-item-title>
-        </v-list-item-content>
-        <v-row
-          align="center"
-          justify="end"
-          class="mr-1"
-        >
-          <caption>
-            <v-icon size="15">
-              mdi-update
-            </v-icon>
-              {{ $my.format(post.created_at) }}
-          </caption>
-        </v-row>
-      </v-list-item>
-      <v-row>
-        <v-col>
-          <v-card-text >
-            {{ post.content }}
-          </v-card-text>
-          <v-img
-            :src="post.image.url"
-            max-height="200"
-            max-width="200"
-            contain
-          />
-        </v-col>
-      </v-row>
-      <template v-if="isAuthenticated">
-        <v-row>
-          <v-col>
-            <v-card-actions class="justify-space-around">
-              <btn-new-comment
-                :avatarImage="post.user.avatar.url"
-                :post="post"
-                :is-index="isIndex"
-              />
-              <template v-if="post.user_id !== currentUserId">
-                <v-btn
-                  :color="btnColor"
-                  text
-                >
-                  <v-icon v-text="'mdi-repeat-variant'" />
-                </v-btn>
-              </template>
-              <like-post
-                :post="post"
-                :like-posts="post.like_posts"
-                :like-post-count="post.like_posts.length"
-              />
-              <template v-if="post.user_id === currentUserId">
-                <btn-edit-post
-                  :post="post"
-                  :is-index="isIndex"
-                  @fetchPosts="fetchPosts"
-                />
-                <btn-delete-post
-                  :post="post"
-                  :is-index="isIndex"
-                  @fetchPosts="fetchPosts"
-                />
-              </template>
-            </v-card-actions>
-          </v-col>
-        </v-row>
-      </template>
-    </v-card>
+      :content-id="post.id"
+      @fetchPost="fetchPost"
+    />
     <VueInfiniteLoading
       ref="infiniteLoading"
       spinner="bubbles"
@@ -105,19 +22,15 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import LikePost from '../../components/btn/likePost.vue'
-import BtnEditPost from '../../components/btn/btnEditPost.vue'
-import BtnDeletePost from '../../components/btn/btnDeletePost.vue'
 import NewPostIndex from '../../components/post/newPostIndex.vue'
+import CommentCard from '../../components/post/commentCard.vue'
 import LayoutMain from '~/components/layout/loggedIn/layoutMain.vue'
 
 export default {
   components: {
     LayoutMain,
-    BtnDeletePost,
-    LikePost,
-    BtnEditPost,
-    NewPostIndex
+    NewPostIndex,
+    CommentCard
   },
   data () {
     return {
@@ -137,12 +50,12 @@ export default {
     })
   },
   created () {
-    this.fetchPosts()
+    this.fetchPost()
   },
   watch: {
     submitPost (val) {
       if (val === true) {
-        this.fetchPosts()
+        this.fetchPost()
         this.setSubmitPost(false)
       }
     }
@@ -156,7 +69,7 @@ export default {
       this.count += 1
       this.$axios.get('/api/v1/posts', { params: { page: this.count } })
         .then((res) => {
-          const posts = res.data
+          const posts = res.data.posts
           setTimeout(() => {
             if (posts.length !== 0) {
               this.posts.push(...posts)
@@ -167,11 +80,12 @@ export default {
           }, 1000)
         })
     },
-    async fetchPosts () {
+    async fetchPost () {
       const url = '/api/v1/posts'
       await this.$axios.get(url)
         .then((res) => {
-          this.posts = res.data
+          console.log('ここ', res)
+          this.posts = res.data.posts
         })
         .catch((err) => {
           // eslint-disable-next-line no-console

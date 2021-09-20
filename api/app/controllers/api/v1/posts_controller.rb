@@ -1,10 +1,10 @@
 class Api::V1::PostsController < ApplicationController
   include Pagination #pagenation_controllerにて定義
   def index
-    # posts = Post.all.page(params[:page]).per(5)
     posts = Post.where(post_id: 0).order(id: :desc).page(params[:page]).per(5)
     pagination = resources_with_pagination(posts)
-    render json: posts
+    render json: { posts: posts.as_json(include: [:user,:like_posts]), kaminari: pagination }
+    # render json: posts
   end
 
   def show
@@ -58,6 +58,11 @@ class Api::V1::PostsController < ApplicationController
 
   def post_comments(id)
     return Post.where(post_id: id)
+  end
+
+  def commentcount
+    comment_count = Post.where(post_id: params[:id]).length
+    render json: { comment_count: comment_count.as_json }
   end
 
   private

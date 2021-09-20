@@ -52,7 +52,6 @@
             :content-id="post.id"
             :keyword="keyword"
           />
-            {{ posts }}
         </v-tab-item>
         <v-tab-item>
           <user-follow-card
@@ -62,7 +61,6 @@
             :followingUsers="followingUsers"
             :keyword="keyword"
           />
-          {{ users }}
         </v-tab-item>
       </v-tabs-items>
     </v-card>
@@ -105,7 +103,6 @@ export default {
       const url = 'api/v1/search'
       this.$axios.get(url, { params: { keyword: this.keyword } })
         .then((res) => {
-          console.log(res.data)
           this.posts = res.data.posts
           this.users = res.data.users
         })
@@ -117,7 +114,6 @@ export default {
       const url = `api/v1/users/${this.currentUserId}/following_users`
       this.$axios.get(url)
         .then((res) => {
-          console.log('followingUsers', res)
           this.followingUsers = res.data.following_users
         })
         .catch((err) => {
@@ -130,5 +126,3 @@ export default {
   }
 }
 </script>
-<style scoped>
-</style>

@@ -87,13 +87,13 @@ export default {
         .then(() => {
           this.flashMessage({ message: '投稿しました', type: 'primary', status: true })
           this.loading = false
-          this.fetchPosts()
+          this.fetchPost()
           this.dialog = false
           this.$refs.form.reset()
         })
     },
-    fetchPosts () {
-      this.$emit('fetchPosts')
+    fetchPost () {
+      this.$emit('fetchPost')
     }
   }
 }

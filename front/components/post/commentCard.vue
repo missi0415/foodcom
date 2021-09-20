@@ -202,9 +202,9 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
 .btn-repeat:hover {
-    color: green;
+  color: #02b97c;
   }
 .img:hover {
   opacity: 0.7;

@@ -123,7 +123,7 @@ export default {
     })
   },
   mounted () {
-    this.commentCount = this.post.comments.length
+    this.setCommentCount()
   },
   methods: {
     ...mapActions({
@@ -135,7 +135,6 @@ export default {
       this.newPost.post_id = this.post.id
       await this.$axios.$post('/api/v1/posts', this.newPost)
         .then((res) => {
-          console.log('createレスポンス', res)
           this.commentCount = res
           this.loading = false
           this.dialog = false
@@ -149,6 +148,15 @@ export default {
         })
         .catch(() => {
           this.flashMessage({ message: 'コメントに失敗しました', type: 'error', status: true })
+        })
+    },
+    setCommentCount () {
+      this.$axios.$get(`api/v1/posts/${this.post.id}/commentcount`)
+        .then((res) => {
+          this.commentCount = res.comment_count
+        })
+        .catch((err) => {
+          console.log(err)
         })
     },
     fetchPost () {
