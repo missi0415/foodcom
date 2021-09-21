@@ -4,7 +4,7 @@ class Post < ApplicationRecord
   mount_uploader :image, ImageUploader
   has_many :notifications, dependent: :destroy
   
-  validates :content, presence: true
+  validates :content, presence: true,length: { maximum: 140, allow_blank: true }
 
   # notification
   def create_notification_like!(current_user)

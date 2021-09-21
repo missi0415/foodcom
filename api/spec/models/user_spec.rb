@@ -27,6 +27,16 @@ RSpec.describe User, type: :model do
       user.uid = ''
       expect(user).to be_invalid
     end
+
+    it '自己紹介が空欄を許可すること' do
+      user.introduction = ''
+      expect(user).to be_valid
+    end
+
+    it '自己紹介が140文字以内であること' do
+      user.introduction = 'a' * 141
+      expect(user).to be_invalid
+    end
     
   end
 end
