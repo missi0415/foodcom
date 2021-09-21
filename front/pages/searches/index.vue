@@ -46,6 +46,9 @@
       </v-tabs>
       <v-tabs-items v-model="tab">
         <v-tab-item>
+          <div v-if="posts.length > 0">
+            <v-card-text class="ml-2">投稿検索({{ posts.length }})件</v-card-text>
+          </div>
           <comment-card
             v-for="post in posts"
             :key="post.id"
@@ -54,6 +57,9 @@
           />
         </v-tab-item>
         <v-tab-item>
+          <div v-if="users.length > 0">
+            <v-card-text class="ml-2">ユーザー検索({{ users.length}})件</v-card-text>
+          </div>
           <user-follow-card
             v-for="user in users"
             :key="user.id"

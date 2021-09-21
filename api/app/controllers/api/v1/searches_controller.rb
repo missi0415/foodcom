@@ -1,6 +1,5 @@
 class Api::V1::SearchesController < ApplicationController
   def search
-    p params[:keyword]
     keyword = search_params[:keyword]
     if keyword.present?
       data = {}
@@ -12,7 +11,6 @@ class Api::V1::SearchesController < ApplicationController
     end
   end
 end
-
 
 private
 def search_params

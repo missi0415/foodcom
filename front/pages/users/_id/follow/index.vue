@@ -14,6 +14,7 @@
           v-for="user in following_user"
           :key="user.id"
           :user="user"
+          :followingUsers="followingUsers"
         />
       </v-tab-item>
       <v-tab-item>
@@ -21,6 +22,7 @@
           v-for="user in follower_user"
           :key="user.id"
           :user="user"
+          :followingUsers="followingUsers"
         />
       </v-tab-item>
     </v-tabs-items>
@@ -41,6 +43,7 @@ export default {
       user: { id: '', name: '', email: '', avatar: '', introduction: '', admin: '' },
       following_user: [],
       follower_user: [],
+      followingUsers: [],
       follow: false,
       color: 'info white--text',
       message: 'フォロー中'
@@ -72,6 +75,7 @@ export default {
           this.user.avatar = res.data.user.avatar.url
           this.user.admin = res.data.user.admin
           this.following_user = res.data.following_user
+          this.followingUsers = res.data.following_users
           this.follower_user = res.data.follower_user
         })
         .catch((err) => {
@@ -83,6 +87,12 @@ export default {
       if (this.$route.query.tab === '1') {
         this.tab = 1
       }
+    },
+    pluck (array, prop) {
+      const obj = array.map((prev) => {
+        return prev[prop]
+      })
+      return obj
     }
   }
 }

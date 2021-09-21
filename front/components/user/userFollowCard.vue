@@ -76,7 +76,7 @@ export default {
     },
     followingUsers: {
       type: Array,
-      required: false
+      required: true
     },
     keyword: {
       type: String,
@@ -99,8 +99,6 @@ export default {
     })
   },
   mounted () {
-    console.log('folow', this.followingUsers)
-    console.log('userid', this.user.id)
     if (this.followingUsers.includes(this.user.id)) {
       this.follow = true
     }
