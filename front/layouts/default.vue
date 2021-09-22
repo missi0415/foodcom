@@ -10,19 +10,19 @@
       <flash />
       <nuxt />
     </v-main>
-    <bef-login-footer />
+    <!-- <bef-login-footer /> -->
   </v-app>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import befLoginFooter from '../components/beforeLogin/befLoginFooter.vue'
+// import befLoginFooter from '../components/beforeLogin/befLoginFooter.vue'
 import welAppBar from '../components/welcome/welAppBar.vue'
 import flash from '../components/ui/flash.vue'
 import loggedInHeader from '../components/loggedIn/loggedInHeader.vue'
 export default {
   components: {
-    befLoginFooter,
+    // befLoginFooter,
     welAppBar,
     flash,
     loggedInHeader

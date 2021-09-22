@@ -1,9 +1,9 @@
 import { mount } from '@vue/test-utils'
-import postsIndex from '@/pages/sample.vue'
+import sample from '@/pages/sample.vue'
 
 describe('HelloWorld', () => {
   test('display Hello World', () => {
-    const wrapper = mount(postsIndex)
+    const wrapper = mount(sample)
     expect(wrapper.text()).toBe("Hello World")
   })
 })

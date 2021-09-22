@@ -1,65 +1,180 @@
 <template>
-  <v-navigation-drawer
-    v-model="setDrawer"
-    app
-    clipped
-    :mini-variant="$vuetify.breakpoint.md || $vuetify.breakpoint.sm || $vuetify.breakpoint.xs"
-    mini-variant-width="112"
-    mobile-breakpoint="0"
-    bottom
-    class="pa-3 justify-center"
-  >
-  <!-- {{ $vuetify.breakpoint.md }} -->
-    <v-list
-      rounded
+  <div v-if="!$vuetify.breakpoint.xs">
+    <v-navigation-drawer
+      v-model="setDrawer"
+      app
+      clipped
+      fixed
+      :mini-variant="$vuetify.breakpoint.md || $vuetify.breakpoint.sm || $vuetify.breakpoint.xs"
+      mini-variant-width="112"
+      mobile-breakpoint="0"
+      class="pa-3 justify-center"
     >
-      <v-list-item
-        link
-        class="pa-1 justify-center"
+    <!-- {{ $vuetify.breakpoint.md }} -->
+      <v-list
+        rounded
+      >
+        <v-list-item
+          link
+          class="pa-1 justify-center"
+          @click="goHome"
+        >
+          <v-list-item-action
+          >
+            <v-icon
+              size="38px"
+              class="justify-center"
+            >
+              mdi-home
+            </v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>
+              ホーム
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item
+          link
+          @click="toSearches"
+          class="pa-1 justify-center"
+        >
+          <v-list-item-action
+          >
+            <v-icon
+              size="38px"
+              class="justify-center"
+            >
+              mdi-magnify
+            </v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>
+              検索
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item
+          link
+          class="pa-1 justify-center"
+          @click="toNotificatons"
+        >
+          <v-list-item-action
+          >
+          <v-badge
+            color="red"
+            :content="noticeCount"
+            :value="noticeCount"
+          >
+            <v-icon
+              size="38px"
+              class="justify-center"
+            >
+              mdi-bell-outline
+            </v-icon>
+          </v-badge>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>
+              通知
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <!-- <v-list-item
+          link
+          class="pa-1 justify-center"
+        >
+          <v-list-item-action
+          >
+            <v-icon
+              size="38px"
+              class="justify-center"
+            >
+              mdi-chat-processing-outline
+            </v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>
+              メッセージ
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item> -->
+        <v-list-item
+          link
+          class="pa-1 justify-center"
+          @click="toFollowingUser"
+        >
+          <v-list-item-action
+          >
+            <v-icon
+              size="38px"
+              class="justify-center"
+            >
+              mdi-account-details
+            </v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>
+              フォロー
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item
+          link
+          class="pa-1 justify-center"
+          @click="toFollowerUser"
+        >
+          <v-list-item-action
+          >
+            <v-icon
+              size="38px"
+              class="justify-center"
+            >
+              mdi-account-details-outline
+            </v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>
+              フォロワー
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <new-post />
+      </v-list>
+    </v-navigation-drawer>
+  </div>
+  <!-- モバイル -->
+  <div v-else>
+    <new-post />
+    <v-bottom-navigation
+      v-model="setDrawer"
+      app
+      clipped
+      bottom
+      color="primary"
+      grow
+    >
+      <v-btn
         @click="goHome"
       >
-        <v-list-item-action
+        <v-icon
+          size="38px"
         >
-          <v-icon
-            size="38px"
-            class="justify-center"
-          >
-            mdi-home
-          </v-icon>
-        </v-list-item-action>
-        <v-list-item-content>
-          <v-list-item-title>
-            ホーム
-          </v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-      <v-list-item
-        link
-        class="pa-1 justify-center"
+          mdi-home
+        </v-icon>
+      </v-btn>
+      <v-btn
+        @click="toSearches"
       >
-        <v-list-item-action
+        <v-icon
+          size="38px"
         >
-          <v-icon
-            size="38px"
-            class="justify-center"
-            @click="toSearches"
-          >
-            mdi-magnify
-          </v-icon>
-        </v-list-item-action>
-        <v-list-item-content>
-          <v-list-item-title>
-            検索
-          </v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-      <v-list-item
-        link
-        class="pa-1 justify-center"
+          mdi-magnify
+        </v-icon>
+      </v-btn>
+      <v-btn
         @click="toNotificatons"
       >
-        <v-list-item-action
-        >
         <v-badge
           color="red"
           :content="noticeCount"
@@ -72,75 +187,31 @@
             mdi-bell-outline
           </v-icon>
         </v-badge>
-        </v-list-item-action>
-        <v-list-item-content>
-          <v-list-item-title>
-            通知
-          </v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-      <v-list-item
+      </v-btn>
+      <!-- <v-btn
         link
-        class="pa-1 justify-center"
       >
-        <v-list-item-action
+        <v-icon
+          size="38px"
+          class="justify-center"
         >
-          <v-icon
-            size="38px"
-            class="justify-center"
-          >
-            mdi-chat-processing-outline
-          </v-icon>
-        </v-list-item-action>
-        <v-list-item-content>
-          <v-list-item-title>
-            メッセージ
-          </v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-      <v-list-item
+          mdi-chat-processing-outline
+        </v-icon>
+      </v-btn> -->
+      <v-btn
         link
         class="pa-1 justify-center"
         @click="toFollowingUser"
       >
-        <v-list-item-action
+        <v-icon
+          size="38px"
+          class="justify-center"
         >
-          <v-icon
-            size="38px"
-            class="justify-center"
-          >
-            mdi-account-details
-          </v-icon>
-        </v-list-item-action>
-        <v-list-item-content>
-          <v-list-item-title>
-            フォロー
-          </v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-      <v-list-item
-        link
-        class="pa-1 justify-center"
-        @click="toFollowerUser"
-      >
-        <v-list-item-action
-        >
-          <v-icon
-            size="38px"
-            class="justify-center"
-          >
-            mdi-account-details-outline
-          </v-icon>
-        </v-list-item-action>
-        <v-list-item-content>
-          <v-list-item-title>
-            フォロワー
-          </v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-      <new-post />
-    </v-list>
-  </v-navigation-drawer>
+          mdi-account-details
+        </v-icon>
+      </v-btn>
+    </v-bottom-navigation>
+  </div>
 </template>
 
 <script>

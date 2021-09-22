@@ -2,7 +2,7 @@
   <div>
     <div
       class="my-2"
-      v-if="$vuetify.breakpoint.md || $vuetify.breakpoint.sm || $vuetify.breakpoint.xs"
+      v-if="$vuetify.breakpoint.md || $vuetify.breakpoint.sm"
     >
     <v-tooltip bottom>
       <template #activator="{ on, attrs }">
@@ -22,7 +22,29 @@
     </v-tooltip>
     </div>
     <div
-      v-else
+      class="my-2"
+      v-if="$vuetify.breakpoint.xs"
+    >
+    <v-tooltip bottom>
+      <template #activator="{ on, attrs }">
+        <v-btn
+          color="blue"
+          class="btn-mobile-post"
+          fab
+          x-large
+          dark
+          v-bind="attrs"
+          v-on="on"
+          @click="dialog = true"
+        >
+          <v-icon>mdi-pencil-plus</v-icon>
+        </v-btn>
+      </template>
+      <span>新規投稿</span>
+    </v-tooltip>
+    </div>
+    <div
+      v-if="$vuetify.breakpoint.lg || $vuetify.breakpoint.xl"
       class="my-2"
     >
       <v-btn
@@ -143,3 +165,12 @@ export default {
   }
 }
 </script>
+<style>
+  .btn-mobile-post {
+  transition: .3s all cubic-bezier(0.39, 0.575, 0.565, 1);
+  position: fixed;
+  right: 10px;
+  bottom: 60px;
+  z-index: 9;
+}
+</style>
