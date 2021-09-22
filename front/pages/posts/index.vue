@@ -12,6 +12,7 @@
     <VueInfiniteLoading
       ref="infiniteLoading"
       spinner="bubbles"
+      :identifier="infiniteId"
       @infinite="infiniteHandler"
     >
       <span slot="no-more">-----投稿は以上です-----</span>
@@ -37,7 +38,8 @@ export default {
       src: 'https://picsum.photos/200/200',
       isIndex: true,
       posts: [],
-      count: 1
+      page: 1,
+      infiniteId: 0
     }
   },
   computed: {
@@ -66,8 +68,8 @@ export default {
       setSubmitPost: 'post/setSubmitPost'
     }),
     infiniteHandler () {
-      this.count += 1
-      this.$axios.get('/api/v1/posts', { params: { page: this.count } })
+      this.page += 1
+      this.$axios.get('/api/v1/posts', { params: { page: this.page } })
         .then((res) => {
           const posts = res.data.posts
           setTimeout(() => {
@@ -81,11 +83,13 @@ export default {
         })
     },
     async fetchPost () {
+      this.resetHandler()
+      this.returnTop()
       const url = '/api/v1/posts'
       await this.$axios.get(url)
         .then((res) => {
-          console.log('ここ', res)
           this.posts = res.data.posts
+          this.$vuetify.goTo(0)
         })
         .catch((err) => {
           // eslint-disable-next-line no-console
@@ -97,6 +101,22 @@ export default {
     },
     toShowUser (id) {
       this.$router.push(`/users/${id}`)
+    },
+    resetHandler () {
+      this.page = 1
+      this.infiniteId += 1
+    },
+    returnTop () {
+      window.scrollTo({
+        top: 0,
+        behavior: 'auto'
+      })
+    },
+    sucrolTop () {
+      window.scrollTo({
+        top: 0,
+        behavior: 'auto'
+      })
     }
   }
 }

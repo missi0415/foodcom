@@ -13,14 +13,14 @@
 </template>
 
 <script>
-import LoggedInAppBar from './header/loggedInAppBar.vue'
+import loggedInAppBar from './header/loggedInAppBar.vue'
 import loggedInNavDrawer from './header/loggedInNavDrawer.vue'
-import MobileNavBar from './header/mobileNavBar.vue'
+import mobileNavBar from './header/mobileNavBar.vue'
 export default {
   components: {
     loggedInNavDrawer,
-    LoggedInAppBar,
-    MobileNavBar
+    loggedInAppBar,
+    mobileNavBar
   },
   data () {
     return {
