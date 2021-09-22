@@ -46,16 +46,11 @@ import { mapGetters } from 'vuex'
 import layoutMain from '../../components/layout/loggedIn/layoutMain.vue'
 import LikeCommentCard from '../../components/notification/likeCommentCard.vue'
 import FollowCard from '../../components/notification/folowCard.vue'
-// import InfiniteScroll from '../../components/ui/infiniteScroll.vue'
-// import ChatCard from '../../components/notification/chatCard.vue'
 export default {
   components: {
     layoutMain,
     LikeCommentCard,
     FollowCard
-    // InfiniteScroll,
-    // FollowCard
-    // ChatCard
   },
   async asyncData ({ $axios, params }) {
     const res = await $axios.get(`/api/v1/notifications/${params.id}`)

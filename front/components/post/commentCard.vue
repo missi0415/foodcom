@@ -1,5 +1,7 @@
 <template>
-  <div>
+  <div
+    v-show="hideStatus"
+  >
     <v-card
       class="ma-1"
       hover
@@ -88,6 +90,7 @@
             :post="post"
             :is-index="isIndex"
             @fetchPost="fetchPost"
+            @hidePost="hidePost"
           />
         </template>
       </v-card-actions>
@@ -145,7 +148,8 @@ export default {
       time: '',
       loginUser: {},
       postImage: '',
-      avatarImage: ''
+      avatarImage: '',
+      hideStatus: 'true'
     }
   },
   computed: {
@@ -195,6 +199,10 @@ export default {
     },
     fetchPost () {
       this.$emit('fetchPost')
+    },
+    hidePost () {
+      console.log('hidepost-commentcard')
+      this.hideStatus = false
     },
     fetchUser () {
       this.$emit('fetchUser')

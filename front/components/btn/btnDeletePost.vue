@@ -81,7 +81,7 @@ export default {
           if (this.$route.name === 'users-id') {
             this.fetchUser()
           } else if (this.$route.name === 'posts') {
-            this.fetchPosts()
+            this.hidePost()
           } else if (this.isIndex) {
             this.fetchPost()
           } else {
@@ -98,8 +98,8 @@ export default {
     fetchPost () {
       this.$emit('fetchPost')
     },
-    fetchPosts () {
-      this.$emit('fetchPosts')
+    hidePost () {
+      this.$emit('hidePost')
     },
     fetchUser () {
       this.$emit('fetchUser')

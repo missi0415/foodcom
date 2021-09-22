@@ -111,12 +111,6 @@ export default {
         top: 0,
         behavior: 'auto'
       })
-    },
-    sucrolTop () {
-      window.scrollTo({
-        top: 0,
-        behavior: 'auto'
-      })
     }
   }
 }

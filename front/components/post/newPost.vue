@@ -83,8 +83,17 @@
             <new-post-form-content
               :content.sync="post.content"
             />
+            <v-img
+              :src="previewImage"
+              max-height="200"
+              max-width="200"
+              contain
+            />
             <v-file-input
               @change="setImage"
+              @click:clear="reSetPreviewImage"
+              clearable
+              prepend-icon="mdi-camera"
               label="画像"
               accept="image/png, image/jpeg, image/bmp"
             />
@@ -117,7 +126,8 @@ export default {
       isValid: false,
       loading: false,
       post: { content: '' },
-      image: ''
+      image: '',
+      previewImage: ''
     }
   },
   computed: {
@@ -133,6 +143,19 @@ export default {
     }),
     setImage (e) {
       this.image = e
+      if (this.image !== null) {
+        if (event.target.files.length !== 0) {
+          this.previewImage = URL.createObjectURL(this.image)
+        } else {
+          this.reSetPreviewImage()
+        }
+      } else {
+        this.reSetPreviewImage()
+      }
+    },
+    reSetPreviewImage () {
+      this.previewImage = this.post.image
+      this.Image = ''
     },
     async newPost () {
       this.loading = true
@@ -140,16 +163,11 @@ export default {
       formData.append('post[image]', this.image)
       formData.append('post[content]', this.post.content)
       formData.append('post[user_id]', this.currentUser.id)
-      console.log('送信データformData', formData)
-      const config = {
-        headers: {
-          'content-type': 'multipart/form-data'
-        }
+      if (typeof (this.image) === 'object') {
+        formData.append('post[image]', this.image)
       }
-      // this.post.user_id = this.currentUser.id
-      await this.$axios.$post('/api/v1/posts', formData, config)
-        .then((res) => {
-          console.log('post投稿のレスポンス', res)
+      await this.$axios.$post('/api/v1/posts', formData)
+        .then(() => {
           this.flashMessage({ message: '投稿しました', type: 'primary', status: true })
           this.setSubmitPost(true)
           this.loading = false

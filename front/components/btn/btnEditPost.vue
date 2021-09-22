@@ -37,7 +37,21 @@
             v-model="isValid"
           >
             <edit-post-form-content
-              :content.sync="editPost.content"
+              :content.sync="content"
+            />
+            <v-img
+              :src="previewImage"
+              max-height="200"
+              max-width="200"
+              contain
+            />
+            <v-file-input
+              @change="setImage"
+              @click:clear="reSetPreviewImage"
+              clearable
+              prepend-icon="mdi-camera"
+              label="画像"
+              accept="image/png, image/jpeg, image/bmp"
             />
             <v-btn
               :disabled="!isValid || loading"
@@ -77,33 +91,57 @@ export default {
       dialog: false,
       isValid: false,
       loading: false,
-      editPost: { content: '' }
+      content: '',
+      image: '',
+      previewImage: ''
     }
   },
   computed: {
     ...mapGetters({
-      btnColor: 'btn/color'
+      currentUserId: 'auth/currentUserId'
     })
   },
   mounted () {
-    this.editPost.content = this.post.content
+    this.content = this.post.content
+    this.image = this.post.image.url
+    this.previewImage = this.post.image.url
   },
   methods: {
     ...mapActions({
       flashMessage: 'flash/flashMessage'
     }),
+    setImage (e) {
+      this.image = e
+      if (this.image !== null) {
+        if (event.target.files.length !== 0) {
+          this.previewImage = URL.createObjectURL(this.image)
+        } else {
+          this.reSetPreviewImage()
+        }
+      } else {
+        this.reSetPreviewImage()
+      }
+    },
+    reSetPreviewImage () {
+      this.previewImage = this.post.image
+      this.Image = ''
+    },
     async updatePost () {
       this.loading = true
-      await this.$axios.$patch(`/api/v1/posts/${this.post.id}`, this.editPost)
+      const formData = new FormData()
+      formData.append('post[content]', this.content)
+      formData.append('post[user_id]', this.currentUserId)
+      if (typeof (this.image) === 'object') {
+        formData.append('post[image]', this.image)
+      }
+      await this.$axios.$patch(`/api/v1/posts/${this.post.id}`, formData)
         .then(() => {
           if (this.$route.name === 'users-id') {
             this.fetchUser()
           } else if (this.$route.name === 'posts-id' && this.isIndex === true) {
-            console.log('fetch')
             this.fetchComment()
           } else if (this.isIndex) {
-            console.log('fetchposts')
-            this.fetchPosts()
+            this.fetchComment()
           } else {
             this.fetchPost()
             console.log('fetchpost')

@@ -17,8 +17,16 @@
       <div
         class="d-flex justify-space-between"
       >
+        <v-img
+          :src="previewImage"
+          max-height="200"
+          max-width="200"
+          contain
+        />
         <v-file-input
           @change="setImage"
+          @click:clear="reSetPreviewImage"
+          prepend-icon="mdi-camera"
           label="画像"
           truncate-length="14"
           accept="image/png, image/jpeg, image/bmp"
@@ -49,6 +57,7 @@ export default {
       loading: false,
       post: { content: '' },
       image: '',
+      previewImage: '',
       rules: [
         v => !!v || '',
         v => (!!v && max >= v.length) || `${max}文字以内で入力してください`
@@ -71,6 +80,19 @@ export default {
     }),
     setImage (e) {
       this.image = e
+      if (this.image !== null) {
+        if (event.target.files.length !== 0) {
+          this.previewImage = URL.createObjectURL(this.image)
+        } else {
+          this.reSetPreviewImage()
+        }
+      } else {
+        this.reSetPreviewImage()
+      }
+    },
+    reSetPreviewImage () {
+      this.previewImage = this.post.image
+      this.Image = ''
     },
     async newPost () {
       this.loading = true
@@ -78,12 +100,10 @@ export default {
       formData.append('post[image]', this.image)
       formData.append('post[content]', this.post.content)
       formData.append('post[user_id]', this.currentUserId)
-      const config = {
-        headers: {
-          'content-type': 'multipart/form-data'
-        }
+      if (typeof (this.image) === 'object') {
+        formData.append('post[image]', this.image)
       }
-      await this.$axios.$post('/api/v1/posts', formData, config)
+      await this.$axios.$post('/api/v1/posts', formData)
         .then(() => {
           this.flashMessage({ message: '投稿しました', type: 'primary', status: true })
           this.loading = false
