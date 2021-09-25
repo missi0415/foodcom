@@ -19,7 +19,9 @@
       <v-row>
         <v-col
           md="7"
-          class="mt-5 mb-2"
+          sm="7"
+          xs="7"
+          class="mt-5 mb-3"
         >
           <v-file-input
             @change="setImage"
@@ -33,18 +35,22 @@
         </v-col>
         <v-col
           md="3"
+          sm="3"
+          xs="3"
           align="center"
-          class="mt-5"
+          class="mt-4"
         >
           <v-img
             :src="previewImage"
-            max-height="70"
-            max-width="70"
+            max-height="100"
+            max-width="100"
             contain
           />
         </v-col>
         <v-col
           md="2"
+          sm="2"
+          xs="2"
           class="d-flex justify-end"
         >
           <v-btn
