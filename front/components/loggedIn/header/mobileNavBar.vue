@@ -61,7 +61,7 @@
           size="38px"
           class="justify-center"
         >
-          mdi-account-details
+          mdi-account-outline
         </v-icon>
       </v-btn>
       <!-- <v-btn

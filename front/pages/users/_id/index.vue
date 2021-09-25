@@ -28,8 +28,8 @@
           </v-app-bar>
           <v-divider/>
           <v-img
-            height="200px"
-            width="1000px"
+            max-height="250px"
+            max-width="800px"
             :src="user.header"
           />
           <v-list-item class="grow">

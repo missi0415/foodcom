@@ -1,8 +1,9 @@
 <template>
   <v-btn
-    text
+    outlined
+    dark
+    color="myblue"
     class="ml-2 font-weight-bold"
-    color="black"
     to="/auth/login"
   >
     {{ $t('pages.login') }}

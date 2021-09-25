@@ -81,15 +81,25 @@
                       :password.sync="password"
                       :noValidation="noValidation"
                     />
-                  <v-btn
-                    block
-                    color="primary"
-                    :disabled="!isEmailValid || loading"
-                    :loading="loading"
-                    @click="changeEmail"
-                  >
-                      変更する
-                  </v-btn>
+                  <template v-if="user.id === guestId">
+                    <v-btn
+                      disabled
+                      block
+                    >
+                      ゲストユーザーのため変更できません
+                    </v-btn>
+                  </template>
+                  <template v-else>
+                    <v-btn
+                      block
+                      color="primary"
+                      :disabled="!isEmailValid || loading"
+                      :loading="loading"
+                      @click="changeEmail"
+                    >
+                        変更する
+                    </v-btn>
+                  </template>
                 </v-form>
               </v-card>
             </v-tab-item>
@@ -116,15 +126,25 @@
                     autocomplete="on"
                     @click:append="show = !show"
                   />
-                  <v-btn
-                    :disabled="!isValid || loading"
-                    :loading="loading"
-                    block
-                    color="primary"
-                    @click="changePassword"
-                  >
-                    保存する
-                  </v-btn>
+                  <template v-if="user.id === guestId">
+                    <v-btn
+                      disabled
+                      block
+                    >
+                      ゲストユーザーのため変更できません
+                    </v-btn>
+                  </template>
+                  <template v-else>
+                    <v-btn
+                      :disabled="!isValid || loading"
+                      :loading="loading"
+                      block
+                      color="primary"
+                      @click="changePassword"
+                    >
+                      保存する
+                    </v-btn>
+                  </template>
                 </v-form>
               </v-card>
             </v-tab-item>
@@ -151,6 +171,7 @@ export default {
       isValid: false,
       isEmailValid: false,
       loading: false,
+      guestId: 1,
       user: { id: '', name: '', email: '', avatar: '', introduction: '', admin: '', header: '', password: '' },
       email: '',
       newEmail: '',

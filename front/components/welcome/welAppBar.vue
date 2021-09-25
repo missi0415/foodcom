@@ -24,6 +24,7 @@
         {{ $t(`menus.${menu.title}`) }}
       </v-btn>
     </v-toolbar-items>
+    <gest-login-link />
     <signup-link />
     <login-link />
     <v-menu
@@ -58,12 +59,13 @@
 </template>
 
 <script>
+import gestLoginLink from '../beforeLogin/gestLoginLink.vue'
 import loginLink from '~/components/beforeLogin/loginLink.vue'
 import signupLink from '~/components/beforeLogin/signupLink.vue'
 import appLogo from '~/components/ui/appLogo.vue'
 import appTitle from '~/components/ui/appTitle.vue'
 export default {
-  components: { appLogo, signupLink, loginLink, appTitle },
+  components: { appLogo, signupLink, loginLink, appTitle, gestLoginLink },
   // 親コンポーネントのwelcom.vueから渡されてきたmenusをpropsに入れて受け取る
   props: {
     menus: {

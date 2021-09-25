@@ -1,21 +1,21 @@
 class Api::V1::PostsController < ApplicationController
   include Pagination #pagenation_controllerにて定義
   def index
-    posts = Post.where(post_id: 0).order(id: :desc).page(params[:page]).per(5)
+    posts = Post.includes(:user, :like_posts).where(post_id: 0).order(id: :desc).page(params[:page]).per(5)
     pagination = resources_with_pagination(posts)
     render json: { posts: posts.as_json(include: [:user,:like_posts]), kaminari: pagination }
-    # render json: posts
+
   end
 
   def show
     post = {}
-    post[:post] = Post.find(params[:id])#postの中身
+    post[:post] = Post.includes([:user]).find(params[:id])
     post[:user] = User.find(post[:post].user_id)
     post[:comments] = Post.joins(:user).select("posts.*, user AS user").where(post_id: params[:id]).order(created_at: :desc)
     post[:like_posts] = LikePost.where(post_id: params[:id]).order(created_at: :desc)
     post[:like_count] = post[:like_posts].length
-    unless Post.nil?
-      render json: post
+    unless post.nil?
+      render json: post.as_json
     else
       render json: { error_message: 'Not Found' }
     end

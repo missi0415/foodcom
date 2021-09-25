@@ -139,6 +139,26 @@
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+        <v-list-item
+          link
+          class="pa-1 justify-center"
+          @click="toShowUser(currentUserId)"
+        >
+          <v-list-item-action
+          >
+            <v-icon
+              size="38px"
+              class="justify-center"
+            >
+              mdi-account-outline
+            </v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>
+              プロフィール
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
         <new-post />
       </v-list>
     </v-navigation-drawer>
@@ -201,13 +221,13 @@
       <v-btn
         link
         class="pa-1 justify-center"
-        @click="toFollowingUser"
+        @click="toShowUser(currentUserId)"
       >
         <v-icon
           size="38px"
           class="justify-center"
         >
-          mdi-account-details
+          mdi-account-outline
         </v-icon>
       </v-btn>
     </v-bottom-navigation>
@@ -284,6 +304,9 @@ export default {
     },
     toSearches () {
       this.$router.push('/searches')
+    },
+    toShowUser (id) {
+      this.$router.push(`/users/${id}`)
     },
     fetchNotificationCount () {
       const url = `api/v1/find_notifications_count/${this.currentUserId}`

@@ -99,15 +99,25 @@
                 <user-form-introduction
                   :introduction.sync="user.introduction"
                 />
-              <v-btn
-                :disabled="!isValid || loading"
-                :loading="loading"
-                block
-                color="info"
-                @click="updateUser"
-              >
-                保存する
-              </v-btn>
+              <template v-if="user.id === guestId">
+                <v-btn
+                  disabled
+                  block
+                >
+                  ゲストユーザーのため変更できません
+                </v-btn>
+              </template>
+              <template v-else>
+                <v-btn
+                  :disabled="!isValid || loading"
+                  :loading="loading"
+                  block
+                  color="primary"
+                  @click="updateUser"
+                >
+                  保存する
+                </v-btn>
+              </template>
               </v-form>
             </v-container>
           </v-card>
@@ -130,6 +140,7 @@ export default {
     return {
       dialog: false,
       isValid: false,
+      guestId: 1,
       loading: false,
       editLading: false,
       user: { id: '', name: '', email: '', password: '', avatar: '', header: '', introduction: '' },
