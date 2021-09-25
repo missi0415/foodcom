@@ -13,36 +13,54 @@
       label="いまなにしてる？"
       :placeholder="form.placeholder"
       :rules="rules"
+      hide-details="false"
       />
-      <div
-        class="d-flex justify-space-between"
-      >
-        <v-img
-          :src="previewImage"
-          max-height="200"
-          max-width="200"
-          contain
-        />
-        <v-file-input
-          @change="setImage"
-          @click:clear="reSetPreviewImage"
-          prepend-icon="mdi-camera"
-          label="画像"
-          truncate-length="14"
-          accept="image/png, image/jpeg, image/bmp"
-        />
-        <v-btn
-          :disabled="!isValid || loading"
-          :loading="loading"
-          rounded
-          depressed
-          color="blue"
-          class="ma-2 white--text"
-          @click="newPost"
+      <v-container>
+      <v-row>
+        <v-col
+          md="7"
+          class="mt-5 mb-2"
         >
-          ツイートする
-        </v-btn>
-      </div>
+          <v-file-input
+            @change="setImage"
+            @click:clear="reSetPreviewImage"
+            prepend-icon="mdi-camera"
+            label="画像"
+            truncate-length="20"
+            accept="image/png, image/jpeg, image/bmp"
+            hide-details="false"
+          />
+        </v-col>
+        <v-col
+          md="3"
+          align="center"
+          class="mt-5"
+        >
+          <v-img
+            :src="previewImage"
+            max-height="70"
+            max-width="70"
+            contain
+          />
+        </v-col>
+        <v-col
+          md="2"
+          class="d-flex justify-end"
+        >
+          <v-btn
+            :disabled="!isValid || loading"
+            :loading="loading"
+            rounded
+            depressed
+            color="blue"
+            class="mt-8 white--text"
+            @click="newPost"
+          >
+            投稿する
+          </v-btn>
+        </v-col>
+      </v-row>
+    </v-container>
     </v-form>
   </v-card>
 </template>

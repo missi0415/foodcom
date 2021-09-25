@@ -2,7 +2,9 @@
   <layout-main #layout-main><!--eslint-disable-line-->
     <v-container>
       <v-row justify="space-around">
-        <v-card>
+        <v-card
+          width="100%"
+        >
           <v-app-bar
             flat
             color="rgba(0, 0, 0, 0)"
@@ -29,7 +31,6 @@
           <v-divider/>
           <v-img
             max-height="250px"
-            max-width="800px"
             :src="user.header"
           />
           <v-list-item class="grow">

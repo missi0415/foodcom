@@ -92,9 +92,10 @@
           label="メッセージを入力"
           type="text"
           outlined
+          hide-details="false"
           dense
           rounded
-          class="mt-6 pa-2"
+          class=" pa-2"
         />
         <v-btn
           class="ma-2 pa-2"
