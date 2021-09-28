@@ -79,7 +79,7 @@ export default {
       await this.$axios.$delete(`/api/v1/posts/${this.post.id}`)
         .then(() => {
           if (this.$route.name === 'users-id') {
-            this.fetchUser()
+            this.hidePost()
           } else if (this.$route.name === 'posts') {
             this.hidePost()
           } else if (this.isIndex) {

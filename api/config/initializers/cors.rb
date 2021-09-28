@@ -7,13 +7,9 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    # 開発環境
     # origins ENV["API_DOMAIN"] || ""
-    # 本番環境
-    #origins [ENV["API_DOMAIN"], 'https://www.foodcom-api.work']
-    # origins [ENV["API_DOMAIN"], 'https://www.foodcom.work']
+    # origins ENV["API_URL"] || ENV["FRONT_DOMAIN"]
     origins '*'
-    # origins 'localhost:3000','https://www.foodcom.work','https://www.foodcom-api.work'
     resource '*',
       headers: :any,
       methods: [:get, :post, :put, :patch, :delete, :options, :head]

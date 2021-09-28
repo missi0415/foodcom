@@ -1,31 +1,50 @@
 <template>
   <layout-main #layout-main><!--eslint-disable-line-->
-    <v-tabs
-      v-model="tab"
-      color="primary accent-10"
-      grow
-    >
-      <v-tab>フォロー</v-tab>
-      <v-tab>フォロワー</v-tab>
-    </v-tabs>
-    <v-tabs-items v-model="tab">
-      <v-tab-item>
-        <user-follow-card
-          v-for="user in following_user"
-          :key="user.id"
-          :user="user"
-          :followingUsers="followingUsers"
-        />
-      </v-tab-item>
-      <v-tab-item>
-        <user-follow-card
-          v-for="user in follower_user"
-          :key="user.id"
-          :user="user"
-          :followingUsers="followingUsers"
-        />
-      </v-tab-item>
-    </v-tabs-items>
+    <v-card>
+      <v-app-bar
+        flat
+        color="rgba(0, 0, 0, 0)"
+      >
+        <v-btn
+          icon
+          large
+          class="mr-5"
+          @click="pageBack"
+        >
+          <v-icon>mdi-arrow-left</v-icon>
+        </v-btn>
+        <v-toolbar-title>
+          フォロー
+        </v-toolbar-title>
+      </v-app-bar>
+      <v-divider />
+      <v-tabs
+        v-model="tab"
+        color="primary accent-10"
+        grow
+      >
+        <v-tab>フォロー</v-tab>
+        <v-tab>フォロワー</v-tab>
+      </v-tabs>
+      <v-tabs-items v-model="tab">
+        <v-tab-item>
+          <user-follow-card
+            v-for="user in following_user"
+            :key="user.id"
+            :user="user"
+            :followingUsers="followingUsers"
+          />
+        </v-tab-item>
+        <v-tab-item>
+          <user-follow-card
+            v-for="user in follower_user"
+            :key="user.id"
+            :user="user"
+            :followingUsers="followingUsers"
+          />
+        </v-tab-item>
+      </v-tabs-items>
+    </v-card>
   </layout-main>
 </template>
 <script>
@@ -93,6 +112,9 @@ export default {
         return prev[prop]
       })
       return obj
+    },
+    pageBack () {
+      this.$router.go(-1)
     }
   }
 }

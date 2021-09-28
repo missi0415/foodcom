@@ -172,8 +172,8 @@ export default {
           this.setSubmitPost(true)
           this.loading = false
           this.$router.push('/posts')
-          this.dialog = false
           this.$refs.form.reset()
+          this.dialog = false
         })
         .catch((err) => {
           this.flashMessage({ message: err.response.data.message.join('\n'), type: 'error', status: true })

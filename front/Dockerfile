@@ -4,13 +4,14 @@ FROM node:14.15.0-alpine
 ARG WORKDIR
 ARG CONTAINER_PORT
 # 本番のみ
-# ARG API_URL
+ARG API_URL
 
 ENV HOME=/${WORKDIR} \
     LANG=C.UTF-8 \
     TZ=Asia/Tokyo \
     HOST=0.0.0.0 \
-    # API_URL=${API_URL} \
+    API_URL=https://foodcom-api.work/ \
+    # API_URL=backend.ecs-deploy.com/ \
     NPM_CONFIG_PRODUCTION=false
 
 # ENV check
@@ -33,14 +34,14 @@ RUN apk update && \
 
 COPY . .
 
-# 開発環境-------------------------
-RUN yarn run build
-EXPOSE ${CONTAINER_PORT}
-#----------------------------------
+# # 開発環境-------------------------
+# RUN yarn run build
+# EXPOSE ${CONTAINER_PORT}
+# #----------------------------------
 
 # 本番環境-------------------------
-# RUN yarn run build
-# EXPOSE 3000
-# CMD ["yarn","run","start"]
+RUN yarn run build
+EXPOSE 3000
+CMD ["yarn","run","start"]
 #----------------------------------
 
