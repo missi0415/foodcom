@@ -14,9 +14,6 @@
     <app-title
     />
     <v-spacer />
-      [ログイン状態:{{ isAuthenticated }}]
-      [ユーザーid:{{ currentUser.id }}]
-      [ユーザー名:{{ currentUser.name }}]
     <!-- アカウントナビドロワー -->
     <v-menu
       app

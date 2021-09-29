@@ -67,7 +67,7 @@ export default {
   moment: {
     locales: ['ja']
   },
-
+  
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
   },
