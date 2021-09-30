@@ -68,3 +68,5 @@ gem 'rspec-rails'
 # rails 内テスト
 gem 'factory_bot_rails'
 # rspec使用時のサンプルデータ作成
+gem 'mini_magick'
+gem 'aws-sdk-s3', require: false

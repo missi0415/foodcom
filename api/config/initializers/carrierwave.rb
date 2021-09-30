@@ -4,6 +4,8 @@ require 'carrierwave/storage/fog'
 CarrierWave.configure do |config|
   config.storage :fog
   config.fog_provider = 'fog/aws'
+  config.asset_host = 'https://s3-ap-northeast-1.amazonaws.com/rails-nuxt'
+  config.fog_public = false
   config.fog_directory  = 'rails-nuxt' # 作成したバケット名を記述
   config.fog_credentials = {
     provider: 'AWS',

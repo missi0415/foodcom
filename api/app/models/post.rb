@@ -2,6 +2,7 @@ class Post < ApplicationRecord
   belongs_to :user
   has_many :like_posts    , dependent: :destroy
   mount_uploader :image, ImageUploader
+  # has_one_attached :image
   has_many :notifications, dependent: :destroy
   
   validates :content, presence: true,length: { maximum: 140, allow_blank: true }
