@@ -80,7 +80,9 @@ https://www.foodcom.work/
 ![image](https://user-images.githubusercontent.com/76615633/135578066-63d255db-ecd2-471b-8c2d-22fae890fd4c.png)
 
 ## インフラ構成図
+![Untitled Diagram drawio](https://user-images.githubusercontent.com/76615633/135610277-6f637a88-d72e-49a5-8cd4-56893c7731f5.png)
 
-![image](https://user-images.githubusercontent.com/76615633/135578394-c10201d7-d9b8-4ba7-a203-cdafd8a631be.png)
+
+
 
 
