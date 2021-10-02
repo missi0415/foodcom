@@ -1,44 +1,41 @@
-version:                     3.8
-
-# 実行するjob
+version: 2
 jobs:
-  # buildするjob
   build:
     machine:
-      image:                 circleci/classic:edge
+      image: circleci/classic:edge
+    working_directory: ~/repo
     steps:
       - checkout
       - run:
-          name:              docker-compose build
-          command:           docker-compose build
-  # testするjob
-  test:
-    machine:
-      image:                 circleci/classic:edge
-    steps:
-      - checkout
+          name: Install Docker Compose
+          command: |
+            curl -L https://github.com/docker/compose/releases/download/1.19.0/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
+            chmod +x ~/docker-compose
+            sudo mv ~/docker-compose /usr/local/bin/docker-compose
       - run:
-          name:              docker-compose up -d
-          command:           docker-compose up -d
-      - run:                 sleep 30
+          name: docker-compose up
+          command: |
+            set -x
+            docker-compose up --build -d
       - run:
-          name:              docker-compose run back rails db:create RAILS_ENV=test
-          command:           docker-compose run back rails db:create RAILS_ENV=test
+          name: docker-compose stop
+          command: |
+            set -x
+            docker-compose stop
       - run:
-          name:              docker-compose run back rails db:migrate RAILS_ENV=test
-          command:           docker-compose run back rails db:migrate RAILS_ENV=test
+          name: docker-compose up
+          command: |
+            set -x
+            docker-compose up -d
       - run:
-          name:              docker-compose run back bundle exec rspec spec
-          command:           docker-compose run back bundle exec rspec spec
+          name: test
+          command: |
+            mkdir /tmp/test-results
+            TEST_FILES="$(circleci tests glob 'spec/**/*_spec.rb' | circleci tests split --split-by=timings)"
+            docker-compose exec rails_api bin/rspec --format progress \
+                                                                  --format RspecJunitFormatter \
+                                                                  --out /tmp/test-results/rspec.xml \
+                                                                  $TEST_FILES
       - run:
-          name:              docker-compose down
-          command:           docker-compose down
-
-# 順番を制御するworkflow
-workflows:
-  build_and_test_and_deploy:
-    jobs:
-      - build
-      - test:
-          requires:
-            - build
+          name: docker-compose down
+          command: docker-compose down
