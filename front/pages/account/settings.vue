@@ -54,6 +54,7 @@
           >
             <v-tab>メールアドレス変更</v-tab>
             <v-tab>パスワード変更</v-tab>
+            <v-tab>退会手続き</v-tab>
           </v-tabs>
           <v-tabs-items v-model="tab">
             <v-tab-item>
@@ -148,6 +149,35 @@
                 </v-form>
               </v-card>
             </v-tab-item>
+            <!-- 退会手続き -->
+            <v-tab-item>
+              <v-card
+                class="pa-5"
+              >
+              <v-card-title>
+                退会手続き
+              </v-card-title>
+              <v-card-subtitle>
+                退会手続きをされますと、全てのサービスがご利用いただけなくなります。<br>
+                再度ご利用をいただく場合には、新規登録のお手続きが必要になります。<br>
+              </v-card-subtitle>
+                <v-form ref="form" v-model="isValid" class="mt-4 mb-2">
+                  <template v-if="user.id === guestId">
+                    <v-btn
+                      disabled
+                      block
+                    >
+                      ゲストユーザーのため退会できません
+                    </v-btn>
+                  </template>
+                  <template v-else>
+                    <user-unsubscribe
+                      :user=user
+                    />
+                  </template>
+                </v-form>
+              </v-card>
+            </v-tab-item>
           </v-tabs-items>
         </v-card>
       </v-row>
@@ -158,11 +188,13 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import userFormPassword from '../../components/user/userFormPassword.vue'
+import userUnsubscribe from '../../components/user/userUnsubscribe.vue'
 import firebase from '~/plugins/firebase'
 
 export default {
   components: {
-    userFormPassword
+    userFormPassword,
+    userUnsubscribe
   },
   data () {
     return {
@@ -171,7 +203,7 @@ export default {
       isValid: false,
       isEmailValid: false,
       loading: false,
-      guestId: 1,
+      guestId: process.env.GUEST_ID,
       user: { id: '', name: '', email: '', avatar: '', introduction: '', admin: '', header: '', password: '' },
       email: '',
       newEmail: '',
@@ -187,8 +219,7 @@ export default {
   computed: {
     ...mapGetters({
       currentUser: 'auth/user',
-      currentUserId: 'auth/currentUserId',
-      btnColor: 'btn/color'
+      currentUserId: 'auth/currentUserId'
     }),
     emailForm () {
       const placeholder = this.noValidation ? undefined : 'your@email.com'
