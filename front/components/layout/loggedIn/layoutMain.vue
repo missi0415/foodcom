@@ -4,25 +4,43 @@
     <v-row
       class="d-flex justify-space-between"
     >
+    <template v-if="$vuetify.breakpoint.xs">
       <v-col
-        v-if="$vuetify.breakpoint.xs"
         cols="12"
         class="mt-1"
       >
         <slot name="layout-main" />
       </v-col>
+    </template>
+    <template v-else>
       <v-col
-        v-else
         cols="10"
         class="mt-1"
       >
         <slot name="layout-main" />
       </v-col>
-      <!-- <v-col cols="3">
+      <!-- <v-col
+        cols="3"
+        class="mt-2"
+      >
+        <v-card
+          class="mb-5"
+        >
+          <adsbygoogle
+            ad-slot="'8489344129'"
+            ad-format=""
+            :ad-style="gadStyle"
+          />
+        </v-card>
         <v-card>
-          広告入れれたら
+          <adsbygoogle
+            ad-slot="'8489344129'"
+            ad-format=""
+            :ad-style="gadStyle"
+          />
         </v-card>
       </v-col> -->
+    </template>
     </v-row>
   </v-container>
 </template>
@@ -36,6 +54,13 @@ export default {
       currentUser: 'auth/data',
       flash: 'flash/flash'
     })
-  }
+  },
+  data: () => ({
+    gadStyle: {
+      display: 'inline-block',
+      width: '300px',
+      height: '250px'
+    }
+  })
 }
 </script>
