@@ -23,10 +23,10 @@ RUN apk update && \
 
 COPY . .
 
-EXPOSE 3000
-# CMD ["bundle", "exec", "rails", "s", "-p", "3000", "-b", "0.0.0.0", "-e", "production"]
+# 開発環境
+CMD ["bundle", "exec", "rails", "s", "-p", "3000", "-b", "0.0.0.0", "-e", "development"]
 
 #　本番環境
-# ADD . ${HOME}
-CMD ["bundle", "exec", "rails", "s", "puma", "-b", "0.0.0.0", "-p", "3000", "-e", "production"]
+# EXPOSE 3000
+# CMD ["bundle", "exec", "rails", "s", "puma", "-b", "0.0.0.0", "-p", "3000", "-e", "production"]
 

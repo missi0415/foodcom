@@ -89,15 +89,6 @@
             :is-index="isIndex"
             @fetchPost="fetchPost"
           />
-          <template v-if="post.user_id !== currentUserId">
-            <v-btn
-              :color="btnColor"
-              text
-              rounded
-            >
-              <v-icon v-text="'mdi-repeat-variant'" />
-            </v-btn>
-          </template>
           <like-post
             :post="post"
             :like-posts="likePosts"

@@ -14,7 +14,7 @@ export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     titleTemplate: '%s - app',
-    title: 'app',
+    title: 'Foodcom',
     htmlAttrs: {
       lang: 'en'
     },
@@ -63,6 +63,10 @@ export default {
     '@nuxtjs/axios',
     // Doc: https://www.npmjs.com/package/nuxt-i18n
     'nuxt-i18n'
+    // ['@nuxtjs/google-adsense', {
+    //   id: process.env.GA_ADSENSE_ID,
+    //   pageLevelAds: true
+    // }]
   ],
   moment: {
     locales: ['ja']

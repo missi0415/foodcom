@@ -65,14 +65,6 @@
             :is-index="isIndex"
             @fetchComment="fetchPost"
           />
-        <template v-if="post.user_id !== currentUserId">
-            <v-btn
-              icon
-              class="btn-repeat"
-            >
-              <v-icon>mdi-repeat-variant</v-icon>
-            </v-btn>
-          </template>
           <like-post
             :post="post"
             :like-posts="likePosts"

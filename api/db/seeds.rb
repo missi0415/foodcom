@@ -1,5 +1,4 @@
 User.create!(
-  id: 1,
   name: 'ゲストユーザー',
   email: 'guest@example.com',
   uid: 'd7eREpIVM7PP1FPzxaJjy8Id0Ro1',
@@ -14,7 +13,6 @@ User.create!(
   admin: false
 )
 User.create!(
-  id: 2,
   name: 'user01',
   email: 'user01@example.com',
   uid: 'o9ZjWKLSopPGANCZGMDd4KdCzSH3',
@@ -29,7 +27,6 @@ User.create!(
   admin: false
 )
 User.create!(
-  id: 3,
   name: 'user02',
   email: 'user02@example.com',
   uid: 'pD2peNKajfQuo93zQZ976ncaOwI2',
@@ -44,7 +41,6 @@ User.create!(
   admin: false
 )
 User.create!(
-  id: 4,
   name: 'user03',
   email: 'user03@example.com',
   uid: 'gwqZZWE0R9So1vIw0Jl6UGhvN3A2',
@@ -59,7 +55,6 @@ User.create!(
   admin: false
 )
 User.create!(
-  id: 5,
   name: 'user04',
   email: 'user04@example.com',
   uid: 'HjHapRCk6WZhZ96Trnd3faRh7kT2',
@@ -74,7 +69,6 @@ User.create!(
   admin: false
 )
 User.create!(
-  id: 6,
   name: 'user05',
   email: 'user05@example.com',
   uid: 'U4lk4Caykda6zrNQqJl6cysn1Dk2',
@@ -89,7 +83,6 @@ User.create!(
   admin: false
 )
 User.create!(
-  id: 7,
   name: 'user06',
   email: 'user06@example.com',
   uid: 'Mm8E0MQGK0VGqOfkY97QTtjtd5G2',

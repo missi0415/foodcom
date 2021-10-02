@@ -1,5 +1,6 @@
 <template>
   <v-btn
+    rounded
     outlined
     dark
     :loading="loading"
