@@ -13,13 +13,13 @@
               class="mr-5"
               @click="pageBack"
             >
-            <v-icon>mdi-arrow-left</v-icon>
+              <v-icon>mdi-arrow-left</v-icon>
             </v-btn>
             <v-toolbar-title>
               アカウントの設定
             </v-toolbar-title>
           </v-app-bar>
-          <v-divider/>
+          <v-divider />
           <v-img
             height="200px"
             width="1000px"
@@ -27,7 +27,7 @@
           />
           <v-list-item class="grow">
             <v-list-item-avatar
-              size=60
+              size="60"
             >
               <v-img
                 alt="user"
@@ -40,12 +40,6 @@
                 {{ user.name }}
               </v-list-item-title>
             </v-list-item-content>
-            <v-row
-              align="center"
-              justify="end"
-              class="mr-1"
-            >
-            </v-row>
           </v-list-item>
           <v-tabs
             v-model="tab"
@@ -62,26 +56,26 @@
                 class="pa-5"
               >
                 <!-- email変更 -->
-                  <v-card-title>
-                    現在のメールアドレス
-                  </v-card-title>
-                  <v-card-subtitle>
-                    {{ user.email }}
-                  </v-card-subtitle>
-                  <v-form
-                    ref="form"
-                    v-model="isEmailValid"
-                  >
-                    <v-text-field
-                      v-model="newEmail"
-                      :rules="emailRules"
-                      label="新しいメールアドレス"
-                      :placeholder="emailForm.placeholder"
-                    />
-                    <user-form-password
-                      :password.sync="password"
-                      :noValidation="noValidation"
-                    />
+                <v-card-title>
+                  現在のメールアドレス
+                </v-card-title>
+                <v-card-subtitle>
+                  {{ user.email }}
+                </v-card-subtitle>
+                <v-form
+                  ref="form"
+                  v-model="isEmailValid"
+                >
+                  <v-text-field
+                    v-model="newEmail"
+                    :rules="emailRules"
+                    label="新しいメールアドレス"
+                    :placeholder="emailForm.placeholder"
+                  />
+                  <user-form-password
+                    :password.sync="password"
+                    :no-validation="noValidation"
+                  />
                   <template v-if="user.id === guestId">
                     <v-btn
                       disabled
@@ -98,7 +92,7 @@
                       :loading="loading"
                       @click="changeEmail"
                     >
-                        変更する
+                      変更する
                     </v-btn>
                   </template>
                 </v-form>
@@ -112,7 +106,7 @@
                 <v-form ref="form" v-model="isValid" class="mt-4 mb-2">
                   <user-form-password
                     :password.sync="password"
-                    :noValidation="noValidation"
+                    :no-validation="noValidation"
                   />
                   <v-text-field
                     v-model="newPassword"
@@ -154,13 +148,13 @@
               <v-card
                 class="pa-5"
               >
-              <v-card-title>
-                退会手続き
-              </v-card-title>
-              <v-card-subtitle>
-                退会手続きをされますと、全てのサービスがご利用いただけなくなります。<br>
-                再度ご利用をいただく場合には、新規登録のお手続きが必要になります。<br>
-              </v-card-subtitle>
+                <v-card-title>
+                  退会手続き
+                </v-card-title>
+                <v-card-subtitle>
+                  退会手続きをされますと、全てのサービスがご利用いただけなくなります。<br>
+                  再度ご利用をいただく場合には、新規登録のお手続きが必要になります。<br>
+                </v-card-subtitle>
                 <v-form ref="form" v-model="isValid" class="mt-4 mb-2">
                   <template v-if="user.id === guestId">
                     <v-btn
@@ -171,9 +165,7 @@
                     </v-btn>
                   </template>
                   <template v-else>
-                    <user-unsubscribe
-                      :user=user
-                    />
+                    <user-unsubscribe />
                   </template>
                 </v-form>
               </v-card>
@@ -276,7 +268,6 @@ export default {
         this.user.email,
         this.password
       )
-      console.log(credential)
       firebase.auth().currentUser.reauthenticateWithCredential(credential)
         .then(() => {
           firebase.auth().currentUser.updateEmail(this.newEmail)
@@ -288,11 +279,13 @@ export default {
                   this.showMessage({ message: 'メールアドレスを変更しました', type: 'success', status: true })
                 })
                 .catch((err) => {
+                  // eslint-disable-next-line no-console
                   console.log('メールアドレス変更失敗', err)
                 })
             })
         })
         .catch((err) => {
+          // eslint-disable-next-line no-console
           console.log('再認証エラー', err)
           this.showMessage({ message: 'パスワードが違います', type: 'error', status: true })
         })
@@ -306,19 +299,19 @@ export default {
       )
       user.reauthenticateWithCredential(credential)
         .then(() => {
-          console.log('再認証成功')
           user.updatePassword(this.newPassword)
             .then(() => {
-              console.log('パスワード変更成功')
               this.fetchUser()
               this.$refs.form.reset()
               this.showMessage({ message: 'パスワードを変更しました', type: 'success', status: true })
             })
             .catch((err) => {
+              // eslint-disable-next-line no-console
               console.log('パスワード変更エラー', err)
             })
         })
         .catch((err) => {
+          // eslint-disable-next-line no-console
           console.log('再認証エラー', err)
           this.showMessage({ message: 'パスワードが違います', type: 'error', status: true })
         })
