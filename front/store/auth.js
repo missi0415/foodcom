@@ -44,10 +44,16 @@ export const actions = {
 
   async logout ({ commit }) {
     await firebase.auth().signOut()
-
-    commit('setUser', null)
-    commit('setData', null)
-    commit('setCurrentUserId', null)
+      .then(() => {
+        this.$router.replace('/')
+        commit('setUser', null)
+        commit('setData', null)
+        commit('setCurrentUserId', null)
+      })
+      .catch((err) => {
+        // eslint-disable-next-line no-console
+        console.error(err)
+      })
   },
 
   setUser ({ commit }, user) {
