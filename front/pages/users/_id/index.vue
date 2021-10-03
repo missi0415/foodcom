@@ -352,6 +352,6 @@ export default {
   border-left: 3px dotted #DCDCDC;
   border-bottom: 3px dotted #DCDCDC;
   top: -25px;
-  left: 15px;
+  left: 20px;
 }
 </style>
