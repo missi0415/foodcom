@@ -161,18 +161,20 @@
                     :isUserCommentPage="isUserCommentPage"
                   />
                   <div>
-                    <v-row>
+                    <v-row
+                      no-gutters
+                    >
                       <v-col
                         md='1'
                         sm='1'
-                        xs='1'
+                        cols="1"
                       >
-                        <div class="test" ></div>
+                        <div class="test"></div>
                       </v-col>
                       <v-col
                         md='11'
                         sm='11'
-                        xs='11'
+                        cols="11"
                       >
                         <comment-card
                           :content-id="comment.comment.id"
@@ -350,6 +352,6 @@ export default {
   border-left: 3px dotted #DCDCDC;
   border-bottom: 3px dotted #DCDCDC;
   top: -25px;
-  left: 25px;
+  left: 15px;
 }
 </style>
