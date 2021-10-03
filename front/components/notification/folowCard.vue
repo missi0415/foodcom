@@ -24,12 +24,11 @@
         @click.prevent.stop="toShow('users', user.id)"
       />
       <v-card-text>
-        <span
-          class="title"
-          @click.prevent.stop="toShow('users', user.id)"
+        <nuxt-link
+          :to="'/users/' + user.id"
         >
           {{ user.name }}
-        </span>
+        </nuxt-link>
         さんがあなたを {{ action }} しました
       </v-card-text>
     </v-col>
@@ -64,8 +63,4 @@ export default {
 </script>
 
 <style scoped>
-  .title:hover {
-    opacity: 0.7;
-    text-decoration: underline;
-  }
 </style>
