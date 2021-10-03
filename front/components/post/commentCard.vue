@@ -12,7 +12,7 @@
         class="grow"
       >
         <v-list-item-avatar
-          size=60
+          size=50
         >
           <v-img
             :src="avatarImage"
@@ -24,9 +24,12 @@
         </v-list-item-avatar>
         <v-list-item-content>
           <v-list-item-title>
-            <text-highlight :queries="keyword">
+            <nuxt-link
+              class="pl-2"
+              :to="'/users/' + post.user_id"
+            >
               {{ post.user.name }}
-            </text-highlight>
+            </nuxt-link>
           </v-list-item-title>
         </v-list-item-content>
         <v-row
@@ -57,7 +60,6 @@
           />
         </v-col>
       </v-row>
-      <v-divider />
       <v-card-actions class="justify-space-around">
         <btn-new-comment
             :avatarImage="avatarImage"
@@ -89,10 +91,9 @@
     </v-card>
     <template
       v-if="isUserCommentPage"
-
     >
       <nuxt-link
-        class="pl-2"
+        class="ml-10 pl-8"
         :to="'/users/' + post.user_id"
       >
         {{ post.user.name }}

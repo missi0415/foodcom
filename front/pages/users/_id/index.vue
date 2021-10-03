@@ -141,14 +141,12 @@
           </v-tabs>
           <v-tabs-items v-model="tab">
             <v-tab-item>
-              <div>
-                <comment-card
-                  v-for="comment in posts"
-                  :key="comment.id"
-                  :content-id="comment.id"
-                  @fetchUser="fetchUser"
-                />
-              </div>
+              <comment-card
+                v-for="comment in posts"
+                :key="comment.id"
+                :content-id="comment.id"
+                @fetchUser="fetchUser"
+              />
             </v-tab-item>
             <v-tab-item>
               <div>
@@ -166,10 +164,15 @@
                     <v-row>
                       <v-col
                         md='1'
+                        sm='1'
+                        xs='1'
                       >
+                        <div class="test" ></div>
                       </v-col>
                       <v-col
                         md='11'
+                        sm='11'
+                        xs='11'
                       >
                         <comment-card
                           :content-id="comment.comment.id"
@@ -340,3 +343,13 @@ export default {
   }
 }
 </script>
+<style scoped>
+.test {
+  height: 35%;
+  position: relative;
+  border-left: 3px dotted #DCDCDC;
+  border-bottom: 3px dotted #DCDCDC;
+  top: -25px;
+  left: 25px;
+}
+</style>

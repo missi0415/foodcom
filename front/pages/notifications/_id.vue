@@ -18,37 +18,35 @@
         </v-toolbar-title>
       </v-app-bar>
       <v-divider />
-      <v-row>
-        <v-col>
-          <v-card-text
-            v-if="notifications==''"
-          >
-            通知はありません
-          </v-card-text>
-          <v-card
-            v-for="notification in notifications"
-            :key="notification.id"
-            style="cursor: pointer;"
-            class="mb-4"
-          >
-            <template v-if="notification.action === 'follow'">
-              <follow-card
-                :notification="notification"
-                :user="notification.visitor"
-              />
-            </template>
-            <template v-else-if="notification.action === 'chat'">
-            </template>
-            <template v-else>
-              <like-comment-card
-                :notification="notification"
-                :user="notification.visitor"
-                :post="notification.post"
-              />
-            </template>
-          </v-card>
-        </v-col>
-      </v-row>
+      <v-card-text
+        v-if="notifications==''"
+      >
+        通知はありません
+      </v-card-text>
+      <v-card
+        v-for="notification in notifications"
+        :key="notification.id"
+        style="cursor: pointer;"
+        outlined
+        class="ma-1 pa-1"
+        hover
+      >
+        <template v-if="notification.action === 'follow'">
+          <follow-card
+            :notification="notification"
+            :user="notification.visitor"
+          />
+        </template>
+        <template v-else-if="notification.action === 'chat'">
+        </template>
+        <template v-else>
+          <like-comment-card
+            :notification="notification"
+            :user="notification.visitor"
+            :post="notification.post"
+          />
+        </template>
+      </v-card>
       <!-- <VueInfiniteLoading
         ref="infiniteLoading"
         spinner="bubbles"

@@ -8,7 +8,7 @@
       class="grow"
     >
       <v-list-item-avatar
-        size=60
+        size=50
       >
         <v-img
           :src="user.avatar.url"
@@ -20,9 +20,11 @@
       </v-list-item-avatar>
       <v-list-item-content>
         <v-list-item-title>
-          <text-highlight :queries="keyword">
+          <nuxt-link
+          :to="'/users/' + user.id"
+          >
             {{ user.name }}
-          </text-highlight>
+          </nuxt-link>
         </v-list-item-title>
       </v-list-item-content>
       <v-row
@@ -59,11 +61,11 @@
       </template>
       </v-row>
     </v-list-item>
-    <v-card-title>
+    <v-card-text>
       <div class="ml-8 mb-2">
         {{ user.introduction}}
       </div>
-    </v-card-title>
+    </v-card-text>
   </v-card>
 </template>
 <script>
