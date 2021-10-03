@@ -9,7 +9,9 @@ class Api::V1::LikePostsController < ApplicationController
     if like.save
       current_user = User.find(params[:user_id])
       post = Post.find(params[:post_id])
-      post.create_notification_like!(current_user)
+      if current_user.id != post.user_id 
+        post.create_notification_like!(current_user)
+      end
       user_likes = LikePost.where(user_id: like.user_id)
       render json: user_likes
     else
@@ -19,7 +21,6 @@ class Api::V1::LikePostsController < ApplicationController
 
   def destroy
     like = LikePost.find_by(user_id: params[:user_id], post_id: params[:post_id])
-    p 'likeの値' ,like
     if like.destroy
       render json: like
     else
