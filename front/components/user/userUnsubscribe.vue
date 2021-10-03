@@ -5,7 +5,7 @@
       persistent
       width="500"
     >
-      <template v-slot:activator="{ on, attrs }">
+      <template #activator="{ on, attrs }">
         <v-btn
           color="primary"
           :dialog="dialog"
@@ -25,7 +25,7 @@
           この操作は取り消せません。<br>
         </v-card-text>
         <v-card-actions>
-          <v-spacer></v-spacer>
+          <v-spacer />
           <v-btn
             rounded
             color="primary"
@@ -49,10 +49,9 @@
 import { mapGetters, mapActions } from 'vuex'
 import firebase from '~/plugins/firebase'
 export default {
-  props: {
-    user: {
-      type: Object,
-      require: true
+  data () {
+    return {
+      dialog: false
     }
   },
   computed: {
@@ -60,11 +59,6 @@ export default {
       currentUserId: 'auth/currentUserId',
       currentUser: 'auth/data'
     })
-  },
-  data () {
-    return {
-      dialog: false
-    }
   },
   methods: {
     ...mapActions({

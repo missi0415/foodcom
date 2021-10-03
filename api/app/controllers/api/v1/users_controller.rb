@@ -29,6 +29,7 @@ class Api::V1::UsersController < ApplicationController
     @user[:follower_user] = @user[:user].follower_user
     @user[:following_user] = @user[:user].following_user
     @user[:following_users] = @user[:user].following_user.pluck(:id)
+    @user[:have_images] = Post.where.not(image: nil).where(user_id: params[:id])
     
     unless User.nil?
       render json: @user
