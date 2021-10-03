@@ -182,9 +182,12 @@
               </div>
             </v-tab-item>
             <v-tab-item>
-              <div>
-                メディア
-              </div>
+              <comment-card
+                v-for="comment in haveImages"
+                :key="comment.id"
+                :content-id="comment.id"
+                @fetchUser="fetchUser"
+              />
             </v-tab-item>
             <v-tab-item>
               <div>
@@ -226,7 +229,8 @@ export default {
       post_and_comments: [],
       following_user: [],
       follower_user: [],
-      isUserCommentPage: true
+      isUserCommentPage: true,
+      haveImages: []
     }
   },
   computed: {
@@ -260,6 +264,7 @@ export default {
           this.post_and_comments = res.data.post_and_comments
           this.following_user = res.data.following_user
           this.follower_user = res.data.follower_user
+          this.haveImages = res.data.have_images
           if (this.user) {
             this.follow = false
             this.follower_user.forEach((v) => {
