@@ -8,21 +8,20 @@ class Api::V1::UsersController < ApplicationController
     @user = {}
     @user[:user] = User.find(params[:id])
     # @user[:posts] = Post.joins(:user).select("posts.*, user AS user").where(post_id: 0).where(user_id: params[:id]).order(created_at: :desc) 
-    @user[:posts] = Post.select("id").where(post_id: 0).where(user_id: params[:id]).order(created_at: :desc)
+    @user[:posts] = Post.select(:id).where(post_id: 0).where(user_id: params[:id]).order(created_at: :desc)
     like_posts = []
       user_likes = @user[:user].like_posts.order(created_at: :desc).pluck(:post_id) 
       user_likes.each do |f|
-        post = Post.find(f)
+        post = Post.select(:id).find(f)
         like_posts.push(post)
       end
     @user[:like_posts] = like_posts
     post_and_comments = []
-      user_comments = Post.where.not(post_id: 0).where(user_id: params[:id]).order(created_at: :desc)
-      combinations = user_comments.pluck(:post_id, :id)
-      combinations.each_with_index do |f, i|
+      user_comments = Post.select(:id,:post_id).where.not(post_id: 0).where(user_id: params[:id]).order(created_at: :desc).pluck(:post_id, :id)
+      user_comments.each_with_index do |f, i|
         post_and_comment = {}
-        post_and_comment[:post] = Post.find(f[0])
-        post_and_comment[:comment] = Post.find(f[1])
+        post_and_comment[:post] = Post.select(:id).find(f[0])
+        post_and_comment[:comment] = Post.select(:id).find(f[1])
         post_and_comments.push(post_and_comment)
       end
 
@@ -30,7 +29,7 @@ class Api::V1::UsersController < ApplicationController
     @user[:follower_user] = @user[:user].follower_user
     @user[:following_user] = @user[:user].following_user
     @user[:following_users] = @user[:user].following_user.pluck(:id)
-    @user[:have_images] = Post.where.not(image: nil).where(user_id: params[:id])
+    @user[:have_images] = Post.select(:id).where.not(image: nil).where(user_id: params[:id])
     
     unless User.nil?
       render json: @user

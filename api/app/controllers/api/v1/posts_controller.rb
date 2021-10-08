@@ -9,7 +9,7 @@ class Api::V1::PostsController < ApplicationController
 
   def show
     post = {}
-    post[:post] = Post.includes([:user]).find(params[:id])
+    post[:post] = Post.find(params[:id])
     post[:user] = User.find(post[:post].user_id)
     post[:comments] = Post.joins(:user).select("posts.*, user AS user").where(post_id: params[:id]).order(created_at: :desc)
     post[:like_posts] = LikePost.where(post_id: params[:id]).order(created_at: :desc)
