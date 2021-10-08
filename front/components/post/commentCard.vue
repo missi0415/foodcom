@@ -3,7 +3,7 @@
     v-show="hideStatus"
   >
     <v-card
-      class="ma-1"
+      class="mb-1"
       hover
       outlined
       @click="toShowPost(post.id)"
@@ -162,7 +162,6 @@ export default {
     },
     async fetchComment () {
       const url = `/api/v1/posts/${this.contentId}`
-      console.log('fetchComment')
       await this.$axios.get(url)
         .then((res) => {
           console.log('then.res', res)

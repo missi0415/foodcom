@@ -1,8 +1,6 @@
 <template>
   <v-card
-    class="ma-1 pl-2 pr-2"
-    hover
-    outlined
+    class="mb-1 pl-2 pr-2"
   >
     <v-form
       ref="form"

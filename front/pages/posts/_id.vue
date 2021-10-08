@@ -71,9 +71,6 @@
         <v-row>
           <v-col class="d-flex text-center">
             <v-card-text>
-              0 件のリツイート
-            </v-card-text>
-            <v-card-text>
               {{ commentsCount }} 件のコメント
             </v-card-text>
             <v-card-text>

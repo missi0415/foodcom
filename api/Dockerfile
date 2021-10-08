@@ -23,7 +23,7 @@ RUN apk update && \
 
 COPY . .
 
-# 開発環境
+# # 開発環境
 CMD ["bundle", "exec", "rails", "s", "-p", "3000", "-b", "0.0.0.0", "-e", "development"]
 
 #　本番環境

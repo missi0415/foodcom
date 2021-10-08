@@ -7,7 +7,8 @@ class Api::V1::UsersController < ApplicationController
   def show
     @user = {}
     @user[:user] = User.find(params[:id])
-    @user[:posts] = Post.joins(:user).select("posts.*, user AS user").where(post_id: 0).where(user_id: params[:id]).order(created_at: :desc) 
+    # @user[:posts] = Post.joins(:user).select("posts.*, user AS user").where(post_id: 0).where(user_id: params[:id]).order(created_at: :desc) 
+    @user[:posts] = Post.select("id").where(post_id: 0).where(user_id: params[:id]).order(created_at: :desc)
     like_posts = []
       user_likes = @user[:user].like_posts.order(created_at: :desc).pluck(:post_id) 
       user_likes.each do |f|
