@@ -146,7 +146,6 @@ export default {
   },
   watch: {
     storechats () {
-      console.log('storeの値が変わりました')
       setTimeout(() => {
         this.scrollBottom()
       }, 100)

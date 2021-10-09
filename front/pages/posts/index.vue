@@ -56,7 +56,7 @@ export default {
   },
   watch: {
     submitPost (val) {
-      if (val === true) {
+      if (val) {
         this.fetchPost()
         this.setSubmitPost(false)
       }
