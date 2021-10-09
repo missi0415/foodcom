@@ -9,11 +9,12 @@ class Api::V1::PostsController < ApplicationController
 
   def show
     post = {}
-    post[:post] = Post.find(params[:id])
-    post[:user] = User.find(post[:post].user_id)
-    post[:comments] = Post.joins(:user).select("posts.*, user AS user").where(post_id: params[:id]).order(created_at: :desc)
+    post[:post] = Post.joins(:user).find(params[:id])
+    post[:user] = post[:post].user
+    post[:comments] = Post.select(:id).where(post_id: params[:id]).order(created_at: :desc)
     post[:like_posts] = LikePost.where(post_id: params[:id]).order(created_at: :desc)
     post[:like_count] = post[:like_posts].length
+    post[:comment_count] = Post.where(post_id: params[:id]).length
     unless post.nil?
       render json: post.as_json
     else

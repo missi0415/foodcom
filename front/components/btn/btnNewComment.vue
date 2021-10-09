@@ -15,8 +15,8 @@
       </template>
       <span>返信</span>
     </v-tooltip>
-    <template v-if="commentCount > 0">
-      {{ commentCount }}
+    <template v-if="post.commentCount > 0">
+      {{ post.commentCount }}
     </template>
     <v-dialog
       v-model="dialog"
@@ -112,7 +112,6 @@ export default {
       dialog: false,
       isValid: false,
       loading: false,
-      commentCount: 0,
       newPost: { content: '' },
       src: 'https://picsum.photos/200/200'
     }
@@ -122,9 +121,11 @@ export default {
       currentUser: 'auth/data'
     })
   },
-  mounted () {
-    this.setCommentCount()
-  },
+  // mounted () {
+  //   setTimeout(() => {
+  //     this.setCommentCount()
+  //   }, 200)
+  // },
   methods: {
     ...mapActions({
       flashMessage: 'flash/flashMessage'
@@ -150,15 +151,16 @@ export default {
           this.flashMessage({ message: 'コメントに失敗しました', type: 'error', status: true })
         })
     },
-    setCommentCount () {
-      this.$axios.$get(`api/v1/posts/${this.post.id}/commentcount`)
-        .then((res) => {
-          this.commentCount = res.comment_count
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    },
+    // setCommentCount () {
+    //   console.log('this.post.id', this.post.id)
+    //   this.$axios.$get(`api/v1/posts/${this.post.id}/commentcount`)
+    //     .then((res) => {
+    //       this.commentCount = res.comment_count
+    //     })
+    //     .catch((err) => {
+    //       console.log(err)
+    //     })
+    // },
     fetchPost () {
       this.$emit('fetchPost')
     }

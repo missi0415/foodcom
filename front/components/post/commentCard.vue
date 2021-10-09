@@ -133,10 +133,10 @@ export default {
     return {
       isIndex: true,
       src: 'https://picsum.photos/500/500',
-      post: { user: {}, comments: {} },
+      post: { user: {}, comments: {}, commentCount: 0 },
       comments: [],
       likePosts: [],
-      commentsCount: 0,
+      commentCount: 0,
       likeCount: 0,
       time: '',
       loginUser: {},
@@ -171,9 +171,9 @@ export default {
           this.postImage = res.data.post.image.url
           this.post.user = res.data.user
           this.post.comments = res.data.comments
-          this.commentsCount = res.data.comments.length
           this.likePosts = res.data.like_posts
           this.likeCount = res.data.like_posts.length
+          this.post.commentCount = res.data.comment_count
           this.time = this.$my.format(this.post.created_at)
         })
     },
